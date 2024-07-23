@@ -21,7 +21,7 @@ MAKEFLAGS += --no-builtin-rules
 
 all: $(PDFS)
 
-$(BUILD_DIR)/%.pdf: src/%.typ Makefile | $$(@D)/.
+$(BUILD_DIR)/%.pdf: src/%.typ $$(dir src/%)/bibliography.yml Makefile | $$(@D)/.
 	docker run --rm -v $(CURDIR):/document $(REGISTRY) typst c --input git_version="$(VERSION)" $<
 # force moving file for typst seems to always try building locally oO
 	mv -f src/$*.pdf $@

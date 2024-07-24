@@ -144,67 +144,80 @@ plusieurs autres objets via les appels de méthode.
 
 En POO, on distingue les classes, qui sont des modèles d'objets, et les objets
 eux-mêmes, qui sont des _instances_ de classes. Par exemple, on peut représenter
-un point d'un espace bidimensionnel en OCaml de la manière suivante :
+un point d'un espace bidimensionnel en C++ de la manière suivante :
 
-```ocaml
-class point2d (x : int) (y : int) =
-object
-  val pos_x : int = x
-  val pos_y : int = y
+```cpp
+class Point2D
+{
+protected:
+    uint32_t pos_x = 0;
+    uint32_t pos_y = 0;
+public:
+    Point2D(uint32_t x, uint32_t y) : pos_x(x), pos_y(y) {}
 
-  method get_x : int = pos_x
-  method get_y : int = pos_y
-  method print : unit -> unit = fun () ->
-    Printf.printf "(%d, %d)" pos_x pos_y
-end
+    uint32_t get_x(void) const { return pos_x; }
+
+    uint32_t get_y(void) const { return pos_y; }
+
+    virtual void print(void) const {
+        std::cout << "Point2D(" << pos_x << ", " << pos_y << ")" << std::endl;
+    }
+};
 ```
 
 Le mot clé `class`, présent dans pratiquement tous les langages orientés objet,
-permet de déclarer un « patron » d'objet. Ici, le patron `point2d` prend en
+permet de déclarer un « patron » d'objet. Ici, le patron `Point2D` prend en
 paramètre
 de construction deux entiers `x` et `y` qui représentent les coordonnées du
 point. Ces coordonnées sont enregistrées dans les attributs `pos_x` et
-`pos_y` qui représentent l'état interne d'un objet `point2d`.
+`pos_y` qui représentent l'état interne d'un objet `Point2D`.
 Les méthodes `get_x` et `get_y` permettent de récupérer les coordonnées
 du point et la méthode `print` permet d'afficher les coordonnées du point.
 
-On peut alors créer une instance de `point2d` de la manière suivante :
+On peut alors créer une instance de `Point2D` de la manière suivante :
 
-```ocaml
-let p = new point2d 1 2
+```cpp
+Point2D p(1, 2);
 ```
 
 et afficher les coordonnées du point avec l'appel de la méthode `print` de
 l'objet `p` :
 
-```ocaml
-p#print ()
-(* affiche "(1, 2)" *)
+```cpp
+p.print()
+// affiche "Point2D(1, 2)"
 ```
 
 La POO introduit également la notion d'héritage qui permet de partager du code
-de manière concise. Par exemple, on peut étendre la classe `point2d` pour les
+de manière concise. Par exemple, on peut étendre la classe `Point2D` pour les
 points d'un espace tridimensionnel :
 
-```ocaml
-class point3d (x : int) (y : int) (z : int) =
-object
-  inherit point2d x y
-  val pos_z : int = z
+```cpp
+class Point3D : protected Point2D
+{
+protected:
+    uint32_t pos_z = 0;
+public:
+    Point3D(uint32_t x, uint32_t y, uint32_t z) : Point2D(x, y), pos_z(z) {}
 
-  method get_z : int = pos_z
-  method! print : unit -> unit = fun () ->
-    Printf.printf "(%d, %d, %d)" pos_x pos_y pos_z
-end
+    uint32_t get_z(void) const { return pos_z; }
 
-let p' = new point3d 1 2 3;;
+    void print(void) const override {
+        std::cout <<
+        "Point3D(" << pos_x << ", " << pos_y << ", " << pos_z << ")" <<
+        std::endl;
+    }
+};
 
-p'#get_x;;    (* retourne 1 *)
-
-p'#print ();; (* affiche "(1, 2, 3)" *)
+int main(void)
+{
+    Point3D p(1, 2, 3);
+    p.print(); // affiche "Point3D(1, 2, 3)"
+    return 0;
+}
 ```
 
-Ici, la classe `point3d` hérite de `point2d` en en récupérant toutes les
+Ici, la classe `Point3D` hérite de `Point2D` en en récupérant toutes les
 méthodes et ajoute un attribut `pos_z`
 pour la coordonnée en profondeur. La méthode `print` est redéfinie pour
 afficher les trois coordonnées du point.

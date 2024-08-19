@@ -9,3 +9,28 @@ astree:
   type: web
   title: Absint Astrée product
   url: https://www.absint.com/astree/index.htm
+
+ieee:754-2008:
+  type: report
+  title: IEEE Standard for Floating-Point Arithmetic
+  publisher: IEEE
+
+c89:
+  type: report
+  title: ANSI X3.159-1989 "Programming Language C"
+  publisher: ANSI
+
+c90:
+  type: report
+  title: ISO/CEI 9899:1990 "Programming Language C"
+  publisher: ISO/CEI
+
+c18:
+  type: report
+  title: ISO/CEI 9899:2018 "Programming Language C"
+  publisher: ISO/CEI
+
+misra:
+  type: report
+  title: MISRA C:2023 Third Edition, Second Revision
+  publisher: MISRA

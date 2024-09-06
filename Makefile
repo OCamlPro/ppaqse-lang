@@ -21,6 +21,9 @@ MAKEFLAGS += --no-builtin-rules
 
 all: $(PDFS)
 
+watch:
+	while inotifywait -e close_write "src/étude/OCamlPro_PPAQSE-COTS_rapport.typ" || true; do make; done
+
 $(BUILD_DIR)/%.pdf: src/%.typ $$(dir src/%)/bibliography.yml Makefile | $$(@D)/.
 	docker run --rm -v $(CURDIR):/document $(REGISTRY) typst c --input git_version="$(VERSION)" $<
 # force moving file for typst seems to always try building locally oO

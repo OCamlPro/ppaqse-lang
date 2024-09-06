@@ -12,6 +12,103 @@
   )
 )
 
+#let todo(t) = par(text(red)[TODO: #t])
+
+
+#let absint = link("https://www.absint.com/index.html", "AbsInt")
+#let aiT = link("https://www.absint.com/ait/", "aiT")
+#let altergo = link("https://alt-ergo.ocamlpro.com/", "Alt-Ergo")
+#let aocc = link("https://www.amd.com/en/developer/aocc.html", "AOCC")
+#let api_sanity_checker = link(
+  "https://lvc.github.io/api-sanity-checker/",
+  "API Sanity Checker"
+)
+#let apple = link("https://www.apple.com", "Apple")
+#let armlink = {
+  link("https://developer.arm.com/tools-and-software/embedded/arm-compiler",
+  "Arm Linker")
+}
+#let astree = link("https://www.absint.com/astree/", "Astree")
+#let boost = link("https://live.boost.org/", "Boost")
+#let bound-T = link("https://www.bound-t.com", "Bound-T")
+#let cadna = link("https://cadna.lip6.fr/index.php", "CADNA")
+#let cantata = link("https://www.qa-systems.com/products/cantata", "Cantata")
+#let chronos = link("https://www.comp.nus.edu.sg/~rpembed/chronos/", "Chronos")
+#let clang = link("https://clang.llvm.org", "Clang")
+#let compcert = link("https://compcert.org", "CompCert")
+#let coq = link("https://coq.inria.fr", "Coq")
+#let criterion = link("https://criterion.readthedocs.io", "Criterion")
+#let cvc5 = link("https://cvc5.github.io/", "CVC5")
+#let fluctuat = {
+  link("https://www.lix.polytechnique.fr/~putot/fluctuat.html", "Fluctuat")
+}
+
+#let framac = link("https://frama-c.com", "Frama-C")
+#let gappa = link(
+  "https://gappa.gitlabpages.inria.fr/gappa/index.html",
+  "Gappa"
+)
+#let gcc = link("https://gcc.gnu.org", "GCC")
+#let gliwa = link("https://www.gliwa.com/", "Gliwa")
+#let haskell = link("https://www.haskell.org", "Haskell")
+#let icx = link(
+  "https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compiler.html",
+  "ICX"
+)
+#let intel = link("https://www.intel.com", "Intel")
+#let iris = link("https://iris-project.org/", "Iris")
+#let isabelle = link("https://isabelle.in.tum.de", "Isabelle")
+#let lean = link("https://lean-lang.org", "Lean")
+#let libcester = link(
+  "https://exoticlibraries.github.io/libcester/index.html",
+  "LibCester"
+)
+#let mpfi = link("https://gitlab.inria.fr/mpfi/mpfi", "MPFI")
+#let mpfr = link("https://www.mpfr.org", "MPFR")
+#let msvc = link("https://docs.microsoft.com/en-us/cpp/", "MSVC")
+#let novaprova = link("https://novaprova.org/", "NovaProva")
+#let ocaml = link("https://ocaml.org", "OCaml")
+#let opmock = link("https://opmock.com", "Opmock")
+#let otawa = link("https://www.tracesgroup.net/otawa/?page_id=361", "Otawa")
+#let parasoft = link(
+  "https://www.parasoft.com/products/parasoft-c-ctest/",
+  "Parasoft"
+)
+#let polyspace = {
+  link("https://www.mathworks.com/products/polyspace.html", "Polyspace")
+}
+#let pvs = link("https://pvs.csl.sri.com", "PVS")
+#let rapidtime = {
+  link("https://www.rapitasystems.com/products/rapidtime", "RapidTime")
+}
+#let redefinedc = link("https://gitlab.mpi-sws.org/iris/refinedc", "RefinedC")
+#let stackanalyser = {
+  link("https://www.absint.com/stackanalyzer/", "StackAnalyzer")
+}
+#let sweet = link("http://www.mrtc.mdh.se/projects/wcet/sweet.html", "SWEET")
+#let t1stack = link("https://www.gliwa.com/products/t1stack/", "T1.stack")
+#let TPT = link("https://piketec.com/tpt/", "TPT")
+#let vercors = link("https://vercors.ewi.utwente.nl/", "VerCors")
+#let vectorcast = link(
+  "https://www.vector.com/int/en/products/products-a-z/software/vectorcast/vectorcast-c/",
+  "VectorCAST/C++"
+)
+#let viper = link("https://viper.ethz.ch", "Viper")
+
+#let xsc = link(
+  "https://www2.math.uni-wuppertal.de/wrswt/xsc/cxsc/apidoc/html/index.html",
+  "XSC"
+)
+#let z3 = link("https://github.com/Z3Prover/z3", "Z3")
+
+
+
+
+
+
+
+
+
 = Introduction
 
 == Identification
@@ -29,6 +126,10 @@ COTS de qualité : logiciels critiques et temps réel du CNES.
     columns: (auto, auto),
     [*Terme*], [*Définition*],
     [COTS], [_Commercial Off-The-Shelf_ ou produit sur étagère],
+    [WCET], [
+      _Worst Case Execution Time_ ou temps d'exécution du pire cas
+      (_i.e._ maximal)
+    ],
   )
 )
 
@@ -578,11 +679,53 @@ pas déterminer si une donnée est encore utilisée ou non, il peut décider de
 la conserver alors qu'elle n'est plus utilisée. C'est le cas des
 ramasse-miettes dits «conservatifs».
 
-=== Analyseurs statiques
+=== WCET
+
+Le calcul du WCET est important sur les systèmes temps réel pour garantir
+que les tâches critiques se terminent dans un temps donné. Le WCET est le
+temps maximal que peut prendre une tâche pour se terminer. Il est calculé
+en fonction des temps d'exécution des instructions, des branchements et des
+accès mémoire.
+
+Il existe deux méthodes pour calculer le WCET : la méthode dynamique et
+la méthode statique. La méthode dynamique consiste à exécuter le programme
+dans l'environnement cible et à mesurer le temps d'exécution un nombre de fois
+jugé suffisant pour établir un WCET statistique. Cette
+méthode est fiable mais coûteuse en temps et en ressources.
+
+La méthode statique consiste à analyser le programme sans l'exécuter et à
+déduire le WCET à partir de cette analyse. Le problème de cette méthode est
+qu'il est difficile de calculer un WCET précis du fait des optimisations
+réalisées par le compilateur et de la complexité des architectures modernes.
+La prédiction de branchement ou l'utilisation des caches peut faire varier le
+le temps d'exécution de manière importante et rendre le WCET difficile à
+calculer sans le majorer excessivement.
+
+=== Analyse de la pile
+
+L'analyse de la pile consiste à calculer la taille maximale de la pile
+utilisée par un programme. La plupart du temps, cette analyse se fait
+directement sur le binaire car le langage source ne contient pas forcémement
+les informations adéquates pour réaliser cette analyse. Ces informations sont
+ajoutées par le compilateur lors de la génération du binaire.
+
+Connaître la taille maximale de la pile utilisée est important pour dimensionner
+et optimiser les systèmes embarqués qui peuvent être très contraints en mémoire.
+Cela permet d'éviter les dépassements de pile (_stack overflow_) qui sont des
+erreurs fatales.
+
+L'analyse de la pile peut ne pas être décidable lorsque le programme utilise
+des pointeurs de fonctions car il n'est pas forcément possible de déterminer
+la suite d'appels de fonctions à l'avance. Dans ce cas, l'analyse de la pile
+peut demander à annoter le code source pour avoir plus d'informations.
+
+=== Notes sur les analyseurs statiques
 
 ==== Frama-C
 
-Parmi les analyseurs statiques étudiés, Frama-C a la particularité de
+
+Parmi les analyseurs statiques étudiés, #framac#cite(<framac>) a la
+particularité de
 fonctionner avec des _plugins_ dédiés à un type d'analyse particulier. La
 complétion de l'analyse globale considérée dans les comparatifs du document
 suppose que les _plugins_ usuels soient utilisés, notamment :
@@ -610,6 +753,69 @@ de Frama-C qui utilise un ancien plugin _value_ basé sur le calcul
 d'intervalles. _TrustInSoft_ a amélioré le plugin, la traçabilité des erreurs
 et l'expérience utilisateur.
 
+== Meta formalisation
+
+Pour certains langages, il est possible d'utiliser des outils de formalisation
+pour spécifier des programmes et prouver que ces propriétés sont respectées.
+Il existe globalement trois stratégies pour développement formel pour les
+langages cibles:
+- l'extraction de code;
+- la génération de code;
+- la vérification de code.
+
+
+L'extraction de code consiste à écrire un programme dans un langage de
+spécification (comme #coq ou #isabelle par exemple) et à extraire un programme
+exécutable dans un langage cible. Ce dernier peut être soit le langage voulu
+soit un langage compatible avec le langage voulu. Par exemple, on peut
+extraire un programme #ocaml de #coq et compiler ce programme en un fichier
+objet pouvant être lié à un programme C. C'est l'approche la plus simple pour
+faire des développements formels intégrables dans des systèmes existants mais
+elle a plusieurs inconvénients :
+- elle nécessite un personnel très qualifié pour manipuler les langages formels;
+- elle suppose que l'extraction de programme est correcte;
+- elle intègre généralement un rammasse-miettes qui peut être problématique
+  pour des systèmes embarqués.
+
+#todo[ajouter un schéma]
+
+La génération de code consiste à injecter le langage cible dans le langage
+formel (qui devient un langage hôte). Cette injection se fait en décrivant
+la sémantique du langage cible dans langage hôte, ce qui permet de décrire à la
+fois des programmes dans le langage cible en utilisant la syntaxe du langage
+hôte mais également de profiter des capacités du langage hôte pour la
+description et la vérification des propriétés. Au final, cette approche permet
+de décrire des programmes idiomatique au langage cible dans une syntaxe
+plus ou moins proche de celui-ci suivant les capacités du langage hôte et de
+démontrer des propriétés sur ces programmes. L'inconvénient de cette approche
+réside essentiellement dans la travail nécessaire pour décrire une injection
+complète du langage cible dans le langage hôte qui peut se compter en années de
+travail.
+
+#todo[ajouter un schéma]
+
+La vérification de code consiste partir du programme à vérifier dans le
+langage cible et à décrire
+des propriétés sur ce programme par le biais d'annotations (la plupart du
+temps dans les commentaires). Ces propriétés sont ensuite vérifiées par un
+outil de vérification tiers. Cette approche est la plus pratique d'un point de
+vue opérationnel car elle ne nécessite pas de manipuler des langages formels
+directement. Les équipes de développement peuvent continuer à travailler
+dans leur langage habituel et l'ajout des annotations peut se faire par d'autres
+personnes. Toutefois, cette approche a des limites car les propriétés vérifiables
+sont limitées par les capacités de l'outil de vérification et les annotations
+doivent être suffisamment précises pour être utiles. Cela demande souvent une
+connaissance assez fine de l'outil de vérification pour être efficace. Par
+ailleurs, et comme pour la solution précédente, l'outil doit avoir un modèle
+sémantique du langage cible, ce qui nécessite beaucoup de travail.
+
+#todo[exemple]
+
+Etant donné que que l'extraction de code ne donne pas un résultat propice à une
+utilisation critique, nous nous concentrerons dans ce rapport sur les outils
+de génération de code et les outils de vérification lorsqu'ils existent et sont
+jugés suffisamment matures.
+
 == Compilateurs
 
 Pour chaque langage étudié, nous présentons les compilateurs disponibles et
@@ -617,6 +823,79 @@ les plateformes supportées, notamment les architectures les plus courantes:
 - x86;
 - x86_64;
 - ARM.
+
+== Test
+
+Il y a plusieurs type d'outils pour tester un programme que l'on peut diviser
+en trois catégories qui ne sont pas forcément exclusives:
+- les outils d'écriture de tests;
+- les outils de génération de tests;
+- les outils de gestion des tests.
+
+Les outils d'écriture de tests permettent de décrire les tests à réaliser. Ils
+sont souvent fournis sous la forme de bibliothèques logicielles qui fournissent
+des fonctions, des macros ou des annotations pour décrire les tests à
+l'intérieur du programme lui même ou d'un programme de test.
+
+L'écriture des tests étant souvent fastidieuse et laborieuse, il existe des
+générateurs de tests qui offrent la possibilité de réaliser une bonne partie des
+test unitaire ou fonctionnels de manière automatique. Ces générateurs peuvent
+être basés sur des techniques de génération aléatoire (_fuzzing_),
+de génération de modèle (_model checking_) ou de génération de cas de test aux
+limites. La génération de test nécessite généralement une part de spécification
+manuelle pour éviter de générer trop de cas de tests dont l'intérêt est limité
+et gaspiller des ressources inutilement.
+
+Les outils de gestion des tests engloblent les outils qui vont ajouter de
+l'intelligence dans l'éxécution des tests et factoriser le plus possible
+les exécutions qui peuvent être coûteuses en temps et en ressources.
+
+Notons que certains outils proposent également la générations de méta données
+utilise pour la certification ou qualification de logiciels. Certains peuvent
+engendrer des matrices de tracabilités et des rapports préformatés pour les
+processus idoines.
+
+Étant donné qu'il existe pléthore de cadres logiciels pour uniquement écrire
+des tests et que la plus-value de ces cadres dans le processus d'édition
+de logiciel critique est limitée, nous nous concentrerons essentiellement sur
+les outils qui offrent un minimum de génération et de gestion de tests qui
+offrent le plus de valeur ajoutée pour les logiciels critiques.
+
+Par ailleurs, il faut aussi distinguer quels type de test l'outil peut gérer.
+Dans la suite de ce document, nous distinguerons le type de test avec une
+lettre majuscule qui servira à l'identifier dans les tableaux :
+
+#figure(
+  table(
+    columns: (auto, auto, auto),
+    [*Type*], [*Description*], [*Identifiant*],
+    [*Unitaire*], [
+      Teste une unité de code (fonction, module, classe, ...)
+    ], [U],
+    [*Fonctionnel*], [
+      Teste une fonctionnalité du programme
+      ], [F],
+    [*Intégration*], [
+      Teste l'intégration de plusieurs unités de code
+    ], [I],
+    [*Non régression*], [
+      Teste que les modifications n'ont pas introduit de régression
+    ], [N],
+    [*Robustesse*], [
+      Teste une unité de code ou une fonctionnalité avec des valeurs aux
+      limites, voir hors limites
+    ], [R],
+    [*Couverture*], [
+      Teste la couverture du code par les tests
+    ], [C],
+  )
+)
+
+Les critères d'analyse seront la capacité de
+- générer des tests automatiquement
+- de gérer efficacement les tests (factorisation, parallélisation,
+  rapports, ...)
+- faire du _mocking_, c'est-à-dire de la simulation de dépendances.
 
 = C
 
@@ -709,11 +988,22 @@ _défensif_ comme dans le #ref(<defensif_C>).
 
 ==== _Runtime Errors_
 
+Nous avons comparés plusieurs analyseurs statiques permettant de
+détecter des erreurs au _runtime_ pour le langage C. Parmi ceux-ci, nous
+en avons les cinq qui ont la propriété d'être _corrects_ et de ne pas donner
+de faux positifs : _Astree_, _ECLAIR_, _Frama-C_, _Polyspace_ et _TIS Analyser_.
+
+Comme indiqué dans la méthodologie, nous avons indiqué les erreurs détectées
+d'après les documents publiques. Toutefois, ceux-ci ne sont pas forcément
+complets et il est possible que les outils détectent d'autres erreurs non
+mentionnées ici. Les cases cochées indiquent que l'outil détecte _au moins_
+le type d'erreur correspondant.
+
 #figure(
 
   table(
     columns: (auto, auto, auto, auto, auto, auto),
-    [*Erreur*],                      [*Astrée*], [*ECLAIR*], [*Frama-C*], [*Polyspace*], [*TISAnalyser*],
+    [*Erreur*],                      [*Astrée*], [*ECLAIR*], [*Frama-C*], [*Polyspace*], [*TIS Analyser*],
     [*Division par 0*],              [✓],        [✓],         [✓],          [✓],            [✓],
     [*Débordement de tampon*],       [✓],        [✓],         [✓],          [✓],            [✓],
     [*Déréférencement de NULL*],     [✓],        [✓],         [],           [✓],            [],
@@ -742,34 +1032,467 @@ _défensif_ comme dans le #ref(<defensif_C>).
 
 ==== WCET
 
+La complexité du calcul statique du WCET fait qu'il y a peu d'outil
+disponibles. Nous en avons comparés six: #chronos, #bound-T,
+#aiT, #sweet, #otawa et #rapidtime. #chronos, #sweet et #otawa sont des outils
+académiques tandis que #aiT et #rapidtime sont des outils commerciaux.
+#bound-T est à la base un outil commercial mais qui n'est plus maintenu et qui
+a été rendu _open source_.
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto, auto),
+    [*Outil*],     [*WCET statique*], [*WCET dynamique*], [*WCET hybride*], [*Architecture cible*],
+    [*Chronos*],   [✓],               [✓],               [],               [
+    ],
+    [*Bound-T*],   [✓],               [],                [],               text(size: 8pt)[
+      - Analog Devices ADSP21020
+      - ARMv7 TDMI
+      - Atmel AVR (8-bit)
+      - Intel 8051 (MCS-51) series
+      - Renesas H8/300
+      - SPARC v7 / ERC32
+    ],
+    [*aiT*],       [✓],               [],                [],               text(size: 8pt)[
+      - Am486, IntelDX4
+      - ARM
+      - C16x/ST10
+      - C28x
+      - C33
+      - ERC32
+      - HCS12
+      - i386DX
+      - LEON2, LEON3
+      - M68020, ColdFire MCF5307
+      - PowerPC
+      - TriCore
+      - V850E
+    ],
+    [*SWEET*],     [✓],               [],                [],               [
+    ],
+    [*Otawa*],     [✓],               [],                [],               text(size: 8pt)[
+      - ARM v5,
+      - ARM v7,
+      - PowerPC (including VLE mode),
+      - Sparc,
+      - TriCore,
+      - Risc-V
+    ],
+    [*RapidTime*], [],                [],                 [✓],              text(size: 8pt)[
+      - ARM (7, 9, 11, Cortex-A, Cortex-R, Cortex-M)
+      - Analog Devices
+      - Atmel
+      - Cobham Gaisler
+      - ESA
+      - Freescale (NXP)
+      - IBM
+      - Infineon
+      - Texas Instruments
+    ],
+  )
+)
+
+Notons que #chronos et #sweet ne ciblent pas d'architecture particulière mais
+se basent sur une
+représentation intermédiaire, respectivement un sur-ensemble MIPS et
+ALF, pour
+effectuer leur analyse. L'avantage est
+qu'il est techniquement possible de cibler n'importe quelle architecture dès
+lors qu'il y a un traducteur du langage source vers la représentation
+intermédiaire. Comme celle-ci ne tient pas compte de toutes les spécificités de
+l'architecture ciblée, le WCET calculé est _a priori_ moins précis.
+
+#otawa fonctionne avec des fichiers décrivant l'architecture cible; ce qui
+le rend a priori compatible avec toutes les architectures modulo le temps
+d'écrire ces descriptions si elles n'existent pas déjà. Les architectures
+indiquées sont celles dont les descriptions sont déjà disponibles.
+
+
 ==== Pile
+
+Il existe plusieurs outils pour analyser statiquement la pile utilisée par un
+programme. Parmi ceux-ci, nous avons comparé #gcc, #stackanalyser, #t1stack et
+#armlink.
+
+#gcc propose une option `-fstack-usage` qui permet de générer un fichier
+décrivant l'utilisation de la pile par le programme. Le fichier généré contient
+la taille de pile utilisée par fonction et peut
+être analysé par un outil tiers pour en extraire des informations sur la
+taille maximale de la pile utilisée.
+
+#stackanalyser est un outil commercial développé par #absint qui semble offrir
+une vue plus précise (et graphique) de l'utilisation de la pile par le
+programme et propose des rapports orienté vers la qualification logicielle.
+L'outil supporte une gamme précise de couple compilateur-architecture qui,
+pour des raisons de lisibilité, n'est pas indiquée explicitement ici mais
+un lien vers page idoine de l'outil est donné. Les architectures communes
+(Intel, ARM, PowerPC, RISC-V, ...) sont supportées.
+
+
+#t1stack est un outil commercial développé par #gliwa qui propose une analyse
+statique de la pile pour des architectures spécifiques. L'outil peut utiliser
+des annotations pour résoudre les appels utilisant des pointeurs de fonctions
+à l'exécution. Ces annotations peuvent être manuelles ou générées
+automatiquement par des mesures dynamiques.
+
+Le _linker_ #armlink d'ARM propose une option `--callgraph` qui engendre un
+ficher HTML contenant l'arbre d'appels du programme et l'utilisation de la
+pile. Comme pour #t1stack, il est possible d'ajouter une analyse dynamique
+pour obtenir des informations plus précises en cas d'utilisation de pointeurs
+de fonction.
+
+#figure(
+  table(
+    columns: (auto, auto, auto),
+    [*Outil*],         [*Annotations*],   [*Architectures*],
+    [*#gcc*], [], [Toutes celles supportées par GCC],
+    [*#stackanalyser*], [], [
+      Liste exhaustive sur le site de l'outil :
+      https://www.absint.com/stackanalyzer/targets.htm
+    ],
+    [*#t1stack*], [✓], [
+      - Infineon TC1.6.X, TC1.8
+      - NXP/STM e200z0-z4, z6, z7
+      - ARM (v7-M, v7-R, V8-R)
+      - Renesas RH850, G3K/G3KH/G3M/G3MH
+      - Intel x86-64
+    ],
+    [*#armlink*], [], [ARM],
+  )
+)
 
 
 ==== Qualité numérique
 
+La qualité numérique peut être analysée de deux manières: statiquement et
+dynamiquement. Les outils #fluctuat, #astree et #polyspace font partie
+des outils d'analyse statique. #polyspace détecte essentiellement des
+erreurs à _runtime_ comme la division par 0, les dépassements de capacité et
+les débordements de buffer. #astree détecte également les erreurs de
+runtime mais réaliste également un calcul d'intervalles permettant d'évaluer
+les erreurs d'arrondis. #fluctuat est un outil académique qui est spécifiquement
+dédié à l'analyse numérique flottante par interprétation abstraite en utilisant
+un domaine basé sur l'arithmétique affine.
+
+L'outil #gappa fonctionne également
+par analyse statique mais en utilisant un programme annoté (via #framac) par
+les propriétés à vérifier sur les calculs flottants.
+
+Les analyses dynamiques fonctionnent en instrumentant le code avec des
+bibliothèques logicielles dédiées. Parmi celles-ci, on trouve #cadna qui
+utilise une approche par estimation stochastique des arrondis de calculs.
+
+Une autre approche consiste à utiliser directement des bibliothèques proposant
+des calculs flottants plus précis comme la bibliothèque #mpfr qui réalise un
+calcul par intervalles.
+
+
 === Meta formalisation
+
+Les outils permettant de formaliser un programme C sont peu nombreux et
+fonctionnent tous sur le même principe d'annotations du code source avec
+une contractualisation utilisant une logique de séparation. Parmi ceux-ci,
+nous avons comparé #framac, #redefinedc et #vercors.
+
+La différence entre ces outils réside principalement dans la syntaxe des
+annotations et la manière dont les spécifications sont vérifiées. #framac
+utilise une syntaxe E-ACSL qui est un sous-ensemble du langage
+_ANSI/ISO C Specificiation Language_ (ACSL). Les spécifications et un modèle
+sémantique du C sont ensuite traduites en un problème SMT#footnote[
+  _Satisfiability Modulo Theories_
+] soumis à plusieurs solveurs (#z3, #cvc5, #altergo) qui déterminent, ou pas, si
+les contraintes sont satisfaites. Dans certains
+cas, il est également possible de générer des contre-exemples. En cas d'échec
+dans la preuve, il est possible de raffiner la spécification pour découper
+les preuves en sous-problèmes plus simples.
+
+#redefinedc utilise un langage de spécification déclaratif qui a peu ou prou
+la même expressité que E-ACSL. En revanche, la vérification du programme se fait
+de manière déductive en utilisant Coq et un modèle sémantique du C écrit en Coq
+avec le cadre théorique #iris. L'expressivité du modèle permet d'exprimer des
+problématiques arbitrairement complexes (comme par exemple l'_ownership_) tant
+que cela reste prouvable. En cas d'échec de la preuve, il est possible
+d'écrire directement les preuves en Coq.
+
+#vercors utilise un langage de spécification nommé PVL#footnote[
+  _Prototypal Verification Language_
+] qui ressemble un peu à celui de #framac. L'outil est en fait basé sur
+un autre cadre logiciel appelé #viper qui permet de vérifier des programmes
+en utilisant la logique de séparation mais également la logique de
+permission, ce qui permet d'exprimer des propriétés d'_ownership_. #viper
+utilise le solveur SMT #z3 pour décharger les preuves.
+
 
 === Mécanismes intrinsèques de protection
 
+Le C est dispose de très peu de mécanismes de protection. Il existe un système
+de type mais qui est très rudimentaire et ne permet pas de garantir la
+sécurité mémoire. Les pointeurs peuvent être manipulés de manière très libre
+et il est possible de déréférencer un pointeur n'importe où dans la mémoire.
+
+Les mécanismes de protection disponibles pour le C viennent essentiellement des
+compilateurs qui ajoutent, ou pas, des analyses complémentaires. La plupart du
+temps, il est
+recommandé d'activer tous les avertissements du compilateur et de les traiter
+comme des erreurs pour assurer un maximum de vérifications.
+
 === Tests
+
+Nous avons comparés plusieurs outils de tests pour le langage C. Parmi ceux-ci,
+se dégagent #cantata, #parasoft, #TPT et #vectorcast qui offent un support de
+test étendu pour le C. Ils fournissent également de la génération de test à des
+degré divers et une bonne gestion des tests à travers diverses configurations
+et la génération de rapports nécessaires aux qualifications/certifications.
+
+#criterion, #libcester, #novaprova et #opmock tiennent plus des usuels cadres
+logiciels de tests et offrent une génération de test plus limitée. Cependant,
+ils offrent du _mocking_ ou un support pour des interfacages avec des outils
+tiers qui peuvent être utiles dans les cas d'intégrations avec des outils tiers.
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto, auto),
+    [*Outil*],               [*Tests*], [*Generation*], [*Gestion*], [_*mocking*_],
+    [*#cantata*],            [UFIRC],   [+++],          [✓],         [],
+    [*#criterion*],          [UF],      [+],            [],          [],
+    [*#libcester*],          [UF],      [+],            [✓],         [✓],
+    [*#novaprova*],          [UF],      [+],            [✓],         [✓],
+    [*#opmock*],             [UF],      [++],           [],           [✓],
+    [*#parasoft*],           [UFC],    [++],            [✓],         [],
+    [*#TPT*],                [UFINC],  [+++],           [✓],         [],
+    [*#vectorcast*],         [UFC],    [++],            [✓],         [✓],
+  )
+)
 
 == Compilateurs & outils
 
 === Compilation
 
-=== Débuggeur
+#let llvm = link("https://llvm.org/", "LLVM")
+#let microsoft = link("https://www.microsoft.com", "Microsoft")
+#let inria = link("https://www.inria.fr", "INRIA")
+
+Il existe beaucoup de compilateurs pour le langage C pour des raisons
+à la fois historiques et de compatibilité. Historique car
+le langage C est né a une époque où l'_open source_ n'existait pas vraiment et
+les seules organisations capables de produire des compilateurs étaient des
+entreprises ou des grands laboratoires. Ces entreprises développaient souvent
+leur propre compilateur adapté à leur architecture ou au système qu'ils
+proposaient par ailleurs, d'où la compatibilité.
+
+Nous ne citerons donc que les principaux compilateurs modernes qui sont les
+plus utilisés ou qui ont une caractéristique particulière qui peut les
+distinguer dans le contexte de l'embarqué critique.
+
+#figure(
+  table(
+    columns: (auto, auto, auto),
+    [*Compilateur*], [*Architectures*], [*Licence*],
+    [*#aocc*], [AMD x86 (32 et 64 bits)], [Gratuit],
+    [*#clang*], [AArch64, ARMv7, IA-32, x86-64,  ppc64le], [Apache 2.0],
+    [*#compcert*], [x86, x86_64, ARM, PowerPC, SPARC], [Gratuit pour un usage non commercial],
+    [*#gcc*], [IA-32, x86_64, ARM, PowerPC, SPARC, ...], [GPLv3+],
+    [*#icx (#intel C/C++ Compiler)*], [IA32, x86-64], [Propriétaire, Gratuit],
+    [*#msvc*], [IA-32, x86_64, ARM], [Propriétaire],
+  )
+)
+
+Notons que le compilateur #aocc est basé sur #clang/#llvm mais y ajoute
+des optimisations spécifiques aux processeurs AMD. #clang est la partie frontale
+de #llvm et les deux forment un compilateur modulaire inité par #apple pour
+remplacer #gcc dans les années 2000. Aujourd'hui, ces deux compilateurs offrent
+des performances équivalentes.
+
+#gcc est le compilateur de référence pour le langage C depuis les années 1990.
+Il est très complet et supporte un grand nombre d'architecture dont seulement
+une petite partie est indiquée dans le tableau, une liste plus exhaustive
+peut être consultée sur la page https://gcc.gnu.org/install/specific.html.
+
+#icx est le compilateur d'#intel spécifique à aux processeurs et FPGA de la
+marque. Depuis 2021, il utilise le _backend_ #llvm. Enfin, #msvc est le
+compilateur de #microsoft pour les systèmes Windows.
+
+Le compilateur #compcert est un peu à part car il s'agit d'un compilateur
+écrit en grande partie en #coq par l'#inria et qui est formellement prouvé
+comme étant correct par rapport à la sémantique du langage C. Il offre des
+performances équivalentes à #gcc avec un niveau d'optimisation léger (-O1).
+L'utilisation commerciale est pourvue par la société #absint. L'absence
+d'optimisations aggressives que l'on peut trouver dans #gcc ou #clang est due
+au fait qu'il est difficile de démontrer que ces optimisations sont correctes
+d'un point de vue sémantique. Le projet se concentre sur les optimisations
+vérifiées afin de produire un code conforme à la spécification du langage C
+propre à une utilisation dans les domaines critiques.
+
+
+=== Déboggeur
+
+Comme pour les compilateurs, il existe une multitude de déboggueurs en fonction
+des systèmes d'exploitation et des architectures. Pour simplifier la lecture
+de ce document, nous le listons ici que les principaux déboggueurs connus.
+
+#let linaro = link("https://www.linaroforge.com/linaro-ddt", "Linaro DDT")
+#let gdb = link("https://www.gnu.org/software/gdb/", "GDB")
+#let lldb = link("https://lldb.llvm.org/", "LLDB")
+#let totalview = link("https://totalview.io/", "TotalView")
+#let undo = link("https://undo.io/", "Undo")
+#let valgrind = link("https://www.valgrind.org/", "Valgrind")
+#let vsd = link("https://www.visualstudio.com/", "Visual Studio Debugger")
+
+#figure(
+  table(
+    columns: (auto, auto, auto),
+    [*Debugueur*], [*Architectures*], [*License*],
+    [*#linaro*], [x86-64, ARM, PowerPC, Intel Xeon Phi, CUDA], [Propriétaire],
+    [*#gdb*], [x86, x86-64, ARM, PowerPC, SPARC, ...], [GPLv3],
+    [*#lldb*], [i386, x86-65, AArch64, ARM], [Apache v2],
+    [*#totalview*], [x86-64, ARM64, CUDA], [Propriétaire],
+    [*#undo*], [?], [Propriétaire],
+    [*#valgrind*], [x86, x86-64, PowerPC, ARMv7], [GPL],
+    [*#vsd*], [x86, x86-64], [Propriétaire],
+  )
+)
+
+#linaro et #totalview sont plutôt dédiés aux systèmes de calculs intensifs
+qu'aux systèmes embarqués mais ils supportent les architectures CUDA qui
+peuvent être utilisés dans l'embarqués pour du traitement vidéo.
+
+#let ddd = link("https://www.gnu.org/software/ddd/", "DDD")
+
+#gdb est le déboggeur de référence pour le langage C car il va en général de
+pair avec l'utilisation de #gcc. Il dispose des fonctionnalités classiques pour
+un déboggueur (breakpoints, pas à pas, ...). La version de base ne comporte
+qu'un outil en ligne de commande mais des interfaces graphiques existent pour
+le compléter, le plus connu étant probablement #ddd.
+
+#lldb est le déboggeur associé à #clang/#llvm comme #gdb l'est à #gcc. Etant
+plus jeune, il supporte moins d'architecture mais plus de système
+d'exploitation (notamment MacOS et iOS).
+
+
+#valgrind est un outil d'analyse dynamique qui permet de détecter des erreurs
+liées à l'utilisation de la mémoire. Il est particulièrement utile pour détecter
+les fuites mémoires sur les langages comme le C. Il fonctionne en compilant le
+_bytecode_ à la volée en y ajoutant de l'instrumentation.
+
+#undo est un deboggeur récent compatible avec les commandes de #gdb et proposant
+une interface graphique plus moderne que #ddd. Il propose aussi une interface
+de navigation dans les historiques d'exécution en séquentiel ou parallèle en
+plus d'un déboggue mémoire. En revance, il n'est disponible que sous Linux
+et les architectures supportées ne sont pas clairement indiquées. Il est
+probable que l'outil fonctionne par compilation à la volée du _bytecode_ et
+qu'il soit donc compatible avec toutes les architectures supportées par #gcc.
+
+#let visualstudio = link(
+  "https://visualstudio.microsoft.com/fr/vs/",
+  "Visual Studio"
+)
+
+#vsd est le développeur associé à la suitre de développement #visualstudio
+de #microsoft. Il est propriétaire et ne fonctionne que sous Windows mais
+offre un support avancé de tous les langages supportés par #visualstudio.
 
 === Meta programmation
+
+Il n'y a pas, a proprement parler, de support pour la métaprogrammation en C.
+Dans la pratique cependant, le preprocesseur du C
+(CPP#footnote[C PreProcessor]) est souvent utilisé pour introduire une forme
+archaïque de métaprogrammation syntaxique.
+
+CPP utilise un système de macros et d'expansions permettant de générer du code
+C par substitution de texte. Un exemple courant est l'utilisation de macros
+pour rendre des parties de code conditionnelles :
+
+```c
+#include <stdio.h>
+
+#ifdef DEBUG
+# define TRACE(...) printf(__VA_ARGS__)
+#else
+# define TRACE(...)
+#endif
+
+int main()
+{
+  TRACE("Hello, world!\n");
+  return 0;
+}
+```
+
+Dans cet exemple, la macro `TRACE` est définie en fonction de la macro `DEBUG`.
+Si `DEBUG` est définie, la macro `TRACE` est expansée en un appel à `printf`
+avec les arguments passés. Dans ce cas, la fonction `main` affichera
+`Hello, world!`. Si `DEBUG` n'est pas défini, la macro `TRACE` est expansée
+en un contenu vide et la fonction `main` n'affichera rien.
+
+L'expansion des macros n'est pas récursive et ne permet donc pas de calculer des
+des valeurs arbitrairement complexes. Il est toutefois possible de jouer
+subtilement avec l'expansion des macros pour obtenir une récursion bornée
+et prégénérer des expressions constantes que le compilateur optimisera en
+les calculant à la compilation.
+
+Par exemple, on peut calculer la somme des entiers de 1 à N avec la macro
+suivante :
+
+```c
+#include <stdio.h>
+
+#define SUM(N) (((N) * ((N) + 1)) / 2)
+
+int main()
+{
+  printf("%d\n", SUM(10));
+  return 0;
+}
+```
+
+Comme elle sera expansée dans le code, le compilateur y vera une expression
+constante et la calculera à la compilation, ce qui donnera le résultat 55
+immédiatement à l'exécution. Il est même possible d'obtenir une récursion
+finie en exploitant de manière astucieuse les règles d'expansion des macros
+mais cela reste une pratique très avancée, peu lisible, peu maintenable et
+surtout généralement inutile puisque les fonction déclarées `inline` (et
+même parfois celles qui ne le sont pas) sont optimisées de manière similaire
+par le compilateur. Ainsi, le resultat constant précédent pourrait être obtenu
+plus simplement avec une fonction `inline` :
+
+```c
+#include <stdio.h>
+
+inline int sum(int n)
+{
+  return (n * (n + 1)) / 2;
+}
+
+int main()
+{
+  printf("%d\n", sum(10));
+  return 0;
+}
+```
 
 === Générateurs de code
 
 ==== _Parsing_
 
+On peut distinguer les parseurs en fonction du type de langage considéré et
+du type de parseur:
+- les langages réguliers
+- les langages algébriques
+- les PEG#footnote[
+  _Parsing Expression Grammars_, ou grammaire d'expression de _parsing_.
+]
+- de langages réguliers des parseurs de
+langage context
+
 ==== Dérivation
+
+
 
 == Bibliothèques & COTS
 
 === Gestionnaire de paquets
+
+Aucun, OS dépendant.
 
 === Communauté
 
@@ -819,9 +1542,14 @@ Le C++ est un langage de programmation #paradigme[objet] et
 
 ==== WCET
 
+https://www.tracesgroup.net/otawa/
+
 ==== Pile
 
 ==== Qualité numérique
+
+- #xsc
+- #boost
 
 === Meta formalisation
 

@@ -1474,37 +1474,277 @@ int main()
 
 ==== _Parsing_
 
-On peut distinguer les parseurs en fonction du type de langage considéré et
-du type de parseur:
+On peut distinguer les parseurs en fonction du type de langage considéré
 - les langages réguliers
 - les langages algébriques
-- les PEG#footnote[
-  _Parsing Expression Grammars_, ou grammaire d'expression de _parsing_.
-]
-- de langages réguliers des parseurs de
-langage context
+- les grammaires booléennes déterministes
+- les langages algébriques avec des grammaires conjonctives ou booléennes
+
+#let flex = link("https://github.com/westes/flex", "Flex")
+#let quex = link("https://quex.sourceforge.io/", "Quex")
+#let re2c = link("https://re2c.org/", "Re2c")
+#let ragel = link("https://www.colm.net/open-source/ragel/", "Ragel")
+
+#figure(
+  table(
+    columns: (auto, auto),
+    [*Nom*], [*Code*], [*Plateforme*], [*License*],
+    [*#flex*], [Mixte], [Toutes], [Libre, BSD],
+    [*#quex*], [Mixte], [Toutes], [Libre, LGPL],
+    [*#re2c*], [Mixte], [Toutes], [Libre, Domaine public],
+    [*#ragel*], [Mixte], [Toutes], [Libre, LGPL, MIT],
+
+  ),
+  caption: [Parsers de langages réguliers],
+)
+
+Les parseurs de langages réguliers sont des outils
+utilisés pour parser des expressions régulières dans les langages de
+programmation ou pour servir de _lexer_ en découpant un texte en _tokens_ qui
+servent ensuite de termes à un parseur plus complexe.
+
+#let lex = link(
+  "https://minnie.tuhs.org/cgi-bin/utree.pl?file=4BSD/usr/src/cmd/lex",
+  "Lex"
+)
+
+#flex est l'outil de référence pour générer des _lexers_ en C.
+Les autres lexers sont des alternatives plus modernes qui offrent des
+performances un peu meilleures ou des fonctionnalités supplémentaires comme
+la gestion de l'unicode.
+
+#let antlr = link("https://www.antlr.org/", "ANTLR")
+#let byacc = link("https://invisible-island.net/byacc/", "Byacc")
+#let hyacc = link("https://hyacc.sourceforge.net/", "Hyacc")
+#let lemon = link("https://www.hwaci.com/sw/lemon/", "Lemon")
+#let llgen = link("https://github.com/theovosse/llgen", "LLgen")
+#let llnextgen = link("https://os.ghalkes.nl/LLnextgen/", "LLnextgen")
+#let yacc = link(
+  "https://www.tuhs.org/cgi-bin/utree.pl?file=V6/usr/source/yacc",
+  "Yacc"
+)
+#let treesitter = link(
+  "https://tree-sitter.github.io/tree-sitter/",
+  "Tree-sitter"
+)
+#let styx = link("http://speculate.de/", "Styx")
+#let cocor = link("http://ssw.jku.at/Research/Projects/Coco/", "Coco/R")
+#let sablecc = link("https://sablecc.org/", "SableCC")
+#let bison = link("https://www.gnu.org/software/bison/", "Bison")
+#let unicc = link("https://sourceforge.net/projects/unicc/", "Unicc")
+#let kmyacc = link("https://github.com/Kray-G/kmyacc", "Kmyacc")
+#let apg = link("https://sabnf.com/", "APG")
+#let gold = link("http://goldparser.org/", "GOLD")
+
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto, auto),
+    [*Nom*],         [*Grammaire*],           [*Code*],  [*Plateforme*], [*License*],
+    [*#antlr*],      [EBNF],                  [Mixte],   [Java],         [Libre, BSD],
+    [*#byacc*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, Domaine public],
+    [*#hyacc*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
+    [*#lemon*],      [Lemon],                 [Mixte],   [Toutes],       [Libre, Domaine public],
+    [*#llgen*],      [LLgen],                 [Mixte],   [POSIX],        [Libre, BSD],
+    [*#llnextgen*],  [LLnextgen],             [Mixte],   [Toutes],       [Libre, GPL],
+    [*#yacc*],       [Yacc],                  [Mixte],   [Toutes],       [Libre, CPL & CDDL],
+    [*#treesitter*], [Javascript, DSL, JSON], [Séparé],  [Toutes],       [Libre, MIT],
+    [*#styx*],       [Styx],                  [Séparé],  [Toutes],       [Libre, LGPL],
+    [*#cocor*],      [Wirth],                 [Mixte],   [Toutes],       [Libre, GPL],
+    [*#sablecc*],    [SableCC],               [Séparé],  [Java],         [Libre, GPL],
+    [*#bison*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
+    [*#unicc*],      [EBNF],                  [Mixed],   [POSIX],        [Libre, BSD],
+    [*#kmyacc*],     [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
+    [*#apg*],        [ABNF],                  [Séparé],  [Toutes],       [Libre, BSD],
+    [*#gold*],       [EBNF],                  [Séparé],  [Toutes],       [Libre, zlib modifiée],
+  ),
+  caption: [Parsers de langages algébriques],
+)
+
+#let dparser = link("https://dparser.sourceforge.io/", "DParser")
+#let yaep = link("https://github.com/vnmakarov/yaep", "YAEP")
+#let gdk = link("https://gdk.sourceforge.net/", "GDK")
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto, auto),
+    [*Nom*],         [*Grammaire*],           [*Code*],  [*Plateforme*], [*License*],
+    [*#dparser*],    [EBNF],                  [Mixte],   [POSIX],        [Libre, BSD],
+    [*#yaep*],       [EBNF],                  [Mixte],   [Toutes],       [Libre, LGPL],
+    [*#bison*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
+    [*#gdk*],        [Yacc],                  [Mixte],   [POSIX],        [Libre, MIT],
+  ),
+  caption: [Parsers de grammaires sans contexte, conjonctives ou booléennes],
+)
+
+#let dsl = [DSL]
+
+Il existe beaucoup de générateurs de _parser_ pour le langage C. Ils se
+différencient essentiellement par le type de langage reconnu :
+L'analyse syntaxique fait l'objet de nombreuses recherches depuis les années
+1960 et elle continue encore aujourd'hui de sorte qu'il existe de nombreux
+outils de _parsing_ académiques qui vont mettre l'accent sur telle ou telle
+nouvelle approche ou optimisation.
+
+Nous en avons listé un certain nombre pour information mais il est probable que
+qu'utiliser #flex/#bison ou #antlr soit plus que suffisant dans la plupart des
+cas.
+
+Notons que #treesitter est un
+parseur plutôt dédiés aux éditeurs de textes mais cela peut être intéressant
+dans le cadre d'une définition de #dsl ou de protocole pour l'embarqué afin
+de faciliter la création d'outils dédiés.
+
+Autrement, la différence entre les _parsers_ de la liste réside essentiellement
+dans le type de parser LL, LR, LALR, ... qu'ils implémentent et dans les
+fonctionnalités supplémentaires qu'ils offrent.
+
 
 ==== Dérivation
 
+Il n'y a pas réellement de support pour la dérivation en C. Comme pour la
+métaprogrammation, le préprocesseur C peut être utilisé pour dériver du code
+mais cela reste une pratique peu lisible.
 
+Une technique bien connue est celle des X macros qui permet de générer du code
+à partir de la définition déclarative d'une relation. Par exemple, on peut
+mettre en relation un identifiant de couleur, un entier qui le représente et
+une chaîne de caractères qui la décrit:
+
+```c
+#define COULEURS \
+  X(ROUGE, 0xFF0000, "rouge") \
+  X(VERT, 0x00FF00, "vert") \
+  X(BLEU, 0x0000FF, "bleu")
+```
+
+La macro `COULEURS` définit la relation en utilisant une macro `X` qui n'a
+pas encore de définition. C'est au moment où on utilise cette relation qu'on
+donne une définition à la macro `X`. On peut ainsi définir le type couleur :
+
+```c
+#define X(label, value, str) label,
+typedef enum {
+  COULEURS
+} couleurs_t;
+#undef X
+```
+
+ou les convertisseurs adéquats de manière à peu près automatisée :
+
+```c
+char* couleur_to_string(couleurs_t couleur)
+{
+  char* resultat = NULL;
+#define X(label, _, str) case label: { resultat = str; break; }
+  switch (couleur) {
+    COULEURS
+    default: { break; }
+  }
+#undef X
+  return resultat;
+}
+
+int main()
+{
+  printf("%s\n", couleur_to_string(ROUGE));
+  return 0;
+}
+```
+
+Il est possible de faire des dérivations plus complexes en jouant sur la
+sémantique d'expansion du préprocesseur mais encore une fois, cela reste une
+pratique déconseillée dans les développements industriels où la maintenabilité
+est une priorité.
 
 == Bibliothèques & COTS
 
 === Gestionnaire de paquets
 
-Aucun, OS dépendant.
+#let buckaroo = link("https://buckaroo.pm/", "Buckaroo")
+#let clib = link("https://github.com/clibs/clib", "Clib")
+#let conan = link("https://conan.io/", "Conan")
+#let vcpkg = link("https://vcpkg.io/en/", "vcpkg")
+
+Il existe plusieurs gestionnaires de paquet pour le langage C que nous avons
+comparés en fonction de leur support des plateformes, le format de configuration
+des fonctionalités proposées et du nombre de paquets proposés.
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto),
+    [*Gestionnaire*],               [*#clib*], [*#conan*], [*#vcpkg*],
+    [*Plateformes*],                [Linux],   [Toutes],   [Linux, Windows, MacOS],
+    [*Format*],                     [JSON],    [Python],   [JSON],
+    [*Résolution des dépendances*], [⨉],       [✓],       [✓],
+    [*Cache binaire*],              [⨉],       [✓],       [✓],
+    [*Nombre de paquets*],          [~350],    [~1750],    [~2500],
+  )
+)
+
+#clib propose une gestion de paquet très rudimentaire qui consiste à simplement
+intégrer les sources d'un paquet dans les sources du projet. Cela peut être
+pratique pour des projets très petits ou pour des projets qui ne veulent pas
+dépendre d'un gestionnaire de paquet tiers.
+
+#conan et #vcpkg sont des gestionnaires de paquet plus complets qui proposent
+les fonctionnalités d'un gestionnaire de paquet moderne. Ce sont tous deux
+des outils matures et maintenus. #conan est plus simple d'utilisation et plus
+versatile car les descriptions de paquets (les _recipes_) sont écrites en
+Python. #vcpkg est plus classique avec une description JSON mais plus de paquets
+disponibles.
 
 === Communauté
 
+L'histoire du langage C et son rôle central dans l'évolution de l'informatique
+font qu'il existe une très grande communauté autour du langage. Cette
+communauté est à la fois privée et publique : privée car de nombreuses sociétés
+ont et continuent de développer des logiciels ou des produits utilisant le C et
+publique à travers toute la communauté _open source_ qui continue de
+contribuer aux projets existants (notamment les projets appuyés par la
+_FSF_#footnote[_Free Software Foundation_.]) et d'en proposer de nouveaux
+puisque le C reste dans les 10 langages les plus utilisés sur
+GitHub#footnote[https://www.blogdumoderateur.com/github-top-10-langages-utilises-developpeurs-2023/].
+
 === Assurances
+
+Aujourd'hui, le niveau d'assurance proposé par le C est très inégal. Le
+langage en lui-même est l'un de ceux qui proposent le moins de mécanisme
+de protection ou de vérification mais ce manque
+a engendré au fil du temps une offre de fiabilisation très large à travers
+des outils d'analyse (statique ou dynamique), des outils de tests, des
+référentiels de programmation, _etc._. Leur utilisation va, paradoxalement,
+permettre d'apporter un niveau d'assurance de qualité élévé pour un langage qui
+n'en dispose que très peu.
+
+Toutefois, l'utilisation d'outils tiers à un coût en licences, en formation
+et en temps d'utilisation dans un projet. Ainsi, la fiabilité d'un programme C
+va essentiellement dépendre des moyens mis en oeuvre pour l'assurer et ne
+va dépendre que peu du langage lui même.
 
 == Adhérence au système
 
+Bien qu'un programme C utilise généralement une interface POSIX via la `libc`
+dont il existe plusieurs implémentations, il est tout à fait possible de faire
+sans et d'utiliser le C sur un système nu. Naturellement, cela nécessite
+d'écrire toutes les interfaces systèmes nécessaires mais c'est justement un
+langage fait pour ça. Il est donc particulièrement adapté pour des systèmes
+embarqués.
+
 == Interfaçage
+
+Le C étant devenu _de facto_ un langage de référence utilisé sur beaucoup de
+systèmes et avec un nombre important de bibliothèques, la pluspart des
+langages moderne proposent une FFI#footnote[_Foreign Function Interface_,
+ou interface de programmation externe.] pour le C. Cela permet généralement
+d'utiliser le C dans ces langages mais également au C d'utiliser du code
+écrit dans ces langages.
 
 == Utilisation dans le critique
 
-
+Le C est notoirement utilisé dans tous les domaines critiques soit directement
+pour exploiter des systèmes embarqués soit indirectement comme langage cible
+pour d'autres langages (Ada, Scade, ...).
 
 
 
@@ -1574,6 +1814,13 @@ https://www.tracesgroup.net/otawa/
 == Bibliothèques & COTS
 
 === Gestionnaire de paquets
+
+[*#buckaroo*],
+[Linux, Windows, MacOS],
+[ToML],
+ [✓],
+ [~350],
+
 
 === Communauté
 

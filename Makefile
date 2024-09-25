@@ -1,5 +1,6 @@
 
-SRCS := $(shell find src -name '*.typ')
+SRCS := src/étude/OCamlPro_PPAQSE-COTS_rapport.typ
+SRCS += src/présentation/OCamlPro_PPAQSE-COTS_présentation.typ
 
 BUILD_DIR := _build
 

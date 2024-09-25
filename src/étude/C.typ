@@ -780,7 +780,7 @@ et en temps d'utilisation dans un projet. Ainsi, la fiabilité d'un programme C
 va essentiellement dépendre des moyens mis en oeuvre pour l'assurer et ne
 va dépendre que peu du langage lui même.
 
-== Adhérence au système
+== Adhérence au système <c-bare-metal>
 
 Bien qu'un programme C utilise généralement une interface POSIX via la `libc`
 dont il existe plusieurs implémentations, il est tout à fait possible de faire
@@ -789,7 +789,7 @@ d'écrire toutes les interfaces systèmes nécessaires mais c'est justement un
 langage fait pour ça. Il est donc particulièrement adapté pour des systèmes
 embarqués.
 
-== Interfaçage
+== Interfaçage <c-abi>
 
 Le C étant devenu _de facto_ un langage de référence utilisé sur beaucoup de
 systèmes et avec un nombre important de bibliothèques, la pluspart des

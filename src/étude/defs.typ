@@ -4,6 +4,16 @@
 
 #let paradigme(p) = text(blue, p)
 
+
+#let pageref(label) = context {
+  let loc = locate(label)
+  let nums = counter(page).at(loc)
+  link(loc, numbering(loc.page-numbering(), ..nums))
+}
+
+#let crate(name) = link("https://lib.rs/crates/" + name, name)
+
+
 #let language(
   name:content,
   introduction:content,

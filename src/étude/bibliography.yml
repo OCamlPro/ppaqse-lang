@@ -34,3 +34,9 @@ misra:
   type: report
   title: MISRA C:2023 Third Edition, Second Revision
   publisher: MISRA
+
+anssi-rust:
+  type: report
+  title: Règles de programmation pour le développement d'applications sécurisées en Rust
+  publisher: ANSSI
+  url: https://cyber.gouv.fr/publications/regles-de-programmation-pour-le-developpement-dapplications-securisees-en-rust

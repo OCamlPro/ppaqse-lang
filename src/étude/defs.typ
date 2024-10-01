@@ -4,10 +4,21 @@
 
 #let paradigme(p) = text(blue, p)
 
+
+#let pageref(label) = context {
+  let loc = locate(label)
+  let nums = counter(page).at(loc)
+  link(loc, numbering(loc.page-numbering(), ..nums))
+}
+
+#let crate(name) = link("https://lib.rs/crates/" + name, name)
+
+
 #let language(
-  name:content,
+  name:str,
   introduction:content,
   paradigme:content,
+  model_intro:content,
   runtime:content,
   wcet:content,
   pile:content,
@@ -36,6 +47,8 @@
 #paradigme
 
 == Modélisation & vérification
+
+#model_intro
 
 === Analyse statique
 

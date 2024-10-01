@@ -17,8 +17,6 @@
 #import "defs.typ": *
 #import "links.typ": *
 
-
-
 #include "introduction.typ"
 #include "C.typ"
 #include "C++.typ"
@@ -26,6 +24,10 @@
 #include "Scade.typ"
 #include "OCaml.typ"
 #include "Rust.typ"
+
+= Conclusions
+
+= Références
 
 #bibliography("bibliography.yml")
 

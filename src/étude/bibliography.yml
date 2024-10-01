@@ -34,3 +34,49 @@ misra:
   type: report
   title: MISRA C:2023 Third Edition, Second Revision
   publisher: MISRA
+
+anssi-rust:
+  type: report
+  title: Règles de programmation pour le développement d'applications sécurisées en Rust
+  publisher: ANSSI
+  url: https://cyber.gouv.fr/publications/regles-de-programmation-pour-le-developpement-dapplications-securisees-en-rust
+
+cpp98:
+  type: report
+  title: ISO/CEI 14882:1998 "Programming Language C++"
+  publisher: ISO/CEI
+
+cpp20:
+  type: report
+  title: ISO/CEI 14882:2020 "Programming Language C++"
+  publisher: ISO/CEI
+
+misra_cpp:
+  type: report
+  title: MISRA C++:2023
+  publisher: MISRA
+
+framac:
+  type: web
+  title: Frama-C site
+  url: https://frama-c.com
+
+chronos:
+  type: web
+  title: Chronos site
+  url: https://www.comp.nus.edu.sg/~rpembed/chronos/
+
+sweet:
+  type: proceedings
+  title: SWEET - a tool for WCET Flow Analysis
+  author: Björn Lisper
+  isbn: 978-3-662-45230-1
+  editor: Bernhard Steffen
+  pages: 482-485
+  month: October
+  year: 2024
+  booktitle: |
+    6th International Symposium On Leveraging Applications of Formal Methods,
+    Verification and Validation
+  publisher: Springer-Verlag
+  url: http://www.es.mdu.se/publications/3693-

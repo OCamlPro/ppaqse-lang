@@ -15,9 +15,10 @@
 
 
 #let language(
-  name:content,
+  name:str,
   introduction:content,
   paradigme:content,
+  model_intro:content,
   runtime:content,
   wcet:content,
   pile:content,
@@ -46,6 +47,8 @@
 #paradigme
 
 == Modélisation & vérification
+
+#model_intro
 
 === Analyse statique
 

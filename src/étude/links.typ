@@ -140,3 +140,30 @@
 #let clib = link("https://github.com/clibs/clib", "Clib")
 #let conan = link("https://conan.io/", "Conan")
 #let vcpkg = link("https://vcpkg.io/en/", "vcpkg")
+
+#let janestreet = link("https://janestreet.com", "Jane Street")
+#let cameleer = link("https://github.com/ocaml-gospel/cameleer")
+
+#let alcotest = link("https://github.com/mirage/alcotest", "Alcotest")
+#let ounit = link("https://github.com/gildor478/ounit", "OUnit")
+#let qcheck = link("https://github.com/c-cube/qcheck", "QCheck")
+#let crowbar = link("https://github.com/stedolan/crowbar", "Crowbar")
+#let bun = link("https://github.com/ocurrent/bun", "Bun")
+
+#let ppx_inline_test = link(
+  "https://github.com/janestreet/ppx_inline_test",
+  "ppx_inline_test",
+)
+
+#let ppx_expect = link(
+  "https://github.com/janestreet/ppx_expect",
+  "ppx_expect",
+)
+
+#let dypgen = link("http://dypgen.free.fr/index.html", "Dypgen")
+#let sedlex = link("https://github.com/ocaml-community/sedlex", "sedlex")
+#let ulex = link("https://github.com/ocaml-community/ulex", "ulex")
+#let menhir = link("https://gitlab.inria.fr/fpottier/menhir", "Menhir")
+
+#let camlp5 = link("https://camlp5.github.io", "Camlp5")
+#let opam = link("https://opam.ocaml.org/", "opam")

@@ -392,15 +392,13 @@
   ],
 
   adherence: [
-    Rust a les même caractéristiques que C (détaillées #ref(<c-bare-metal>),
-    p.~#pageref(<c-bare-metal>)) en termes d'utilisabilité sur un système nu.
+    Rust a les même caractéristiques que C en termes d'utilisabilité sur un système nu.
   ],
 
 
   interfacage: [
     Rust permet d'exposer le code écrit avec une interface compatible C et
-    d'appeler du code C, on référera donc le lecteur à la #ref(<c-abi>),
-    p.~#pageref(<c-abi>).
+    d'appeler du code C.
   ],
 
   critique: [

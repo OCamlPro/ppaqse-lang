@@ -1,336 +1,333 @@
 #import "defs.typ": *
 #import "links.typ": *
 
-= C
+#language(
+  name: "C",
 
-Le langage C est un langage de programmation créé en 1972 par Dennis
-Ritchie pour le développement du système d'exploitation Unix. Il est
-un des langages les plus utilisés dans le monde de l'informatique et
-est souvent utilisé pour écrire des systèmes d'exploitation, des
-compilateurs, des interpréteurs et des logiciels embarqués.
+  introduction: [
+    Le langage C est un langage de programmation créé en 1972 par Dennis
+    Ritchie pour le développement du système d'exploitation Unix. Il est
+    un des langages les plus utilisés dans le monde de l'informatique et
+    est souvent utilisé pour écrire des systèmes d'exploitation, des
+    compilateurs, des interpréteurs et des logiciels embarqués.
 
-Le langage a été normalisé par l'ANSI#footnote[_American National
-Standard Insitute_, le service de standardisation des États-Unis.] en
-1989 #cite(<c89>) puis par l'ISO#footnote[_International Organization for
-Standardization_, l'organisation internationale de standardisation.] en
-1990 #cite(<c90>). Le standard a été à plusieurs reprises jusqu'à la dernière
-version en 2018 #cite(<c18>).
+    Le langage a été normalisé par l'ANSI#footnote[_American National
+    Standard Insitute_, le service de standardisation des États-Unis.] en
+    1989 #cite(<c89>) puis par l'ISO#footnote[_International Organization for
+    Standardization_, l'organisation internationale de standardisation.] en
+    1990 #cite(<c90>). Le standard a été à plusieurs reprises jusqu'à la dernière
+    version en 2018 #cite(<c18>).
 
-Il existe par ailleurs plusieurs référentiels de
-programmation pour garantir une certaine qualité de code. Le plus connu est le
-référentiel MISRA-C #cite(<misra>) qui est utilisé dans l'industrie pour
-aider à fiabiliser les logiciels embarqués.
+    Il existe par ailleurs plusieurs référentiels de
+    programmation pour garantir une certaine qualité de code. Le plus connu est le
+    référentiel MISRA-C #cite(<misra>) qui est utilisé dans l'industrie pour
+    aider à fiabiliser les logiciels embarqués.
+  ],
 
-== Paradigme
+  paradigme: [
+    Le langage C est un langage de programmation essentiellement
+    #paradigme[impératif]. Il est possible, dans une certaine mesure, de programmer
+    dans un style #paradigme[fonctionnel]. Par exemple, l'exemple du
+    #ref(<ex_C_length>) peut aussi s'écrire de manière récursive :
 
-Le langage C est un langage de programmation essentiellement
-#paradigme[impératif]. Il est possible, dans une certaine mesure, de programmer
-dans un style #paradigme[fonctionnel]. Par exemple, l'exemple du
-#ref(<ex_C_length>) peut aussi s'écrire de manière récursive :
-
-```c
-int length(struct list *l)
-{
-  return (NULL == l) ? 0 : 1 + length(l->next);
-}
-```
-
-mais cela reste limité par rapport aux langages explicitement fonctionnels.
-Le style idiomatique est plutôt procédural à la manière de l'exemple
-#ref(<ex_C>).
-
-#figure(
-  ```c
-  int add_value(struct state *s, int v)
-  {
-    int code = KO;
-    if (NULL != s) {
-      s->value += v;
-      code = OK;
+    ```c
+    int length(struct list *l)
+    {
+      return (NULL == l) ? 0 : 1 + length(l->next);
     }
-    return code;
-  }
-  ```,
-  caption: [Exemple de code C idiomatique],
-) <ex_C>
+    ```
 
-Dans cet exemple, on déclare une fonction `add_value` qui prend en paramètre
-un pointeur vers une structure `struct state` et un entier `v`. Si le pointeur
-n'est pas `NULL`, on ajoute la valeur `v` à la valeur de la structure et on
-retourne `OK`. Sinon, on retourne `KO`.
+    mais cela reste limité par rapport aux langages explicitement fonctionnels.
+    Le style idiomatique est plutôt procédural à la manière de l'exemple
+    #ref(<ex_C>).
 
-Le code est clairement impératif avec la séquence d'instructions, le `if` et
-les effets de bord `s->value += v` et `code = OK`.
+    #figure(
+      ```c
+      int add_value(struct state *s, int v)
+      {
+        int code = KO;
+        if (NULL != s) {
+          s->value += v;
+          code = OK;
+        }
+        return code;
+      }
+      ```,
+      caption: [Exemple de code C idiomatique],
+    ) <ex_C>
 
-Sauf pour les fonctions simples et totales comme avec `length`, le code de
-retour est généralement utilisé comme un code indiquant si l'appel
-a été fructeux ou s'il y a eu une erreur. En pratique, cela donne des appels
-en séquence avec un style dit
-_défensif_ comme dans le #ref(<defensif_C>).
+    Dans cet exemple, on déclare une fonction `add_value` qui prend en paramètre
+    un pointeur vers une structure `struct state` et un entier `v`. Si le pointeur
+    n'est pas `NULL`, on ajoute la valeur `v` à la valeur de la structure et on
+    retourne `OK`. Sinon, on retourne `KO`.
 
-#figure(
-  ```c
-  int add_values(struct state *s) {
-    int code = KO;
-    if (KO == add_value(s, 42)) {
-      /* traitement d'erreur 1 ...*/
-    }
-    if (KO == add_value(s, 24)) {
-      /* traitement d'erreur 2 ...*/
-    }
-    code = OK;
-    return code;
-  }
-  ```,
-  caption: [Exemple de code C défensif],
-) <defensif_C>
+    Le code est clairement impératif avec la séquence d'instructions, le `if` et
+    les effets de bord `s->value += v` et `code = OK`.
 
+    Sauf pour les fonctions simples et totales comme avec `length`, le code de
+    retour est généralement utilisé comme un code indiquant si l'appel
+    a été fructeux ou s'il y a eu une erreur. En pratique, cela donne des appels
+    en séquence avec un style dit
+    _défensif_ comme dans le #ref(<defensif_C>).
 
-== Modélisation & vérification
+    #figure(
+      ```c
+      int add_values(struct state *s) {
+        int code = KO;
+        if (KO == add_value(s, 42)) {
+          /* traitement d'erreur 1 ...*/
+        }
+        if (KO == add_value(s, 24)) {
+          /* traitement d'erreur 2 ...*/
+        }
+        code = OK;
+        return code;
+      }
+      ```,
+      caption: [Exemple de code C défensif],
+    ) <defensif_C>
+  ],
 
-=== Analyse statique
+  runtime: [
+    Nous avons comparés plusieurs analyseurs statiques permettant de
+    détecter des erreurs au _runtime_ pour le langage C. Parmi ceux-ci, nous
+    en avons les cinq qui ont la propriété d'être _corrects_ et de ne pas donner
+    de garantir l'absence d'une catégorie de _bug_ : _Astree_, _ECLAIR_, _Frama-C_,
+    _Polyspace_ et _TIS Analyser_.
 
-==== _Runtime Errors_
+    Comme indiqué dans la méthodologie, nous avons indiqué les erreurs détectées
+    d'après les documents publiques. Toutefois, ceux-ci ne sont pas forcément
+    complets et il est possible que les outils détectent d'autres erreurs non
+    mentionnées ici. Les cases cochées indiquent que l'outil détecte _au moins_
+    le type d'erreur correspondant.
 
-Nous avons comparés plusieurs analyseurs statiques permettant de
-détecter des erreurs au _runtime_ pour le langage C. Parmi ceux-ci, nous
-en avons les cinq qui ont la propriété d'être _corrects_ et de ne pas donner
-de garantir l'absence d'une catégorie de _bug_ : _Astree_, _ECLAIR_, _Frama-C_,
-_Polyspace_ et _TIS Analyser_.
+    #figure(
 
-Comme indiqué dans la méthodologie, nous avons indiqué les erreurs détectées
-d'après les documents publiques. Toutefois, ceux-ci ne sont pas forcément
-complets et il est possible que les outils détectent d'autres erreurs non
-mentionnées ici. Les cases cochées indiquent que l'outil détecte _au moins_
-le type d'erreur correspondant.
+      table(
+        columns: (auto, auto, auto, auto, auto, auto),
+        [*Erreur*],                      [*Astrée*], [*ECLAIR*], [*Frama-C*], [*Polyspace*], [*TIS Analyser*],
+        [*Division par 0*],              [✓],        [✓],         [✓],          [✓],            [✓],
+        [*Débordement de tampon*],       [✓],        [✓],         [✓],          [✓],            [✓],
+        [*Déréférencement de NULL*],     [✓],        [✓],         [],           [✓],            [],
+        [*Dangling pointer*],            [✓],        [✓],         [✓],          [],             [✓],
+        [*Data race*],                   [✓],        [✓],         [],           [],              [],
+        [*Interblocage*],                [✓],        [✓],         [✓],          [],             [],
+        [*Vulnérabilités de sécurité*],  [✓],        [✓],         [],           [],              [],
+        [*Arithmétique entière*],        [✓],        [],          [✓],          [],              [✓],
+        [*Arithmétique flottante*],      [✓],        [],          [✓],          [],              [],
+        [*Code mort*],                   [✓],        [✓],         [✓],          [✓],            [],
+        [*Initialisation*],              [✓],        [✓],         [✓],          [✓],            [✓],
+        [*Flot de données*],             [✓],        [✓],         [✓],          [],              [],
+        [*Contrôle de flôt*],            [✓],        [],          [✓],          [✓],             [],
+        [*Flôt de signaux*],             [✓],        [],          [],           [],              [],
+        [*Non-interférence*],            [✓],        [],          [],           [],              [],
+        [*Fuites mémoire*],              [],         [✓],         [],           [],              [],
+        [*Double `free`*],               [],         [✓],         [],           [],              [],
+        [*Coercions avec perte*],        [],         [✓],         [✓],          [],              [✓],
+        [*Mémoire superflue*],           [],         [✓],         [],           [],              [],
+        [*Arguments variadiques*],       [],         [✓],         [✓],          [],              [],
+        [*Chaînes de caractères*],       [],         [✓],         [],           [],              [],
+        [*Contrôle d'API*],              [],         [✓],         [],           [✓],             [],
+      )
+    )
 
-#figure(
+  ],
 
-  table(
-    columns: (auto, auto, auto, auto, auto, auto),
-    [*Erreur*],                      [*Astrée*], [*ECLAIR*], [*Frama-C*], [*Polyspace*], [*TIS Analyser*],
-    [*Division par 0*],              [✓],        [✓],         [✓],          [✓],            [✓],
-    [*Débordement de tampon*],       [✓],        [✓],         [✓],          [✓],            [✓],
-    [*Déréférencement de NULL*],     [✓],        [✓],         [],           [✓],            [],
-    [*Dangling pointer*],            [✓],        [✓],         [✓],          [],             [✓],
-    [*Data race*],                   [✓],        [✓],         [],           [],              [],
-    [*Interblocage*],                [✓],        [✓],         [✓],          [],             [],
-    [*Vulnérabilités de sécurité*],  [✓],        [✓],         [],           [],              [],
-    [*Arithmétique entière*],        [✓],        [],          [✓],          [],              [✓],
-    [*Arithmétique flottante*],      [✓],        [],          [✓],          [],              [],
-    [*Code mort*],                   [✓],        [✓],         [✓],          [✓],            [],
-    [*Initialisation*],              [✓],        [✓],         [✓],          [✓],            [✓],
-    [*Flot de données*],             [✓],        [✓],         [✓],          [],              [],
-    [*Contrôle de flôt*],            [✓],        [],          [✓],          [✓],             [],
-    [*Flôt de signaux*],             [✓],        [],          [],           [],              [],
-    [*Non-interférence*],            [✓],        [],          [],           [],              [],
-    [*Fuites mémoire*],              [],         [✓],         [],           [],              [],
-    [*Double `free`*],               [],         [✓],         [],           [],              [],
-    [*Coercions avec perte*],        [],         [✓],         [✓],          [],              [✓],
-    [*Mémoire superflue*],           [],         [✓],         [],           [],              [],
-    [*Arguments variadiques*],       [],         [✓],         [✓],          [],              [],
-    [*Chaînes de caractères*],       [],         [✓],         [],           [],              [],
-    [*Contrôle d'API*],              [],         [✓],         [],           [✓],             [],
-  )
-)
+  wcet: [
+    La complexité du calcul statique du WCET fait qu'il y a peu d'outil
+    disponibles. Nous en avons comparés six: #chronos, #bound-T,
+    #aiT, #sweet, #otawa et #rapidtime. #chronos, #sweet et #otawa sont des outils
+    académiques tandis que #aiT et #rapidtime sont des outils commerciaux.
+    #bound-T est à la base un outil commercial mais qui n'est plus maintenu et qui
+    a été rendu _open source_.
 
+    #figure(
+      table(
+        columns: (auto, auto, auto, auto, auto),
+        [*Outil*],     [*WCET statique*], [*WCET dynamique*], [*WCET hybride*], [*Architecture cible*],
+        [*Chronos*],   [✓],               [✓],               [],               [
+        ],
+        [*Bound-T*],   [✓],               [],                [],               text(size: 8pt)[
+          - Analog Devices ADSP21020
+          - ARMv7 TDMI
+          - Atmel AVR (8-bit)
+          - Intel 8051 (MCS-51) series
+          - Renesas H8/300
+          - SPARC v7 / ERC32
+        ],
+        [*aiT*],       [✓],               [],                [],               text(size: 8pt)[
+          - Am486, IntelDX4
+          - ARM
+          - C16x/ST10
+          - C28x
+          - C33
+          - ERC32
+          - HCS12
+          - i386DX
+          - LEON2, LEON3
+          - M68020, ColdFire MCF5307
+          - PowerPC
+          - TriCore
+          - V850E
+        ],
+        [*SWEET*],     [✓],               [],                [],               [
+        ],
+        [*Otawa*],     [✓],               [],                [],               text(size: 8pt)[
+          - ARM v5,
+          - ARM v7,
+          - PowerPC (including VLE mode),
+          - Sparc,
+          - TriCore,
+          - Risc-V
+        ],
+        [*RapidTime*], [],                [],                 [✓],              text(size: 8pt)[
+          - ARM (7, 9, 11, Cortex-A, Cortex-R, Cortex-M)
+          - Analog Devices
+          - Atmel
+          - Cobham Gaisler
+          - ESA
+          - Freescale (NXP)
+          - IBM
+          - Infineon
+          - Texas Instruments
+        ],
+      )
+    )
 
-==== WCET
+    Notons que #chronos et #sweet ne ciblent pas d'architecture particulière mais
+    se basent sur une
+    représentation intermédiaire, respectivement un sur-ensemble MIPS et
+    ALF, pour
+    effectuer leur analyse. L'avantage est
+    qu'il est techniquement possible de cibler n'importe quelle architecture dès
+    lors qu'il y a un traducteur du langage source vers la représentation
+    intermédiaire. Comme celle-ci ne tient pas compte de toutes les spécificités de
+    l'architecture ciblée, le WCET calculé est _a priori_ moins précis.
 
-La complexité du calcul statique du WCET fait qu'il y a peu d'outil
-disponibles. Nous en avons comparés six: #chronos, #bound-T,
-#aiT, #sweet, #otawa et #rapidtime. #chronos, #sweet et #otawa sont des outils
-académiques tandis que #aiT et #rapidtime sont des outils commerciaux.
-#bound-T est à la base un outil commercial mais qui n'est plus maintenu et qui
-a été rendu _open source_.
+    #otawa fonctionne avec des fichiers décrivant l'architecture cible; ce qui
+    le rend a priori compatible avec toutes les architectures modulo le temps
+    d'écrire ces descriptions si elles n'existent pas déjà. Les architectures
+    indiquées sont celles dont les descriptions sont déjà disponibles.
 
-#figure(
-  table(
-    columns: (auto, auto, auto, auto, auto),
-    [*Outil*],     [*WCET statique*], [*WCET dynamique*], [*WCET hybride*], [*Architecture cible*],
-    [*Chronos*],   [✓],               [✓],               [],               [
-    ],
-    [*Bound-T*],   [✓],               [],                [],               text(size: 8pt)[
-      - Analog Devices ADSP21020
-      - ARMv7 TDMI
-      - Atmel AVR (8-bit)
-      - Intel 8051 (MCS-51) series
-      - Renesas H8/300
-      - SPARC v7 / ERC32
-    ],
-    [*aiT*],       [✓],               [],                [],               text(size: 8pt)[
-      - Am486, IntelDX4
-      - ARM
-      - C16x/ST10
-      - C28x
-      - C33
-      - ERC32
-      - HCS12
-      - i386DX
-      - LEON2, LEON3
-      - M68020, ColdFire MCF5307
-      - PowerPC
-      - TriCore
-      - V850E
-    ],
-    [*SWEET*],     [✓],               [],                [],               [
-    ],
-    [*Otawa*],     [✓],               [],                [],               text(size: 8pt)[
-      - ARM v5,
-      - ARM v7,
-      - PowerPC (including VLE mode),
-      - Sparc,
-      - TriCore,
-      - Risc-V
-    ],
-    [*RapidTime*], [],                [],                 [✓],              text(size: 8pt)[
-      - ARM (7, 9, 11, Cortex-A, Cortex-R, Cortex-M)
-      - Analog Devices
-      - Atmel
-      - Cobham Gaisler
-      - ESA
-      - Freescale (NXP)
-      - IBM
-      - Infineon
-      - Texas Instruments
-    ],
-  )
-)
+  ],
 
-Notons que #chronos et #sweet ne ciblent pas d'architecture particulière mais
-se basent sur une
-représentation intermédiaire, respectivement un sur-ensemble MIPS et
-ALF, pour
-effectuer leur analyse. L'avantage est
-qu'il est techniquement possible de cibler n'importe quelle architecture dès
-lors qu'il y a un traducteur du langage source vers la représentation
-intermédiaire. Comme celle-ci ne tient pas compte de toutes les spécificités de
-l'architecture ciblée, le WCET calculé est _a priori_ moins précis.
+  pile: [
+    Il existe plusieurs outils pour analyser statiquement la pile utilisée par un
+    programme. Parmi ceux-ci, nous avons comparé #gcc, #stackanalyser, #t1stack et
+    #armlink.
 
-#otawa fonctionne avec des fichiers décrivant l'architecture cible; ce qui
-le rend a priori compatible avec toutes les architectures modulo le temps
-d'écrire ces descriptions si elles n'existent pas déjà. Les architectures
-indiquées sont celles dont les descriptions sont déjà disponibles.
+    #gcc propose une option `-fstack-usage` qui permet de générer un fichier
+    décrivant l'utilisation de la pile par le programme. Le fichier généré contient
+    la taille de pile utilisée par fonction et peut
+    être analysé par un outil tiers pour en extraire des informations sur la
+    taille maximale de la pile utilisée.
 
-
-==== Pile
-
-Il existe plusieurs outils pour analyser statiquement la pile utilisée par un
-programme. Parmi ceux-ci, nous avons comparé #gcc, #stackanalyser, #t1stack et
-#armlink.
-
-#gcc propose une option `-fstack-usage` qui permet de générer un fichier
-décrivant l'utilisation de la pile par le programme. Le fichier généré contient
-la taille de pile utilisée par fonction et peut
-être analysé par un outil tiers pour en extraire des informations sur la
-taille maximale de la pile utilisée.
-
-#stackanalyser est un outil commercial développé par #absint qui semble offrir
-une vue plus précise (et graphique) de l'utilisation de la pile par le
-programme et propose des rapports orienté vers la qualification logicielle.
-L'outil supporte une gamme précise de couple compilateur-architecture qui,
-pour des raisons de lisibilité, n'est pas indiquée explicitement ici mais
-un lien vers page idoine de l'outil est donné. Les architectures communes
-(Intel, ARM, PowerPC, RISC-V, ...) sont supportées.
-
-
-#t1stack est un outil commercial développé par #gliwa qui propose une analyse
-statique de la pile pour des architectures spécifiques. L'outil peut utiliser
-des annotations pour résoudre les appels utilisant des pointeurs de fonctions
-à l'exécution. Ces annotations peuvent être manuelles ou générées
-automatiquement par des mesures dynamiques.
-
-Le _linker_ #armlink d'ARM propose une option `--callgraph` qui engendre un
-ficher HTML contenant l'arbre d'appels du programme et l'utilisation de la
-pile. Comme pour #t1stack, il est possible d'ajouter une analyse dynamique
-pour obtenir des informations plus précises en cas d'utilisation de pointeurs
-de fonction.
-
-#figure(
-  table(
-    columns: (auto, auto, auto),
-    [*Outil*],         [*Annotations*],   [*Architectures*],
-    [*#gcc*], [], [Toutes celles supportées par GCC],
-    [*#stackanalyser*], [], [
-      Liste exhaustive sur le site de l'outil :
-      https://www.absint.com/stackanalyzer/targets.htm
-    ],
-    [*#t1stack*], [✓], [
-      - Infineon TC1.6.X, TC1.8
-      - NXP/STM e200z0-z4, z6, z7
-      - ARM (v7-M, v7-R, V8-R)
-      - Renesas RH850, G3K/G3KH/G3M/G3MH
-      - Intel x86-64
-    ],
-    [*#armlink*], [], [ARM],
-  )
-)
+    #stackanalyser est un outil commercial développé par #absint qui semble offrir
+    une vue plus précise (et graphique) de l'utilisation de la pile par le
+    programme et propose des rapports orienté vers la qualification logicielle.
+    L'outil supporte une gamme précise de couple compilateur-architecture qui,
+    pour des raisons de lisibilité, n'est pas indiquée explicitement ici mais
+    un lien vers page idoine de l'outil est donné. Les architectures communes
+    (Intel, ARM, PowerPC, RISC-V, ...) sont supportées.
 
 
-==== Qualité numérique
+    #t1stack est un outil commercial développé par #gliwa qui propose une analyse
+    statique de la pile pour des architectures spécifiques. L'outil peut utiliser
+    des annotations pour résoudre les appels utilisant des pointeurs de fonctions
+    à l'exécution. Ces annotations peuvent être manuelles ou générées
+    automatiquement par des mesures dynamiques.
 
-La qualité numérique peut être analysée de deux manières: statiquement et
-dynamiquement. Les outils #fluctuat, #astree et #polyspace font partie
-des outils d'analyse statique. #polyspace détecte essentiellement des
-erreurs à _runtime_ comme la division par 0, les dépassements de capacité et
-les débordements de buffer. #astree détecte également les erreurs de
-runtime mais réaliste également un calcul d'intervalles permettant d'évaluer
-les erreurs d'arrondis. #fluctuat est un outil académique qui est spécifiquement
-dédié à l'analyse numérique flottante par interprétation abstraite en utilisant
-un domaine basé sur l'arithmétique affine.
+    Le _linker_ #armlink d'ARM propose une option `--callgraph` qui engendre un
+    ficher HTML contenant l'arbre d'appels du programme et l'utilisation de la
+    pile. Comme pour #t1stack, il est possible d'ajouter une analyse dynamique
+    pour obtenir des informations plus précises en cas d'utilisation de pointeurs
+    de fonction.
 
-L'outil #gappa fonctionne également
-par analyse statique mais en utilisant un programme annoté (via #framac) par
-les propriétés à vérifier sur les calculs flottants.
+    #figure(
+      table(
+        columns: (auto, auto, auto),
+        [*Outil*],         [*Annotations*],   [*Architectures*],
+        [*#gcc*], [], [Toutes celles supportées par GCC],
+        [*#stackanalyser*], [], [
+          Liste exhaustive sur le site de l'outil :
+          https://www.absint.com/stackanalyzer/targets.htm
+        ],
+        [*#t1stack*], [✓], [
+          - Infineon TC1.6.X, TC1.8
+          - NXP/STM e200z0-z4, z6, z7
+          - ARM (v7-M, v7-R, V8-R)
+          - Renesas RH850, G3K/G3KH/G3M/G3MH
+          - Intel x86-64
+        ],
+        [*#armlink*], [], [ARM],
+      )
+    )
 
-Les analyses dynamiques fonctionnent en instrumentant le code avec des
-bibliothèques logicielles dédiées. Parmi celles-ci, on trouve #cadna qui
-utilise une approche par estimation stochastique des arrondis de calculs.
+  ],
 
-Une autre approche consiste à utiliser directement des bibliothèques proposant
-des calculs flottants plus précis comme la bibliothèque #mpfr qui réalise un
-calcul par intervalles ou la bibliothèque #gmp qui permet de réaliser des
-calculs avec une précision arbitraire.
+  numerique: [
+    La qualité numérique peut être analysée de deux manières: statiquement et
+    dynamiquement. Les outils #fluctuat, #astree et #polyspace font partie
+    des outils d'analyse statique. #polyspace détecte essentiellement des
+    erreurs à _runtime_ comme la division par 0, les dépassements de capacité et
+    les débordements de buffer. #astree détecte également les erreurs de
+    runtime mais réaliste également un calcul d'intervalles permettant d'évaluer
+    les erreurs d'arrondis. #fluctuat est un outil académique qui est spécifiquement
+    dédié à l'analyse numérique flottante par interprétation abstraite en utilisant
+    un domaine basé sur l'arithmétique affine.
 
+    L'outil #gappa fonctionne également
+    par analyse statique mais en utilisant un programme annoté (via #framac) par
+    les propriétés à vérifier sur les calculs flottants.
 
-=== Meta formalisation
+    Les analyses dynamiques fonctionnent en instrumentant le code avec des
+    bibliothèques logicielles dédiées. Parmi celles-ci, on trouve #cadna qui
+    utilise une approche par estimation stochastique des arrondis de calculs.
 
-Les outils permettant de formaliser un programme C sont peu nombreux et
-fonctionnent tous sur le même principe d'annotations du code source avec
-une contractualisation utilisant une logique de séparation. Parmi ceux-ci,
-nous avons comparé #framac, #redefinedc et #vercors.
+    Une autre approche consiste à utiliser directement des bibliothèques proposant
+    des calculs flottants plus précis comme la bibliothèque #mpfr qui réalise un
+    calcul par intervalles ou la bibliothèque #gmp qui permet de réaliser des
+    calculs avec une précision arbitraire.
 
-La différence entre ces outils réside principalement dans la syntaxe des
-annotations et la manière dont les spécifications sont vérifiées. #framac
-utilise une syntaxe E-ACSL qui est un sous-ensemble du langage
-_ANSI/ISO C Specificiation Language_ (ACSL). Les spécifications et un modèle
-sémantique du C sont ensuite traduites en un problème SMT#footnote[
-  _Satisfiability Modulo Theories_
-] soumis à plusieurs solveurs (#z3, #cvc5, #altergo) qui déterminent, ou pas, si
-les contraintes sont satisfaites. Dans certains
-cas, il est également possible de générer des contre-exemples. En cas d'échec
-dans la preuve, il est possible de raffiner la spécification pour découper
-les preuves en sous-problèmes plus simples.
+  ],
 
-#redefinedc utilise un langage de spécification déclaratif qui a peu ou prou
-la même expressité que E-ACSL. En revanche, la vérification du programme se fait
-de manière déductive en utilisant Coq et un modèle sémantique du C écrit en Coq
-avec le cadre théorique #iris. L'expressivité du modèle permet d'exprimer des
-problématiques arbitrairement complexes (comme par exemple l'_ownership_) tant
-que cela reste prouvable. En cas d'échec de la preuve, il est possible
-d'écrire directement les preuves en Coq.
+  formel: [
+    Les outils permettant de formaliser un programme C sont peu nombreux et
+    fonctionnent tous sur le même principe d'annotations du code source avec
+    une contractualisation utilisant une logique de séparation. Parmi ceux-ci,
+    nous avons comparé #framac, #redefinedc et #vercors.
 
-#vercors utilise un langage de spécification nommé PVL#footnote[
-  _Prototypal Verification Language_
-] qui ressemble un peu à celui de #framac. L'outil est en fait basé sur
-un autre cadre logiciel appelé #viper qui permet de vérifier des programmes
-en utilisant la logique de séparation mais également la logique de
-permission, ce qui permet d'exprimer des propriétés d'_ownership_. #viper
-utilise le solveur SMT #z3 pour décharger les preuves.
+    La différence entre ces outils réside principalement dans la syntaxe des
+    annotations et la manière dont les spécifications sont vérifiées. #framac
+    utilise une syntaxe E-ACSL qui est un sous-ensemble du langage
+    _ANSI/ISO C Specificiation Language_ (ACSL). Les spécifications et un modèle
+    sémantique du C sont ensuite traduites en un problème SMT#footnote[
+      _Satisfiability Modulo Theories_
+    ] soumis à plusieurs solveurs (#z3, #cvc5, #altergo) qui déterminent, ou pas, si
+    les contraintes sont satisfaites. Dans certains
+    cas, il est également possible de générer des contre-exemples. En cas d'échec
+    dans la preuve, il est possible de raffiner la spécification pour découper
+    les preuves en sous-problèmes plus simples.
 
+    #redefinedc utilise un langage de spécification déclaratif qui a peu ou prou
+    la même expressité que E-ACSL. En revanche, la vérification du programme se fait
+    de manière déductive en utilisant Coq et un modèle sémantique du C écrit en Coq
+    avec le cadre théorique #iris. L'expressivité du modèle permet d'exprimer des
+    problématiques arbitrairement complexes (comme par exemple l'_ownership_) tant
+    que cela reste prouvable. En cas d'échec de la preuve, il est possible
+    d'écrire directement les preuves en Coq.
 
-=== Mécanismes intrinsèques de protection
+    #vercors utilise un langage de spécification nommé PVL#footnote[
+      _Prototypal Verification Language_
+    ] qui ressemble un peu à celui de #framac. L'outil est en fait basé sur
+    un autre cadre logiciel appelé #viper qui permet de vérifier des programmes
+    en utilisant la logique de séparation mais également la logique de
+    permission, ce qui permet d'exprimer des propriétés d'_ownership_. #viper
+    utilise le solveur SMT #z3 pour décharger les preuves.
 
+  ],
+
+  intrinseque: [
 Le C est dispose de très peu de mécanismes de protection. Il existe un système
 de type mais qui est très rudimentaire et ne permet pas de garantir la
 sécurité mémoire. Les pointeurs peuvent être manipulés de manière très libre
@@ -342,8 +339,9 @@ temps, il est
 recommandé d'activer tous les avertissements du compilateur et de les traiter
 comme des erreurs pour assurer un maximum de vérifications.
 
-=== Tests
+  ],
 
+  tests: [
 Nous avons comparés plusieurs outils de tests pour le langage C. Parmi ceux-ci,
 se dégagent #cantata, #parasoft, #TPT et #vectorcast qui offent un support de
 test étendu pour le C. Ils fournissent également de la génération de test à des
@@ -370,10 +368,9 @@ tiers qui peuvent être utiles dans les cas d'intégrations avec des outils tier
   )
 )
 
-== Compilateurs & outils
+  ],
 
-=== Compilation
-
+  compilation: [
 
 Il existe beaucoup de compilateurs pour le langage C pour des raisons
 à la fois historiques et de compatibilité. Historique car
@@ -426,10 +423,10 @@ d'un point de vue sémantique. Le projet se concentre sur les optimisations
 vérifiées afin de produire un code conforme à la spécification du langage C
 propre à une utilisation dans les domaines critiques.
 
+  ],
 
-=== Déboggeur
-
-Comme pour les compilateurs, il existe une multitude de déboggueurs en fonction
+  debug: [
+    Comme pour les compilateurs, il existe une multitude de déboggueurs en fonction
 des systèmes d'exploitation et des architectures. Pour simplifier la lecture
 de ce document, nous le listons ici que les principaux déboggueurs connus.
 
@@ -481,8 +478,9 @@ qu'il soit donc compatible avec toutes les architectures supportées par #gcc.
 de #microsoft. Il est propriétaire et ne fonctionne que sous Windows mais
 offre un support avancé de tous les langages supportés par #visualstudio.
 
-=== Meta programmation
+  ],
 
+  metaprog: [
 Il n'y a pas, a proprement parler, de support pour la métaprogrammation en C.
 Dans la pratique cependant, le preprocesseur du C
 (CPP#footnote[C PreProcessor]) est souvent utilisé pour introduire une forme
@@ -560,10 +558,9 @@ int main()
 }
 ```
 
-=== Générateurs de code
+  ],
 
-==== _Parsing_
-
+  parsers: [
 On peut distinguer les parseurs en fonction du type de langage considéré
 - les langages réguliers
 - les langages algébriques
@@ -662,9 +659,9 @@ Autrement, la différence entre les _parsers_ de la liste réside essentiellemen
 dans le type de parser LL, LR, LALR, ... qu'ils implémentent et dans les
 fonctionnalités supplémentaires qu'ils offrent.
 
+  ],
 
-==== Dérivation
-
+  derivation: [
 Il n'y a pas réellement de support pour la dérivation en C. Comme pour la
 métaprogrammation, le préprocesseur C peut être utilisé pour dériver du code
 mais cela reste une pratique peu lisible.
@@ -720,11 +717,10 @@ sémantique d'expansion du préprocesseur mais encore une fois, cela reste une
 pratique déconseillée dans les développements industriels où la maintenabilité
 est une priorité.
 
-== Bibliothèques & COTS
+  ],
 
-=== Gestionnaire de paquets
-
-Il existe plusieurs gestionnaires de paquet pour le langage C que nous avons
+  packages: [
+    Il existe plusieurs gestionnaires de paquet pour le langage C que nous avons
 comparés en fonction de leur support des plateformes, le format de configuration
 des fonctionalités proposées et du nombre de paquets proposés.
 
@@ -752,7 +748,9 @@ versatile car les descriptions de paquets (les _recipes_) sont écrites en
 Python. #vcpkg est plus classique avec une description JSON mais plus de paquets
 disponibles.
 
-=== Communauté
+  ],
+
+  communaute: [
 
 L'histoire du langage C et son rôle central dans l'évolution de l'informatique
 font qu'il existe une très grande communauté autour du langage. Cette
@@ -763,9 +761,9 @@ contribuer aux projets existants (notamment les projets appuyés par la
 _FSF_#footnote[_Free Software Foundation_.]) et d'en proposer de nouveaux
 puisque le C reste dans les 10 langages les plus utilisés sur
 GitHub#footnote[https://www.blogdumoderateur.com/github-top-10-langages-utilises-developpeurs-2023/].
+  ],
 
-=== Assurances
-
+  assurances: [
 Aujourd'hui, le niveau d'assurance proposé par le C est très inégal. Le
 langage en lui-même est l'un de ceux qui proposent le moins de mécanisme
 de protection ou de vérification mais ce manque
@@ -780,8 +778,9 @@ et en temps d'utilisation dans un projet. Ainsi, la fiabilité d'un programme C
 va essentiellement dépendre des moyens mis en oeuvre pour l'assurer et ne
 va dépendre que peu du langage lui même.
 
-== Adhérence au système <c-bare-metal>
+  ],
 
+  adherence: [
 Bien qu'un programme C utilise généralement une interface POSIX via la `libc`
 dont il existe plusieurs implémentations, il est tout à fait possible de faire
 sans et d'utiliser le C sur un système nu. Naturellement, cela nécessite
@@ -789,8 +788,9 @@ d'écrire toutes les interfaces systèmes nécessaires mais c'est justement un
 langage fait pour ça. Il est donc particulièrement adapté pour des systèmes
 embarqués.
 
-== Interfaçage <c-abi>
+  ],
 
+  interfacage: [
 Le C étant devenu _de facto_ un langage de référence utilisé sur beaucoup de
 systèmes et avec un nombre important de bibliothèques, la pluspart des
 langages moderne proposent une FFI#footnote[_Foreign Function Interface_,
@@ -798,8 +798,13 @@ ou interface de programmation externe.] pour le C. Cela permet généralement
 d'utiliser le C dans ces langages mais également au C d'utiliser du code
 écrit dans ces langages.
 
-== Utilisation dans le critique
+  ],
 
+  critique: [
 Le C est notoirement utilisé dans tous les domaines critiques soit directement
 pour exploiter des systèmes embarqués soit indirectement comme langage cible
 pour d'autres langages (Ada, Scade, ...).
+
+  ]
+
+)

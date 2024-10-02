@@ -80,3 +80,108 @@ sweet:
     Verification and Validation
   publisher: Springer-Verlag
   url: http://www.es.mdu.se/publications/3693-
+
+ada1983:
+  type: report
+  title: ANSI/MIL-STD-1815A-1983 "reference manual for the Ada programming language"
+  publisher: ANSI
+
+ada2023:
+  type: report
+  title: ISO/CEI 8652:2023 "Information technology - Programming languages - Ada"
+  publisher: ISO/CEI
+
+polyspace:
+  type: web
+  title: Polyspace product
+  url: https://fr.mathworks.com/products/polyspace.html
+
+polyspacecwe:
+  type: web
+  title: Polyspace
+  url: https://fr.mathworks.com/help/bugfinder/cwe-common-weakness-enumeration-rules.html?searchHighlight=CWE&s_tid=srchtitle_support_results_2_CWE
+
+adaconformity:
+  type: report
+  title: ISO/CEI 18009:1999 "Information technology - Programming languages - Ada Conformity assessment of a language processor"
+  publisher: ISO/CEI
+
+meteorproject:
+  type: web
+  title: Ada and the Paris Subway
+  url: http://archive.adaic.com/projects/atwork/paris.html
+
+adaprojectsummary:
+  type: web
+  title: Who's Using Ada?
+  url: https://www2.seas.gwu.edu/~mfeldman/ada-project-summary.html#Banking_and_Financial_Systems
+
+greenhillscompiler:
+  type: web
+  title: Green Hills Optimizing Ada Compilers
+  url: https://www.ghs.com/products/ada_optimizing_compilers.html
+
+apexada:
+  type: web
+  title: Ada for Embedded Systems
+  url: https://www.ptc.com/en/products/developer-tools/apexada
+
+adaeurope:
+  type: web
+  title: Ada Europe
+  url: https://www.ada-europe.org
+
+adaic:
+  type: web
+  title: Ada Resource Association
+  url: https://www.adaic.org
+
+adafrance:
+  type: web
+  title: Ada - France
+  url: https://www.ada-france.org
+
+ada2012:
+  type: report
+  title: Ada Reference Manuel ISO/IEC 8652:2012(E)
+  url: https://www.ada-europe.org/manuals/LRM-2012.pdf
+
+adacoreblog:
+  type: web
+  title: The AdaCore Blog
+  url: https://blog.adacore.com/
+
+rapitime:
+  type: web
+  title: RapiTime
+  url: https://www.rapitasystems.com/products/rapitime
+
+aitwcet:
+  type: web
+  title: Supported targets for static WCET analysis
+  url: https://www.absint.com/ait/targets.htm
+
+aitscade:
+  type: web
+  title: Optimize your timing before writing a single line of code
+  url: https://www.absint.com/ait/scade.htm
+
+gnatstack:
+  type: web
+  title: GNATstack
+  url: https://www.adacore.com/gnatpro/toolsuite/gnatstack
+
+gnatprovecwe:
+  type: web
+  title: SPARK User's Guide -- Messages reported by Proof
+  url: https://docs.adacore.com/live/wave/spark2014/html/spark2014_ug/en/source/proof_checks_table.html
+
+aitwcetscade:
+  type: report
+  title: Combining a High-Level Design Tool for Safety-Critical Systems with a Tool for WCET Analysis on Executables
+  url: https://insu.hal.science/insu-02270107
+
+stackanalyzerscade:
+  type: web
+  title: aiT, StackAnalyzer integrated into SCADE Suite
+  url: https://www.absint.com/releases/080922.htm

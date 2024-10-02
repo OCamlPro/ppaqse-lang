@@ -53,7 +53,7 @@
 #let mpfr = link("https://www.mpfr.org", "MPFR")
 #let msvc = link("https://docs.microsoft.com/en-us/cpp/", "MSVC")
 #let novaprova = link("https://novaprova.org/", "NovaProva")
-#let ocaml = link("https://ocaml.org", "OCaml")
+#let OCaml = link("https://ocaml.org", "OCaml")
 #let opmock = link("https://opmock.com", "Opmock")
 #let otawa = link("https://www.tracesgroup.net/otawa/?page_id=361", "Otawa")
 #let parasoft = link(
@@ -167,3 +167,12 @@
 
 #let camlp5 = link("https://camlp5.github.io", "Camlp5")
 #let opam = link("https://opam.ocaml.org/", "opam")
+
+#let C = link("https://www.iso.org/standard/74528.html", "C")
+#let Cpp = link("https://isocpp.org/", "C++")
+#let Ada = link("https://www.adaic.org/", "Ada")
+#let Scade = link("https://www.ansys.com/products/systems/ansys-scade-suite", "Scade")
+#let Rust = link("https://www.rust-lang.org", "Rust")
+
+#let CNES = link("https://cnes.fr", "CNES")
+#let ocaml = OCaml

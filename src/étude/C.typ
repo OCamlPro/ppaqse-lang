@@ -15,8 +15,8 @@
     Standard Insitute_, le service de standardisation des États-Unis.] en
     1989 #cite(<c89>) puis par l'ISO#footnote[_International Organization for
     Standardization_, l'organisation internationale de standardisation.] en
-    1990 #cite(<c90>). Le standard a été à plusieurs reprises jusqu'à la dernière
-    version en 2018 #cite(<c18>).
+    1990 #cite(<c90>). Le standard a été revu à plusieurs reprises jusqu'à la
+    dernière version en 2018 #cite(<c18>).
 
     Il existe par ailleurs plusieurs référentiels de
     programmation pour garantir une certaine qualité de code. Le plus connu est le
@@ -27,18 +27,18 @@
   paradigme: [
     Le langage C est un langage de programmation essentiellement
     #paradigme[impératif]. Il est possible, dans une certaine mesure, de programmer
-    dans un style #paradigme[fonctionnel]. Par exemple, l'exemple du
-    #ref(<ex_C_length>) peut aussi s'écrire de manière récursive :
+    dans un style #paradigme[fonctionnel] comme avec le code suivant qui
+    calcule récursivement la longueur d'une liste chaînée.
 
     ```c
     int length(struct list *l)
     {
-      return (NULL == l) ? 0 : 1 + length(l->next);
+      return (nullptr == l) ? 0 : 1 + length(l->next);
     }
     ```
 
     mais cela reste limité par rapport aux langages explicitement fonctionnels.
-    Le style idiomatique est plutôt procédural à la manière de l'exemple
+    Le style idiomatique est plutôt procédural à la manière du
     #ref(<ex_C>).
 
     #figure(
@@ -46,8 +46,8 @@
       int add_value(struct state *s, int v)
       {
         int code = KO;
-        if (NULL != s) {
-          s->value += v;
+        if (nullptr != s) {
+          s->acc += v;
           code = OK;
         }
         return code;
@@ -57,17 +57,18 @@
     ) <ex_C>
 
     Dans cet exemple, on déclare une fonction `add_value` qui prend en paramètre
-    un pointeur vers une structure `struct state` et un entier `v`. Si le pointeur
-    n'est pas `NULL`, on ajoute la valeur `v` à la valeur de la structure et on
+    un pointeur vers une structure `state` et un entier `v`. Si le pointeur
+    n'est pas `nullptr`, on ajoute la valeur `v` à l'accumulateur `acc` de la
+    structure et on
     retourne `OK`. Sinon, on retourne `KO`.
 
     Le code est clairement impératif avec la séquence d'instructions, le `if` et
-    les effets de bord `s->value += v` et `code = OK`.
+    les effets de bord `s->acc += v` et `code = OK`.
 
     Sauf pour les fonctions simples et totales comme avec `length`, le code de
     retour est généralement utilisé comme un code indiquant si l'appel
-    a été fructeux ou s'il y a eu une erreur. En pratique, cela donne des appels
-    en séquence avec un style dit
+    a produit un résultat nominal ou s'il y a eu une erreur. En pratique, cela
+    donne des appels en séquence avec un style dit
     _défensif_ comme dans le #ref(<defensif_C>).
 
     #figure(
@@ -90,12 +91,13 @@
 
   runtime: [
     Nous avons comparés plusieurs analyseurs statiques permettant de
-    détecter des erreurs au _runtime_ pour le langage C. Parmi ceux-ci, nous
-    en avons les cinq qui ont la propriété d'être _corrects_ et de ne pas donner
-    de garantir l'absence d'une catégorie de _bug_ : _Astree_, _ECLAIR_, _Frama-C_,
-    _Polyspace_ et _TIS Analyser_.
+    détecter des erreurs au _runtime_. Parmi ceux-ci, nous
+    avons uniquement considéré les cinq qui ont la propriété d'être _corrects_
+    et de garantir l'absence de certaines catégories de _bug_ :
+    #astree, #eclair, #framac, #polyspace et #tisanalyser.
 
-    Comme indiqué dans la méthodologie, nous avons indiqué les erreurs détectées
+    Comme indiqué dans l'#ref(<A-static>, supplement: none), nous avons indiqué
+    les erreurs détectées
     d'après les documents publiques. Toutefois, ceux-ci ne sont pas forcément
     complets et il est possible que les outils détectent d'autres erreurs non
     mentionnées ici. Les cases cochées indiquent que l'outil détecte _au moins_
@@ -128,8 +130,13 @@
         [*Arguments variadiques*],       [],         [✓],         [✓],          [],              [],
         [*Chaînes de caractères*],       [],         [✓],         [],           [],              [],
         [*Contrôle d'API*],              [],         [✓],         [],           [✓],             [],
-      )
-    )
+      ),
+      caption: [Comparaison des analyseurs statiques pour le langage C],
+    ) <c-static>
+
+    Toutes les erreurs indiquées dans la @c-static ne sont pas forcément des
+    erreurs àç _runtime_ mais cela permet de se faire une idée des possibilités
+    de chaque outil.
 
   ],
 
@@ -144,6 +151,7 @@
     #figure(
       table(
         columns: (auto, auto, auto, auto, auto),
+        align: (center, center, center, center, left),
         [*Outil*],     [*WCET statique*], [*WCET dynamique*], [*WCET hybride*], [*Architecture cible*],
         [*Chronos*],   [✓],               [✓],               [],               [
         ],
@@ -224,7 +232,7 @@
 
     #stackanalyser est un outil commercial développé par #absint qui semble offrir
     une vue plus précise (et graphique) de l'utilisation de la pile par le
-    programme et propose des rapports orienté vers la qualification logicielle.
+    programme et propose des rapports orientés vers la qualification logicielle.
     L'outil supporte une gamme précise de couple compilateur-architecture qui,
     pour des raisons de lisibilité, n'est pas indiquée explicitement ici mais
     un lien vers page idoine de l'outil est donné. Les architectures communes
@@ -337,63 +345,73 @@ Les mécanismes de protection disponibles pour le C viennent essentiellement des
 compilateurs qui ajoutent, ou pas, des analyses complémentaires. La plupart du
 temps, il est
 recommandé d'activer tous les avertissements du compilateur et de les traiter
-comme des erreurs pour assurer un maximum de vérifications.
+comme des erreurs pour assurer un maximum de vérifications (`-Wall` sur #gcc
+par exemple).
 
   ],
 
   tests: [
 Nous avons comparés plusieurs outils de tests pour le langage C. Parmi ceux-ci,
 se dégagent #cantata, #parasoft, #TPT et #vectorcast qui offent un support de
-test étendu pour le C. Ils fournissent également de la génération de test à des
-degré divers et une bonne gestion des tests à travers diverses configurations
-et la génération de rapports nécessaires aux qualifications/certifications.
+test étendu pour le C. Ils fournissent également :
+- de la génération de test à des degrés divers ;
+- une bonne gestion des tests à travers diverses configurations ;
+- la génération de rapports nécessaires aux qualifications/certifications.
 
 #criterion, #libcester, #novaprova et #opmock tiennent plus des usuels cadres
 logiciels de tests et offrent une génération de test plus limitée. Cependant,
 ils offrent du _mocking_ ou un support pour des interfacages avec des outils
-tiers qui peuvent être utiles dans les cas d'intégrations avec des outils tiers.
+tiers qui peuvent être utiles dans les cas d'intégration.
 
 #figure(
   table(
     columns: (auto, auto, auto, auto, auto),
     [*Outil*],               [*Tests*], [*Generation*], [*Gestion*], [_*mocking*_],
-    [*#cantata*],            [UFIRC],   [+++],          [✓],         [],
-    [*#criterion*],          [UF],      [+],            [],          [],
-    [*#libcester*],          [UF],      [+],            [✓],         [✓],
-    [*#novaprova*],          [UF],      [+],            [✓],         [✓],
-    [*#opmock*],             [UF],      [++],           [],           [✓],
-    [*#parasoft*],           [UFC],    [++],            [✓],         [],
-    [*#TPT*],                [UFINC],  [+++],           [✓],         [],
-    [*#vectorcast*],         [UFC],    [++],            [✓],         [✓],
-  )
-)
+    [*#cantata*],            [UIRC],   [+++],          [✓],         [],
+    [*#criterion*],          [U],      [+],            [],          [],
+    [*#libcester*],          [U],      [+],            [✓],         [✓],
+    [*#novaprova*],          [U],      [+],            [✓],         [✓],
+    [*#opmock*],             [U],      [++],           [],           [✓],
+    [*#parasoft*],           [UC],     [++],            [✓],         [],
+    [*#TPT*],                [UINC],   [+++],           [✓],         [],
+    [*#vectorcast*],         [UC],     [++],            [✓],         [✓],
+  ),
+  caption: [Comparaison des outils de tests pour le langage C],
+) <c-test>
 
+  La #ref(<c-test>) utilise la nomenclature indiquée dans l'annexe
+  #ref(<A-tests>).
   ],
 
   compilation: [
 
-Il existe beaucoup de compilateurs pour le langage C pour des raisons
-à la fois historiques et de compatibilité. Historique car
-le langage C est né a une époque où l'_open source_ n'existait pas vraiment et
+Pour des raisons historiques, il existe beaucoup de compilateurs pour le
+C car il est né a une époque où l'_open source_ n'existait pas vraiment et
 les seules organisations capables de produire des compilateurs étaient des
 entreprises ou des grands laboratoires. Ces entreprises développaient souvent
 leur propre compilateur adapté à leur architecture ou au système qu'ils
-proposaient par ailleurs, d'où la compatibilité.
+proposaient par ailleurs.
 
 Nous ne citerons donc que les principaux compilateurs modernes qui sont les
 plus utilisés ou qui ont une caractéristique particulière qui peut les
 distinguer dans le contexte de l'embarqué critique.
 
+#let sdcc = link("http://sdcc.sourceforge.net/")[`sdcc`]
+
 #figure(
   table(
     columns: (auto, auto, auto),
     [*Compilateur*], [*Architectures*], [*Licence*],
-    [*#aocc*], [AMD x86 (32 et 64 bits)], [Gratuit],
+    [*#aocc*], [AMD x86 (32 et 64 bits)], [Propriétaire, Gratuit],
     [*#clang*], [AArch64, ARMv7, IA-32, x86-64,  ppc64le], [Apache 2.0],
-    [*#compcert*], [x86, x86_64, ARM, PowerPC, SPARC], [Gratuit pour un usage non commercial],
-    [*#gcc*], [IA-32, x86_64, ARM, PowerPC, SPARC, ...], [GPLv3+],
+    [*#compcert*], [x86, x86_64, ARM, PowerPC, SPARC], [INRIA non commercial, Gratuit pour un usage non commercial],
+    [*#gcc*], [IA-32, x86_64, ARM, PowerPC, SPARC, ...#footnote[
+      La liste exhaustive est disponible à l'adresse
+      https://gcc.gnu.org/install/specific.html.
+    ]], [GPLv3+],
     [*#icx (#intel C/C++ Compiler)*], [IA32, x86-64], [Propriétaire, Gratuit],
     [*#msvc*], [IA-32, x86_64, ARM], [Propriétaire],
+    [*#sdcc*], [microrrocesseurs#footnote[Intel MCS51, Maxims, Freescale, ... La liste est disponible sur le site du compilateur : http://sdcc.sourceforge.net/]], [~GPLv2],
   )
 )
 
@@ -405,15 +423,18 @@ des performances équivalentes.
 
 #gcc est le compilateur de référence pour le langage C depuis les années 1990.
 Il est très complet et supporte un grand nombre d'architecture dont seulement
-une petite partie est indiquée dans le tableau, une liste plus exhaustive
-peut être consultée sur la page https://gcc.gnu.org/install/specific.html.
+une petite partie est indiquée dans le tableau.
 
 #icx est le compilateur d'#intel spécifique à aux processeurs et FPGA de la
 marque. Depuis 2021, il utilise le _backend_ #llvm. Enfin, #msvc est le
 compilateur de #microsoft pour les systèmes Windows.
 
+Le compilateur #sdcc est un compilateur dédié aux
+microprocesseurs et supporte tous les standards C (même le C23 encore en
+brouillon).
+
 Le compilateur #compcert est un peu à part car il s'agit d'un compilateur
-écrit en grande partie en #coq par l'#inria et qui est formellement prouvé
+écrit en #coq et #ocaml par l'#inria et qui est formellement prouvé
 comme étant correct par rapport à la sémantique du langage C. Il offre des
 performances équivalentes à #gcc avec un niveau d'optimisation léger (-O1).
 L'utilisation commerciale est pourvue par la société #absint. L'absence
@@ -421,14 +442,14 @@ d'optimisations aggressives que l'on peut trouver dans #gcc ou #clang est due
 au fait qu'il est difficile de démontrer que ces optimisations sont correctes
 d'un point de vue sémantique. Le projet se concentre sur les optimisations
 vérifiées afin de produire un code conforme à la spécification du langage C
-propre à une utilisation dans les domaines critiques.
+propre à une utilisation dans le domaine critique.
 
   ],
 
   debug: [
-    Comme pour les compilateurs, il existe une multitude de déboggueurs en fonction
+    Comme pour les compilateurs, il existe une multitude de débugueurs en fonction
 des systèmes d'exploitation et des architectures. Pour simplifier la lecture
-de ce document, nous le listons ici que les principaux déboggueurs connus.
+de ce document, nous le listons ici que les principaux débugueurs connus.
 
 #figure(
   table(
@@ -466,15 +487,15 @@ liées à l'utilisation de la mémoire. Il est particulièrement utile pour dét
 les fuites mémoires sur les langages comme le C. Il fonctionne en compilant le
 _bytecode_ à la volée en y ajoutant de l'instrumentation.
 
-#undo est un deboggeur récent compatible avec les commandes de #gdb et proposant
+#undo est un débugueur récent compatible avec les commandes de #gdb et proposant
 une interface graphique plus moderne que #ddd. Il propose aussi une interface
 de navigation dans les historiques d'exécution en séquentiel ou parallèle en
-plus d'un déboggue mémoire. En revance, il n'est disponible que sous Linux
+plus d'un débugueur mémoire. En revance, il n'est disponible que sous Linux
 et les architectures supportées ne sont pas clairement indiquées. Il est
 probable que l'outil fonctionne par compilation à la volée du _bytecode_ et
 qu'il soit donc compatible avec toutes les architectures supportées par #gcc.
 
-#vsd est le développeur associé à la suitre de développement #visualstudio
+#vsd est le débugueur associé à la suite de développement #visualstudio
 de #microsoft. Il est propriétaire et ne fonctionne que sous Windows mais
 offre un support avancé de tous les langages supportés par #visualstudio.
 
@@ -512,14 +533,9 @@ avec les arguments passés. Dans ce cas, la fonction `main` affichera
 `Hello, world!`. Si `DEBUG` n'est pas défini, la macro `TRACE` est expansée
 en un contenu vide et la fonction `main` n'affichera rien.
 
-L'expansion des macros n'est pas récursive et ne permet donc pas de calculer des
-des valeurs arbitrairement complexes. Il est toutefois possible de jouer
-subtilement avec l'expansion des macros pour obtenir une récursion bornée
-et prégénérer des expressions constantes que le compilateur optimisera en
-les calculant à la compilation.
-
-Par exemple, on peut calculer la somme des entiers de 1 à N avec la macro
-suivante :
+Le langage de macro permet de précalculer des expressions
+constantes comme avec l'exemple suivant qui permet de calculer la somme
+des entiers de 1 à N :
 
 ```c
 #include <stdio.h>
@@ -535,8 +551,11 @@ int main()
 
 Comme elle sera expansée dans le code, le compilateur y vera une expression
 constante et la calculera à la compilation, ce qui donnera le résultat 55
-immédiatement à l'exécution. Il est même possible d'obtenir une récursion
-finie en exploitant de manière astucieuse les règles d'expansion des macros
+immédiatement à l'exécution.
+
+Bien que la récursion ne soit pas permise, il est possible d'en obtenir une
+version finie en exploitant de manière astucieuse les règles d'expansion des
+macros
 mais cela reste une pratique très avancée, peu lisible, peu maintenable et
 surtout généralement inutile puisque les fonction déclarées `inline` (et
 même parfois celles qui ne le sont pas) sont optimisées de manière similaire
@@ -567,14 +586,9 @@ On peut distinguer les parseurs en fonction du type de langage considéré
 - les grammaires booléennes déterministes
 - les langages algébriques avec des grammaires conjonctives ou booléennes
 
-#let flex = link("https://github.com/westes/flex", "Flex")
-#let quex = link("https://quex.sourceforge.io/", "Quex")
-#let re2c = link("https://re2c.org/", "Re2c")
-#let ragel = link("https://www.colm.net/open-source/ragel/", "Ragel")
-
 #figure(
   table(
-    columns: (auto, auto),
+    columns: (auto, auto, auto, auto),
     [*Nom*], [*Code*], [*Plateforme*], [*License*],
     [*#flex*], [Mixte], [Toutes], [Libre, BSD],
     [*#quex*], [Mixte], [Toutes], [Libre, LGPL],
@@ -603,36 +617,36 @@ la gestion de l'unicode.
 
 #figure(
   table(
-    columns: (auto, auto, auto, auto, auto),
-    [*Nom*],         [*Grammaire*],           [*Code*],  [*Plateforme*], [*License*],
-    [*#antlr*],      [EBNF],                  [Mixte],   [Java],         [Libre, BSD],
-    [*#byacc*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, Domaine public],
-    [*#hyacc*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
-    [*#lemon*],      [Lemon],                 [Mixte],   [Toutes],       [Libre, Domaine public],
-    [*#llgen*],      [LLgen],                 [Mixte],   [POSIX],        [Libre, BSD],
-    [*#llnextgen*],  [LLnextgen],             [Mixte],   [Toutes],       [Libre, GPL],
-    [*#yacc*],       [Yacc],                  [Mixte],   [Toutes],       [Libre, CPL & CDDL],
-    [*#treesitter*], [Javascript, DSL, JSON], [Séparé],  [Toutes],       [Libre, MIT],
-    [*#styx*],       [Styx],                  [Séparé],  [Toutes],       [Libre, LGPL],
-    [*#cocor*],      [Wirth],                 [Mixte],   [Toutes],       [Libre, GPL],
-    [*#sablecc*],    [SableCC],               [Séparé],  [Java],         [Libre, GPL],
-    [*#bison*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
-    [*#unicc*],      [EBNF],                  [Mixed],   [POSIX],        [Libre, BSD],
-    [*#kmyacc*],     [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
-    [*#apg*],        [ABNF],                  [Séparé],  [Toutes],       [Libre, BSD],
-    [*#gold*],       [EBNF],                  [Séparé],  [Toutes],       [Libre, zlib modifiée],
+    columns: (auto, auto, auto, auto, auto, auto),
+    [*Nom*],         [*Algorithme*],                          [*Grammaire*],           [*Code*],  [*Plateforme*], [*License*],
+    [*#antlr*],      [LL(k) adaptatif],                       [EBNF],                  [Mixte],   [Java],         [Libre, BSD],
+    [*#byacc*],      [LALR(1)],                               [Yacc],                  [Mixte],   [Toutes],       [Libre, Domaine public],
+    [*#hyacc*],      [LR(1), LALR(1), LR(0)],                 [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
+    [*#lemon*],      [LALR(1)],                               [Lemon],                 [Mixte],   [Toutes],       [Libre, Domaine public],
+    [*#llgen*],      [LL(1)],                                 [LLgen],                 [Mixte],   [POSIX],        [Libre, BSD],
+    [*#llnextgen*],  [LL(1)],                                 [LLnextgen],             [Mixte],   [Toutes],       [Libre, GPL],
+    [*#yacc*],       [LALR(1)],                               [Yacc],                  [Mixte],   [Toutes],       [Libre, CPL & CDDL],
+    [*#treesitter*], [LR(1), GLR],                            [Javascript, DSL, JSON], [Séparé],  [Toutes],       [Libre, MIT],
+    [*#styx*],       [LALR(1)],                               [Styx],                  [Séparé],  [Toutes],       [Libre, LGPL],
+    [*#cocor*],      [LL(1)],                                 [Wirth],                 [Mixte],   [Toutes],       [Libre, GPL],
+    [*#sablecc*],    [LALR(1)],                               [SableCC],               [Séparé],  [Java],         [Libre, GPL],
+    [*#bison*],      [LALR(1), LR(1), IELR(1), GLR],          [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
+    [*#unicc*],      [LALR(1)],                               [EBNF],                  [Mixed],   [POSIX],        [Libre, BSD],
+    [*#kmyacc*],     [LALR(1)],                               [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
+    [*#apg*],        [Récursif déscendant avec backtracking], [ABNF],                  [Séparé],  [Toutes],       [Libre, BSD],
+    [*#gold*],       [LALR(1)],                               [EBNF],                  [Séparé],  [Toutes],       [Libre, zlib modifiée],
   ),
   caption: [Parsers de langages algébriques],
 )
 
 #figure(
   table(
-    columns: (auto, auto, auto, auto, auto),
-    [*Nom*],         [*Grammaire*],           [*Code*],  [*Plateforme*], [*License*],
-    [*#dparser*],    [EBNF],                  [Mixte],   [POSIX],        [Libre, BSD],
-    [*#yaep*],       [EBNF],                  [Mixte],   [Toutes],       [Libre, LGPL],
-    [*#bison*],      [Yacc],                  [Mixte],   [Toutes],       [Libre, GPL],
-    [*#gdk*],        [Yacc],                  [Mixte],   [POSIX],        [Libre, MIT],
+    columns: (auto, auto, auto, auto, auto, auto),
+    [*Nom*],      [*Algorithme*],                 [*Grammaire*], [*Code*],  [*Plateforme*], [*License*],
+    [*#dparser*], [GLR sans scanner],             [EBNF],        [Mixte],   [POSIX],        [Libre, BSD],
+    [*#yaep*],    [Earley],                       [EBNF],        [Mixte],   [Toutes],       [Libre, LGPL],
+    [*#bison*],   [LALR(1), LR(1), IELR(1), GLR], [Yacc],        [Mixte],   [Toutes],       [Libre, GPL],
+    [*#gdk*],     [LALR(1), GLR],                 [Yacc],        [Mixte],   [POSIX],        [Libre, MIT],
   ),
   caption: [Parsers de grammaires sans contexte, conjonctives ou booléennes],
 )
@@ -640,7 +654,8 @@ la gestion de l'unicode.
 #let dsl = [DSL]
 
 Il existe beaucoup de générateurs de _parser_ pour le langage C. Ils se
-différencient essentiellement par le type de langage reconnu :
+différencient essentiellement par le type de langage reconnu : régulier,
+algébrique, avec ou sans contexte...
 L'analyse syntaxique fait l'objet de nombreuses recherches depuis les années
 1960 et elle continue encore aujourd'hui de sorte qu'il existe de nombreux
 outils de _parsing_ académiques qui vont mettre l'accent sur telle ou telle
@@ -651,12 +666,12 @@ qu'utiliser #flex/#bison ou #antlr soit plus que suffisant dans la plupart des
 cas.
 
 Notons que #treesitter est un
-parseur plutôt dédiés aux éditeurs de textes mais cela peut être intéressant
+parseur plutôt dédié aux éditeurs de textes mais cela peut être intéressant
 dans le cadre d'une définition de #dsl ou de protocole pour l'embarqué afin
-de faciliter la création d'outils dédiés.
+de faciliter la création d'outils spécifiques.
 
 Autrement, la différence entre les _parsers_ de la liste réside essentiellement
-dans le type de parser LL, LR, LALR, ... qu'ils implémentent et dans les
+dans l'algorithme utilisé (LL, LR, LALR, ...) dans les
 fonctionnalités supplémentaires qu'ils offrent.
 
   ],
@@ -695,7 +710,7 @@ ou les convertisseurs adéquats de manière à peu près automatisée :
 ```c
 char* couleur_to_string(couleurs_t couleur)
 {
-  char* resultat = NULL;
+  char* resultat = nullptr;
 #define X(label, _, str) case label: { resultat = str; break; }
   switch (couleur) {
     COULEURS
@@ -720,9 +735,15 @@ est une priorité.
   ],
 
   packages: [
-    Il existe plusieurs gestionnaires de paquet pour le langage C que nous avons
-comparés en fonction de leur support des plateformes, le format de configuration
-des fonctionalités proposées et du nombre de paquets proposés.
+    Historiquement, le C repose plutôt sur les gestionnaires de paquets fournis
+    par le système d'exploitation (`apt` pour Debian par exemple). Cependant,
+    le besoin de créer des environnements isolés pour les projets a poussé à
+    la création de gestionnaires de paquets spécifiques dans beaucoup de
+    langages (`cabal` pour Hashell, `pip` pour Python, ...). Des gestionnaires
+    de paquets pour le C ont donc été également créés pour répondre à ce besoin.
+
+    La plupart des gestionnaires de paquets proposent peu ou prou les mêmes
+    fonctionnalités que l'on peut retrouver dans la #ref(<c-pkgs>).
 
 #figure(
   table(
@@ -733,8 +754,9 @@ des fonctionalités proposées et du nombre de paquets proposés.
     [*Résolution des dépendances*], [⨉],       [✓],       [✓],
     [*Cache binaire*],              [⨉],       [✓],       [✓],
     [*Nombre de paquets*],          [~350],    [~1750],    [~2500],
-  )
-)
+  ),
+  caption: [Gestionnaires de paquets C],
+) <c-pkgs>
 
 #clib propose une gestion de paquet très rudimentaire qui consiste à simplement
 intégrer les sources d'un paquet dans les sources du projet. Cela peut être
@@ -747,6 +769,12 @@ des outils matures et maintenus. #conan est plus simple d'utilisation et plus
 versatile car les descriptions de paquets (les _recipes_) sont écrites en
 Python. #vcpkg est plus classique avec une description JSON mais plus de paquets
 disponibles.
+
+Notons qu'il est aussi possible d'utiliser des gestionnaires de paquets
+agnostiques comme #nix. Ce denier dispose de toute les fonctionnalités qu'on
+peut attendre d'un gestionnaire de paquet moderne mais il est plus complexe
+à utiliser et nécessite une certaine connaissance de l'outil pour être
+efficace.
 
   ],
 
@@ -775,8 +803,8 @@ n'en dispose que très peu.
 
 Toutefois, l'utilisation d'outils tiers à un coût en licences, en formation
 et en temps d'utilisation dans un projet. Ainsi, la fiabilité d'un programme C
-va essentiellement dépendre des moyens mis en oeuvre pour l'assurer et ne
-va dépendre que peu du langage lui même.
+va essentiellement dépendre des moyens mis en oeuvre pour l'assurer et peu du
+langage lui même.
 
   ],
 
@@ -791,13 +819,11 @@ embarqués.
   ],
 
   interfacage: [
-Le C étant devenu _de facto_ un langage de référence utilisé sur beaucoup de
-systèmes et avec un nombre important de bibliothèques, la pluspart des
-langages moderne proposent une FFI#footnote[_Foreign Function Interface_,
-ou interface de programmation externe.] pour le C. Cela permet généralement
-d'utiliser le C dans ces langages mais également au C d'utiliser du code
-écrit dans ces langages.
-
+    Le C étant devenu _de facto_ un langage de référence utilisé sur beaucoup de
+    systèmes et avec un nombre important de bibliothèques, la pluspart des
+    langages moderne proposent une FFI#footnote[_Foreign Function Interface_,
+    ou interface de programmation externe.] pour le C. Cela permet d'exporter du
+    C dans ces langages mais également au C de les utiliser.
   ],
 
   critique: [

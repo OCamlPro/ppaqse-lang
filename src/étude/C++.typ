@@ -1,7 +1,10 @@
 #import "defs.typ": *
 #import "links.typ": *
 
-= C++
+#language(
+  name: "C++",
+
+  introduction: [
 
 Le C++ est une extension du langage C créée par Bjarne Stroustrup en 1979. Il
 ajoute au C les concepts de la programmation orientée objet et la
@@ -15,19 +18,17 @@ Comme pour le C, il existe des référentiels de programmation pour garantir
 une certaine qualité de code. Le plus connu est le
 référentiel MISRA-C++ #cite(<misra_cpp>).
 
+  ],
 
-== Paradigme
-
+  paradigme: [
 Le C++ est un langage de programmation #paradigme[objet] et
 #paradigme[impératif]. Toutefois, l'un des éléments ayant particulièrement
 contribué au succès du C++ est l'introduction des _templates_ qui offrent une
 forme de (meta)programmation générique.
 
-== Modélisation & vérification
+],
 
-=== Analyse statique
-
-==== _Runtime Errors_
+  runtime: [
 
 Les analyseurs statiques cités pour le C sont indiqués comme
 fonctionnant également pour le C++ mais avec un niveau de support obscur.
@@ -36,22 +37,26 @@ support balbutiant (via un _plugin_ utilisant #clang pour traduire la partie
 C++ en une représentation plus simple).
 
 Les autres outils ne donnent pas explicitement leur niveau de support du C++.
+  ],
 
-==== WCET
+
+  wcet: [
 
 Les outils de calcul du WCET cités pour le C fonctionnent également pour le C++.
-#otawa fournit notamment un cadre logiciel en C++ à intégrer pour améliorer
-l'analyse avec des éléments dynamiques.
+#otawa fournit notamment un cadre logiciel en C++ qui, intégré au développement,
+améliore l'analyse avec des données dynamiques.
 
-==== Pile
+  ],
+
+  pile: [
 
 Les outils d'analyse statique de pile cités pour le C fonctionnent également
 pour le C++ (tant qu'il existe un compilateur C++ pour l'architecture cible)
 puisqu'ils se basent sur une analyse du fichier binaire et non
 du code source.
+  ],
 
-==== Qualité numérique
-
+  numerique: [
 Comme pour le C, #astree et #polyspace détectent statiquement
 les erreurs à _runtime_. #cadna est aussi utilisable pour des une
 analyse dynamique mais #fluctuat et #gappa ne sont pas utilisable directement
@@ -66,7 +71,7 @@ sur du C++.
 
 #xsc (eXtended Scientific Computing) est une bibliothèque de calcul
 numérique qui réimplémente les calculs sur les flottants avec une précision
-arbitraire. Cette implémentation donne des résultats potentiellement précis (
+arbitraire. Cette implémentation donne des résultats arbitrairement précis (
 en fonction de la précision choisie) mais est assez lente.
 
 #mpfr a plusieurs implémentations en C++. Les plus maintenues et à jour
@@ -76,16 +81,19 @@ de la variable cible. #boost_multiprecision utilise une précision explicite
 avec différentes implémentations suivant les classes choisies (pur C++,
 basée sur #gmp, basée sur #gmp et #mpfr).
 
-=== Meta formalisation
+  ],
+
+  formel: [
 
 #let brick = link("https://github.com/bedrocksystems/BRiCk", "BRiCk")
 La seule meta formalisation du C++ connue est #brick qui traduit essentiellement
 le langage C++ vers #coq pour ensuite bénéficier du cadre logiciel #iris. Le but
 est de pouvoir démonter des propriétés sur des programmes C++ concurrents.
 
-=== Mécanismes intrinsèques de protection
+  ],
 
-Le C++ offre un peu plus de garanties intrinsèques que le C à travers trois
+  intrinseque: [
+Le C++ offre plus de garanties intrinsèques que le C à travers trois
 mécanismes :
 - la programmation objet;
 - les exceptions;
@@ -150,7 +158,7 @@ identification (la méthode `show`) et un son
 identifiant à l'objet via la méthode `fresh`. `fresh` est déclarée `private` et
 ne peut donc être utilisée que par l'interface `Animal`. La méthode `noise`
 est définie par les sous-classes mais elle reste ici `protected` de sorte
-qu'elle ne peut pas être appelée de manière externe à l'objet ou au classes
+qu'elle ne peut pas être appelée de manière externe à l'objet ou les classes
 dérivées. La classe `Cat` redéfinit la methode `show` qui permet d'identifier
 l'animal en y ajoutant son identifiant auquel il a le droit d'accéder que grâce
 à la méthode `id` déclarée `protected` (le champs `_id` est privé).
@@ -163,14 +171,14 @@ même si ceux-ci ne sont pas explicitement formalisés.
 
 Les exceptions offrent un moyen de gérer les erreurs qui, en toute théorie, est
 plus robuste que les codes de retour et la programmation défensive utilisée
-en C. En effet, dans celle-ci, il est facile de rater ou de mal interpréter un
+en C. Dans cette dernière, il est facile de rater ou de mal interpréter un
 code de retour et obtenir un programme
-qui arrive à un état incohérent de manière silencieuse, de sorte qu'il est
-difficiles de déméler la situation. Avec le mécanisme d'exceptions, il est
+qui arrive dans état incohérent de manière silencieuse de sorte qu'il est
+difficile de déméler la situation. Avec le mécanisme d'exceptions, il est
 commun de lancer une exception en cas d'erreur. Celle-ci peut être rattrappée
 à n'importe quel moment dans le flôt de contrôle appellant et, en cas de doute,
 il est possible d'attrapper toutes les exceptions de sorte qu'aucune erreur
-levée ainsi ne peut s'échapper et conduire à une erreur à l'exécution.
+levée ne peut s'échapper et conduire à une erreur à l'exécution.
 
 Enfin, le mécanisme des _templates_ et de spécialisation permet d'expliciter
 les contraintes de typage de sorte qu'il est possible de renforcer
@@ -183,14 +191,21 @@ le langage de _template_ est Turing complet et que les _templates_ sont
 Tous ces mécanismes permettent, en théorie, de renforcer la qualité et la
 fiabilité d'un programme C++. En pratique cependant, la multiplicité des
 concepts et la sémantique complexe du langage font que tous
-ces mécanismes sont difficiles à bien maîtriser et souvent mal utilisés. Or,
+ces mécanismes sont difficiles à bien maîtriser. Or,
 mal utilisés, ces mécanismes ont un effet inverse en fragilisant la fiabilité
-du code produit. En conséquence, les normes C++ en matière de logiciel critique
-sont très strictes et demandent d'utiliser un sous-ensemble du C++ qui exclut
-jusqu'aux traits caractérisiques du langage (programmation objet, exceptions et
-_templates_) de sorte que ce sous ensemble ressemble plus à du C qu'à du C++.
+du code produit. Par ailleurs, même bien utilisés, la multiplication des
+abstractions pend les programmes C++ peu lisibles et posent souvent des
+problèmes de maintenabilité.
 
-=== Tests
+En conséquence, les normes C++ en matière de logiciel critique
+(comme le MISRAC++#cite(<misra_cpp>))
+sont très strictes et demandent de bien vérifier que l'usage des
+fonctionnalités du C++ sont utilisées de manière à laisser le moins de doutes
+possibles. En conséquence et comme pour le C, la fiabilité des programmes C++
+va en partie dépendre de l'utilisation d'outils tiers.
+  ],
+
+  tests: [
 
 #let boost_test = link(
   "https://www.boost.org/doc/libs/1_85_0/libs/test/doc/html/index.html",
@@ -201,7 +216,7 @@ _templates_) de sorte que ce sous ensemble ressemble plus à du C qu'à du C++.
 Certains des outils cités pour le C fonctionnent également pour le C++. C'est
 le cas pour #cantata ou #parasoft par exemple. D'autres outils ou bibliothèques
 ont été conçus spécifiquement pour le C++. La plus connue des bibliothèques C++,
-#boost, propose également une partie facilitant l'écriture de tests. De base,
+#boost, propose également une bibliothèque facilitant l'écriture de tests. De base,
 elle définit sensiblement les mêmes macros que beaucoup de bibilothèques
 similaires mais avec quelques options de générations intéressantes sur
 les rapports de test ou les possibilités de _fuzzing_. Le _mocking_ est
@@ -221,7 +236,8 @@ très complet et utilisé pour de gros projets. Il permet de découvrir les
 tests automatiquement, de les exécuter et de générer des rapports de tests
 détaillés dans des formats personnalisables. Il est aussi extensible au fil
 des besoins de l'utilisateur. #safetynet permet également de générer les tests
-automatiquement à partir de classes décrivant les tests et à l'aide un script
+automatiquement à partir de classes décrivant les tests et à l'aide d'un
+script
 Ruby. L'outil semble cependant moins mature et complet que #gtest.
 
 #let mockpp = link("https://mockpp.sourceforge.net/index-en.html", "Mockpp")
@@ -238,7 +254,7 @@ comportements de fonctions ou de classes à la manière de #opmock.
 #testwell_ctc est un outil commercial qui, comme #cantata, #parasoft ou
 #vectorcast que nous
 avons déjà présenté dans la partie C, couvre différents types de tests
-(unitaires, converture) et est adapté aux usages de l'embarqué critique.
+(unitaires, couverture) et est adapté aux usages de l'embarqué critique.
 
 #figure(
   table(
@@ -259,11 +275,9 @@ avons déjà présenté dans la partie C, couvre différents types de tests
     [*#vectorcast*],         [UC],      [++],           [✓],         [✓],
   )
 )
+  ],
 
-== Compilateurs & outils
-
-=== Compilation
-
+  compilation: [
 #let cppbuilder = link(
   "https://www.embarcadero.com/products/cbuilder",
   "C++ Builder"
@@ -310,12 +324,13 @@ ne s'occupent que de traduire le C++ en C (comme #edgcpp). Tous les compilateurs
 ne sont pas listés ici car beaucoup d'entre eux ne sont plus maintenus ou sont
 _a priori_ moins pertinents pour des projets critiques.
 
-=== Débuggeur
+  ],
 
+  debug: [
 Les mêmes débuggeurs que pour le C sont utilisables pour le C++.
+  ],
 
-=== Meta programmation
-
+  metaprog: [
 La méta programmation est un des aspects mis en avant dans le C++ à travers
 l'utilisation des _templates_ et de la spécialisation qui peuvent être vus
 comme un langage de macro de haut niveau. Celui-ci est suffisamment expressif
@@ -347,7 +362,7 @@ entier `N`. Dans cette structure, on définit un type énuméré n'ayant qu'une
 seule valeur `Value` à laquelle on attribue la valeur correspondant à
 l'expression `N * Fact<N - 1>::Value`. Le compilateur en prend note mais ne
 calcule rien car les _templates_ sont instanciés à l'usage. On définit également
-une spécialisation _template_ `Face` pour le cas où `N` vaut 0. Dans ce cas,
+une spécialisation _template_ `Fact` pour le cas où `N` vaut 0. Dans ce cas,
 la valeur de `Value` est 1. Lorsque vient le moment d'instancier ce
 _template_ avec la définition de la valeur `x` associée à `Fact<4>::Value`, le
 compileur va dérouler la définition en utilisant le _template_ paramétré par
@@ -357,7 +372,8 @@ dérouler `4 * (3 * Fact<2>::Value)` puis `4 * (3 * (2 * Fact<1>::Value))` puis
 la spécialisation `Fact<0>` qui est utilisée et donc `Fact<0>::Value = 1`. Cela
 donne au final l'expression `4 * (3 * (2 * 1))`. Le compilateur sait simplifier
 ce type d'expression statiquement et va la remplacer de lui même par 24 à la
-compilation et, à l'exécution, aucun calcul ne sera nécessaire pour calculer
+compilation de sorte qu'à l'exécution aucun calcul ne sera nécessaire pour
+calculer
 la valeur de `x`.
 
 Cette technique est un peu utilisée dans la bibliothèque standard mais est
@@ -372,22 +388,18 @@ plusieurs inconvénients :
   d'instanciation et les messages d'erreurs sont souvent incompréhensibles pour
   la plupart des développeurs.
 
-La métaprogrammation en C++ s'accompagne donc un surcoût en ressources en temps
-ou en puissance de calcul avec un risque d'augmentation de la dette technique
-significatif.
+La métaprogrammation en C++ s'accompagne donc un surcoût en temps
+ou en puissance de calcul avec un risque significatif d'augmentation de la
+dette technique.
+  ],
 
-=== Générateurs de code
-
-==== _Parsing_
+  parsers: [
 
 Les outils de _parsing_ cités pour le C fonctionnent également pour le C++
-moyennant éventuellement une _glue_ C pour faire le lien entre le code C
-engendré et le code C++ a appeler.
-
-En plus de ces outils, il existe d'autres outils de _parsing_ ciblant le C++.
+mais il en existe d'autres ciblant ce dernier.
 Si l'on passe les outils non maintenus, insuffisamment documentés ou trop jeunes
 pour être utilisés en production, on peut citer au titre des _lexers_ les
-outils de la figure \ref(<cpp-lexers>).
+outils de la @cpp-lexers.
 
 // lexers
 #let astir = link("https://lexected.github.io/astir/#/?id=about", "Astir")
@@ -436,29 +448,28 @@ outils de la figure \ref(<cpp-lexers>).
 Au niveaux des _parsers_ plus généraux, beaucoup sont dynamiques : ils se
 présentent sous la forme de bibliothèques dont l'API permet de décrire un
 langage (et la manière de le parser) à l'exécution. Cette dynamicité peut être
-un atout pour définir des grammaires évolutives mais dans la plupart des cas
+un atout pour définir des grammaires évolutives mais dans la
 pratiques, les _parsers_ à émission de code sont plus adaptés. Il y a toutefois
 des exceptions avec les bibliothèques utilisant la méta-programmation (comme
 #spirit ou #pegtl) pour engendrer le gros du _parsing_ à la compilation.
 
-Autrement, les _parsers_ cités pour le C fonctionnent généralement pour le C++
-et les classiques #bison et #antlr fonctionneront pour la plupart des besoins.
+Les _parsers_ cités pour le C fonctionnent pour le C++
+et les classiques #bison et #antlr sont bien suffisants dans la plupart des
+cas.
+  ],
 
-
-==== Dérivation
+  derivation: [
 
 La dérivation de code en C++ repose sur la méta-programmation autorisée par
 les _templates_ et la spécialisation. Cependant, comme le langage n'est pas
 réflexif, on ne peut pas dériver directement du code à partir des définitions.
 Toutefois, le système des _traits_ (des _templates_ dirigés sur les propriétés
 sur les types) permet de construire des dérivations par spécialisation.
+  ],
 
-== Bibliothèques & COTS
-
-=== Gestionnaire de paquets
-
-En plus de #conan et #vcpkg qui supportent les paquets écrits en C++, il
-il a également #buckaroo qui est dédié au C++.
+  packages: [
+En plus des gestionnaires de paquets #conan et #vcpkg qui supportent les
+paquets écrits en C++, il y a également #buckaroo qui est dédié au C++.
 
 #figure(
   table(
@@ -472,15 +483,19 @@ il a également #buckaroo qui est dédié au C++.
   )
 )
 
-=== Communauté
+  ],
+
+  communaute: [
 
 Le C++ est un des langages les plus populaires et les plus utilisés depuis plus
-de 20 ans et ce, dans tous les domaines de l'informatique. Toutefois, comme
-la plupart de ses qualités intrinsèques ou méthodologiques ont été intégrées
-nativement dans le langage Rust avec lequel il est en concurrence directe, il
-est probable que sa popularité décroisse en faveur de ce dernier avec le temps.
+de 20 ans et ce, dans tous les domaines de l'informatique. Toutefois, le
+langage est maintenant en concurrence directe avec Rust qui intègre la plupart
+de ses
+qualités intrinsèques ou méthodologiques. Il est donc probable qu'une partie
+de la communauté C++ se déplace vers la communauté Rust avec le temps.
+  ],
 
-=== Assurances
+  assurances: [
 
 Comme pour le C, le cas du C++ est paradoxal. En effet, le langage porte en
 lui-même des éléments permettant d'assurer des contraintes très fortes de
@@ -488,26 +503,27 @@ typage ou certains invariants à l'aide des _templates_ et les spécificateurs
 d'accès. Toutefois, l'ensemble est si complexe à maîtriser qu'il peut induire
 des surcoûts dans toutes les étapes du cycle de vie du logiciel :
 - au développement : une équipe hétérogène d'ingénieur peut mettre plus de temps
-  à concevoir et débugger le logiciel et une équipe de spécialistes pour
-  diminuer le temps de développement coutera plus cher.
-- à la vérification : la vérification du C++ est plus complexe que celle du C.
+  à concevoir et débugger le logiciel tandis qu'une équipe de spécialistes
+  diminuera le temps de développement mais coutera plus cher.
+- à la vérification : la vérification du C++ est plus complexe que celle du C et
+  toutes les constructions C++ ne sont pas supportées par les outils de
+  vérification.
 - à la maintenance : le code étant plus complexe, il est plus difficile à
   maintenir et à faire évoluer.
 
 En conséquence, lorsque le C++ est utilisé dans des domaines ou l'un de ces
-critèques est déterminant, il est utilisé sans les éléments compexes qui en
-donne tout l'attrait (les _templates_,
-la programmation objet, les exceptions, ...) de sorte que sous-langage obtenu
-est très proche du C sinon le C lui-même et la même assurance s'applique.
+critèques est déterminant, il est nécessaire d'utiliser conjointement un outil
+de vérification de règles de codage pour s'assurer des bonnes pratiques (en plus
+d'une batterie de test importante).
+  ],
 
-
-== Adhérence au système
-
+  adherence: [
 Comme pour le C, le C++ peut fonctionner sur un système nu et sans bibliothèque
 standard.
 
-== Interfaçage
+  ],
 
+  interfacage: [
 Le C++ peut utiliser du C nativement. Pour utiliser du C++ en C, il suffit
 d'indiquer que les fonctions à exporter sont `extern "C"` de sorte que le
 compilateur en donne une version compatible avec le C.
@@ -515,7 +531,9 @@ compilateur en donne une version compatible avec le C.
 Dès lors que l'interopérabilité avec le C est complète, celle-ci, par
 transitivité, l'est aussi avec tout langage s'interfaçant avec le C,
 c'est-à-dire la plupart des langages.
+  ],
 
-== Utilisation dans le critique
-
+  critique: [
 Comme le C, le C++ est utilisé dans tous les domaines critiques.
+  ]
+)

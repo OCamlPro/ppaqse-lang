@@ -18,7 +18,7 @@
   name:str,
   introduction:content,
   paradigme:content,
-  model_intro:content,
+  model_intro:[],
   runtime:content,
   wcet:content,
   pile:content,
@@ -40,71 +40,29 @@
 ) = [
 = #name
 
+== Description
+
 #introduction
 
-== Paradigme
+=== Paradigme
 
 #paradigme
-
-== Modélisation & vérification
-
-#model_intro
-
-=== Analyse statique
-
-==== _Runtime Errors_
-
-#runtime
-
-==== WCET
-
-#wcet
-
-==== Pile
-
-#pile
-
-==== Qualité numérique
-
-#numerique
-
-=== Meta formalisation
-
-#formel
 
 === Mécanismes intrinsèques de protection
 
 #intrinseque
 
-=== Tests
+=== Adhérence au système
 
-#tests
+#adherence
 
-== Compilateurs & outils
+=== Interfaçage
 
-=== Compilation
+#interfacage
+
+=== Compilateurs
 
 #compilation
-
-=== Débuggeur
-
-#debug
-
-=== Meta programmation
-
-#metaprog
-
-=== Générateurs de code
-
-==== _Parsing_
-
-#parsers
-
-==== Dérivation
-
-#derivation
-
-== Bibliothèques & COTS
 
 === Gestionnaire de paquets
 
@@ -114,19 +72,59 @@
 
 #communaute
 
+
+
+== Outillage
+
+=== Débugueurs
+
+#debug
+
+=== Tests
+
+#tests
+
+=== Parsing
+
+#parsers
+
+=== Meta programmation
+
+#metaprog
+
+=== Dérivation
+
+#derivation
+
+== Analyse & fiabilité
+
+#model_intro
+
+=== Analyse statique
+
+#runtime
+
+=== Meta formalisation
+
+#formel
+
+=== WCET
+
+#wcet
+
+=== Pile
+
+#pile
+
+=== Qualité numérique
+
+#numerique
+
 === Assurances
 
 #assurances
 
-== Adhérence au système
-
-#adherence
-
-== Interfaçage
-
-#interfacage
-
-== Utilisation dans le critique
+=== Utilisation dans le critique
 
 #critique
 

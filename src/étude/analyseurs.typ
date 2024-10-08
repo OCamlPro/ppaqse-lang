@@ -1,7 +1,7 @@
 #import "defs.typ": *
 #import "links.typ": *
 
-= Analyseurs statiques
+= Analyseurs statiques <A-static>
 
 == Généralités
 

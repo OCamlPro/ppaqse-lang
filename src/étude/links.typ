@@ -43,7 +43,7 @@
 )
 #let intel = link("https://www.intel.com", "Intel")
 #let iris = link("https://iris-project.org/", "Iris")
-#let isabelle = link("https://isabelle.in.tum.de", "Isabelle")
+#let isabelle = link("https://isabelle.in.tum.de", "Isabelle/HOL")
 #let lean = link("https://lean-lang.org", "Lean")
 #let libcester = link(
   "https://exoticlibraries.github.io/libcester/index.html",
@@ -65,7 +65,7 @@
 }
 #let pvs = link("https://pvs.csl.sri.com", "PVS")
 #let rapidtime = {
-  link("https://www.rapitasystems.com/products/rapidtime", "RapidTime")
+  link("https://www.rapitasystems.com/products/rapitime", "RapiTime")
 }
 #let redefinedc = link("https://gitlab.mpi-sws.org/iris/refinedc", "RefinedC")
 #let stackanalyser = {
@@ -142,7 +142,7 @@
 #let vcpkg = link("https://vcpkg.io/en/", "vcpkg")
 
 #let janestreet = link("https://janestreet.com", "Jane Street")
-#let cameleer = link("https://github.com/ocaml-gospel/cameleer")
+#let cameleer = link("https://github.com/ocaml-gospel/cameleer", "Cameleer")
 
 #let alcotest = link("https://github.com/mirage/alcotest", "Alcotest")
 #let ounit = link("https://github.com/gildor478/ounit", "OUnit")
@@ -160,6 +160,11 @@
   "ppx_expect",
 )
 
+#let crates_io = link("https://crates.io")[`crates.io`]
+#let lib_rs = link("https://lib.rs")[`lib.rs`]
+
+
+
 #let dypgen = link("http://dypgen.free.fr/index.html", "Dypgen")
 #let sedlex = link("https://github.com/ocaml-community/sedlex", "sedlex")
 #let ulex = link("https://github.com/ocaml-community/ulex", "ulex")
@@ -171,8 +176,32 @@
 #let C = link("https://www.iso.org/standard/74528.html", "C")
 #let Cpp = link("https://isocpp.org/", "C++")
 #let Ada = link("https://www.adaic.org/", "Ada")
-#let Scade = link("https://www.ansys.com/products/systems/ansys-scade-suite", "Scade")
+#let Scade = link("https://www.ansys.com/products/systems/ansys-scade-suite", "SCADE")
 #let Rust = link("https://www.rust-lang.org", "Rust")
 
 #let CNES = link("https://cnes.fr", "CNES")
 #let ocaml = OCaml
+#let nix = link("https://nixos.org/#", "Nix")
+
+
+#let flex = link("https://github.com/westes/flex", "Flex")
+#let quex = link("https://quex.sourceforge.io/", "Quex")
+#let re2c = link("https://re2c.org/", "Re2c")
+#let ragel = link("https://www.colm.net/open-source/ragel/", "Ragel")
+#let eclair = link("https://www.bugseng.com/eclair", "ECLAIR")
+
+#let tisanalyser = link(
+  "https://www.trust-in-soft.com/trustinsoft-analyzer",
+  "TrustInSoft Analyzer"
+)
+
+#let gnat = link("https://www.gnu.org/software/gnat/", "GNAT")
+
+#let codepeer = link(
+  "https://www.adacore.com/static-analysis-suite/defects-and-vulnerability",
+  "CodePeer"
+)
+
+#let spark = link("https://www.adacore.com/about-spark", "SPARK")
+
+#let cvc4 = link("https://cvc4.github.io/", "CVC4")

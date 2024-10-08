@@ -1,7 +1,7 @@
 #import "defs.typ": *
 #import "links.typ": *
 
-= Test
+= Test <A-tests>
 
 Il y a plusieurs type d'outils pour tester un programme que l'on peut diviser
 en trois catégories qui ne sont pas forcément exclusives:

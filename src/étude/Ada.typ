@@ -5,7 +5,7 @@
   name: "Ada",
 
   introduction: [
-    Le langage Ada est crée à la fin des années 70 au sein de l'équipe
+    Le langage Ada a été créé à la fin des années 70 au sein de l'équipe
     CII-Honeywell Bull
     dirigé par Jean Ichbiah en réponse à un cahier des charges du
     département de la
@@ -84,7 +84,7 @@
       l'utilisateur.
 
       Cela ne signifie pas qu'il ne peut pas y avoir de débordement car les
-      contrôles sont faits à des points particulier du programme et un
+      contrôles sont faits à des points particuliers du programme et un
       débordement peut se produire dans un calcul intermédiaire entre deux
       points de contrôle. Toutefois, l'hygiène du langage permet de réduire
       significativement les erreurs de calculs.
@@ -93,8 +93,8 @@
       passer par #spark qui permet de garantir statiquement des propriétés sur
       les calculs effectués.
 
-      Enfin, il existe aussi des implémentations #mpfr et #gmp pour #Ada pour
-      calculs dynamiques.
+      Enfin, il existe aussi des implémentations #Ada pour #mpfr et #gmp afin
+      de réaliser des calculs dynamiques.
   ],
 
   assurances: [
@@ -189,7 +189,7 @@
     de type et d'un système de sous-typage.
 
     Il est possible de construire un nouveau type à partir d'un autre type via
-    la syntaxe `type New_type is new Old_type`. Par exemple le programme
+    la syntaxe `type New_type is new Old_type`. Par exemple, le programme
     suivant:
 
     ```ada
@@ -219,7 +219,7 @@
 
     *Contrats*
 
-    Depuis la norme Ada 2012, il est possible d'ajouiter explicitement des
+    Depuis la norme Ada 2012, il est possible d'ajouter explicitement des
     _contrats_ sous forme de préconditions, postconditions et d'invariants.
     Par exemple la fonction suivante implémente la racine carrée entière
     qui n'est définie que pour les entiers positifs.
@@ -270,13 +270,7 @@
           Upper : Integer;
         end record;
     end Intervals;
-    ```
-    La fonction `Check`, dont l'implémentation n'est pas exposée dans
-    l'interface,
-    s'assure que le seul intervalle vide est l'intervalle `[0, -1]`. Une
-    implémentation de cette interface pourrait être:
 
-    ```ada
     package body Intervals is
       function Make (L : Integer; U : Integer) return Interval is
         (if U < L then (0, -1) else (L, U));
@@ -294,6 +288,9 @@
         (I.Lower <= I.Upper or (I.Lower = 0 and I.Upper = -1));
     end Intervals;
     ```
+    La fonction `Check`, dont l'implémentation n'est pas exposée dans
+    l'interface,
+    s'assure que le seul intervalle vide est l'intervalle `[0, -1]`.
 
     *Concurrence*
 
@@ -304,58 +301,61 @@
     ainsi
     être exécutée via un thread système ou un noyau dédié. Il est également
     possible de donner des propriétés aux tâches et de les synchroniser
-    comme avec l'exemple du @ada-concurrence.
+    comme avec l'exemple du @ada-concurrence. Dans cet exemple, la procédure
+    `Hello_World` crée deux tâches `T1` et `T2` qui décrémentent un compteur
+    partagé `Counter` jusqu'à ce qu'il atteigne 1.
 
 #figure(
-    ```ada
-    with Ada.Text_IO; Use Ada.Text_IO;
+  placement: none,
+  ```ada
+  with Ada.Text_IO; Use Ada.Text_IO;
 
-    procedure Hello_World is
-      protected Counter is
-        procedure Decr(X : out Integer);
-        function Get return Integer;
-      private
-        Local : Integer := 20;
-      end Counter;
+  procedure Hello_World is
+    protected Counter is
+      procedure Decr(X : out Integer);
+      function Get return Integer;
+    private
+      Local : Integer := 20;
+    end Counter;
 
-      protected body Counter is
-        procedure Decr(X : out Integer) is begin
-          X := Local;
-          Local := Local - 1;
-        end Decr;
+    protected body Counter is
+      procedure Decr(X : out Integer) is begin
+        X := Local;
+        Local := Local - 1;
+      end Decr;
 
-        function Get return Integer is begin
-          return Local;
-        end Get;
-      end Counter;
+      function Get return Integer is begin
+        return Local;
+      end Get;
+    end Counter;
 
-      task T1;
-      task T2;
+    task T1;
+    task T2;
 
-      task body T1 is
-        X : Integer;
-      begin
-        loop
-          Counter.Decr(X);
-          Put_Line ("Task 1: " & Integer'Image (X));
-          exit when Counter.Get <= 1;
-        end loop;
-      end T1;
-
-      task body T2 is
-        X : Integer;
-      begin
-        loop
-          Counter.Decr(X);
-          Put_Line ("Task 2: " & Integer'Image (X));
-          exit when Counter.Get <= 1;
-        end loop;
-      end T2;
+    task body T1 is
+      X : Integer;
     begin
-      null;
-    end Hello_World;
-    ```,
-    caption: "Exemple de programmation concurrentielle en Ada",
+      loop
+        Counter.Decr(X);
+        Put_Line ("Task 1: " & Integer'Image (X));
+        exit when Counter.Get <= 1;
+      end loop;
+    end T1;
+
+    task body T2 is
+      X : Integer;
+    begin
+      loop
+        Counter.Decr(X);
+        Put_Line ("Task 2: " & Integer'Image (X));
+        exit when Counter.Get <= 1;
+      end loop;
+    end T2;
+  begin
+    null;
+  end Hello_World;
+  ```,
+  caption: "Exemple de programmation concurrentielle en Ada",
 ) <ada-concurrence>
 
     *Temps réel*
@@ -549,7 +549,8 @@
       promeut l'utilisation d'Ada dans l'industrie #cite(<adaic>).
     - *Ada - France* est une association loi 1901 regroupant des utilisateurs
       francophones d'#Ada #cite(<adafrance>).
-    - _The AdaCore blog_ est un blog d'actualité autour du langage Ada maintenu par l'entreprise _AdaCore_ #cite(<adacoreblog>).
+    - *The AdaCore blog* est un blog d'actualité autour du langage Ada maintenu
+      par l'entreprise AdaCore#cite(<adacoreblog>).
 
   ],
 
@@ -575,7 +576,7 @@
     - _PTC_ distribue un _runtime_ pour _PTC ObjectAda_ pour VxWorks et LynxOS sur PowerPC.
     - _PTC ApexAda_ propose également un _runtime_ dans un contexte _bare metal_ pour l'architecture Intel X86-64 #cite(<apexada>).
 
-    Notons enfin qu'une des force du langage est qu'en proposant dans sa norme
+    Notons enfin qu'une des forces du langage est qu'en proposant dans sa norme
     une
     API pour la programmation concurrentielle et temps-réel, il permet de
     cibler

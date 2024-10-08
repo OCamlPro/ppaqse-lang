@@ -61,18 +61,19 @@ dramatique, avec le temps. La dette technique est évaluée par rapport à :
   coûtent naturellement plus cher sur le marché du travail.
 
 Comme il n'existe pas à notre connaissance de métriques sur des développements
-comparables, il est difficile de donner une vue complètement objective d'une
-comparaison entre les langages selon les critères ci-dessus. A titre
+comparables, il est difficile de donner une vue complètement objective
+de la comparaison entre les langages selon les critères ci-dessus. A titre
 informatif, nous pouvons cependant donner le résultat d'une étude informelle
 réalisée
 dans le cadre du développements de systèmes embarqués (mais lourds) a haut
-niveau de confiance avec du temps réel avec des garanties de sécurité.
+niveau de confiance avec du temps réel avec des garanties de
+sécurité#footnote[Le système d'exploitation PolyXene (https://cyber.gouv.fr/produits-certifies/polyxene-version-11) et ses variantes.].
 Ces systèmes n'étaient pas soumis au normes de sûreté mais l'expérience est
 toutefois pertinente puisque le hasard a voulu que les langages étudiés dans
 ce rapport y soient utilisés (ou dans une forme équivalente). Ces
 développements ont été fait avec une équipe
 d'ingénieurs représentative de l'ingénieur moyen et le résultat est résumé dans
-la @bilan. Les coûts sont donnés en pire cas : par exemple,
+la @bilan. Les coûts sont donnés en pire cas (avec des € croissants) : par exemple,
 si l'équipe d'ingénieur est déjà versée dans l'art de faire du bon C++, son coût
 de formation sera moindre ou nul.
 
@@ -84,10 +85,10 @@ de formation sera moindre ou nul.
     [*Temps Réel mou*],          [Oui],     [Oui],    [Oui],    [Oui],      [Oui],             [Oui],
     [*Environnement contraint*], [Oui],     [Oui],    [Oui],    [Oui],      [Pas directement], [Oui],
     [*Temps de développement*],  [Long],    [Moyen],  [Moyen],  [Long],     [Court],           [Moyen],
-    [*Temps de débogage*],       [Long],    [Long],   [Moyen],  [Court],    [Court],           [Moyen],
-    [*Licences*],                [\$\$\$],  [\$\$\$], [\$\$\$], [\$\$\$],   [?],               [?],
-    [*Formation*],               [\$],      [\$\$\$], [\$\$\$], [\$\$],     [\$],              [\$\$\$],
-    [*Dette technique*],         [\$],      [\$\$],   [\$],     [?],        [\$],              [\$\$],
+    [*Temps de débogage*],       [Long],    [Long],   [Court],  [Court],    [Court],           [Court],
+    [*Licences*],                [€€€],     [€€€],    [€€€],    [€€€],      [?],               [?],
+    [*Formation*],               [€],       [€€€],    [€€€],    [€€],       [€],               [€€€],
+    [*Dette technique*],         [€],       [€€],     [€],      [?],        [€],               [€€],
   ),
   caption: [Bilan comparatif des langages]
 ) <bilan>

@@ -52,17 +52,19 @@
 
 #intrinseque
 
-=== Adhérence au système
+=== Compilateurs
 
-#adherence
+#compilation
 
 === Interfaçage
 
 #interfacage
 
-=== Compilateurs
 
-#compilation
+=== Adhérence au système
+
+#adherence
+
 
 === Gestionnaire de paquets
 

@@ -13,7 +13,7 @@
     Le langage se prette tellement bien à l'exercice qu'il est souvent utilisé,
     y compris dans les sociétés privées, pour développer des outils d'analyse
     ou des compilateurs pour d'autres langages. Pour des applications en
-    production, le langage reste toutfois peu utilisé et son utilisation la plus
+    production, le langage reste toutefois peu utilisé et son utilisation la plus
     notoire à l'heure actuelle est celle de #janestreet pour réaliser du
     _trading_ haute fréquence.
 
@@ -49,7 +49,7 @@
     automatiquement à la compilation et par le ramasse miettes. Cela permet
     de se prémunir contre toutes les erreurs de gestion de la mémoire.
 
-    Les valeurs sont alignés systématiquement sur la taille d'un mot mémoire
+    Les valeurs sont alignées systématiquement sur la taille d'un mot mémoire
     et les valeurs numériques sont encodées sur 31 ou 63 bits suivant les
     architectures (respectivement 32 ou 64 bits). Le bit manquant sert au
     ramasse miettes. Cette représentation uniforme diminue les occurences
@@ -65,7 +65,7 @@
 
   wcet: [
     Il n'y a pas d'analyseur statique de WCET ciblant spécifiquement #OCaml.
-    Les outils utilisés pour le C peut probablement être utilisés
+    Les outils utilisés pour le C peuvent probablement être utilisés
     sur les programmes #OCaml compilé nativement mais il n'est pas garanti que
     les résultats soient pertinents.
 
@@ -127,7 +127,9 @@
 
     Cette programmation par cas est extrèmement courante dans la programmation
     en général et pouvoir identifier les cas non traités facilement à la
-    compilation est une des forces du langage.
+    compilation est une des forces du langage. Ce mécanisme est hérité de la
+    famille des langages ML et a été reprit dans les langages plus récents
+    (Swift, #Rust, ...) pour les mêmes raisons.
 
     Le ramasse-miettes, quant à lui, permet de se prémunir contre les fuites
     mémoires et les erreurs de gestion de la mémoire. Il est particulièrement
@@ -167,7 +169,8 @@
         [*#ounit*],    [U],       [+],            [+],         [],
         [*#qcheck*],   [U],       [+++],          [],          [],
         [*#crowbar*],  [U],       [+++],          [],          [],
-      )
+      ),
+      caption: [Cadres de test #ocaml],
     ) <ocaml-test-framework>
 
     #ocaml fait partie des langages ayant une phase de _preprocessing_
@@ -200,7 +203,7 @@
 
     Ce format est plus adaptés aux tests de plus haut niveau (fonctionnels,
     validation) où l'on va tester le comportement du binaire produit
-    (`foo` dans l'exemple) par rapport à une sortie attendue (les lignes
+    par rapport à une sortie attendue (les lignes
     indentées sans `$`).
 
   ],
@@ -222,7 +225,11 @@
   metaprog: [
     La métaprogrammation en #ocaml passe essentiellement par le système des PPX
     qui permettent d'engendrer du code spécifique à l'aide des extensions
-    (`[%... ...]`).
+    (`[%... ...]`). Les PPX peuvent offrir des fonctionnalités très utiles en
+    production comme de
+    outils d'inspection pour la plupart des types de données, la possibilité
+    d'écrire du SQL (typé) dans le code #ocaml ou encore d'extraire des
+    métadonnées pour la documentation.
 
     Le typage #ocaml est également suffisamment expressif pour décrire des
     propriétés statiques sur le code permettant une forme limitée de
@@ -236,7 +243,7 @@
     #ocaml étant historiquement utilisé pour écrire des compilateurs, il dispose
     d'outils d'analyse lexicale et syntaxique complets. Un générateur de _lexer_ (`ocamllex`) et un générateur de _parser_ (`ocamlyacc`) sont même
     fournis par défaut avec #ocaml. Ceux-ci fonctionnent très bien mais sont
-    un peu limités et d'autres outils plus complets sont venu compléter l'offre.
+    un peu limités et d'autres outils plus complets sont venus compléter l'offre.
 
     Au niveau des _lexers_, on citera #sedlex et #ulex qui permettent l'analyse
     de l'unicode. Par ailleurs, #sedlex s'intègre facilement avec les
@@ -303,10 +310,7 @@
     `foo_of_yojson` pour traduire une valeur de type `foo` en une valeur JSON
     et reciproquement.
 
-    Le système des PPX permet de dériver du code arbitrairement et certains
-    PPX peuvent offrir des fonctionnalités très utiles en production comme de
-    outils d'inspection pour la plupart des types de données ou la possibilité
-    d'écrire du SQL (typé) dans le code #ocaml.
+
   ],
 
   packages: [
@@ -346,9 +350,10 @@
     Communs aux niveaux d'assurance les plus élevés (EAL6+).
 
     Pour des niveaux d'assurances élevés en sûreté, il manque quelques analyses:
-    - le WCET statique ;
+    - le WCET statique, quitte à restreindre le langage;
     - l'échappement des exceptions;
-    - les allocations bornées;
+    - les allocations bornées pour majorer le temps utilisé par le
+      ramasse miettes;
     - récursion bornée.
     Ces analyses, couplées avec un outil comme #cameleer permettraient de
     circonvenir aux besoins d'une utilisation dans le domaine critique.

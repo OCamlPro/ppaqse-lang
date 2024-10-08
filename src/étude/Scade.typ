@@ -169,19 +169,19 @@
   debug: [
     Le débug d'un programme synchrone est un peu particulier car on s'intéresse
     pas ou très peu au contrôle de flôt étant donné que celui-ci est très
-    limité dans un langage _data flow_. En revanche, ces derniers sont
+    limité dans un langage _data flow_. En revanche, ces flux eux-mêmes sont
     beaucoup plus intéressants et déboguer un programme _data flow_ consiste
     simplement à :
     - afficher les flux (leur valeur aux cours du temps);
     - pouvoir jouer avec les entrées pour voir comment les sorties réagissent;
-    - éventuellemnt ajouter des noeuds de contrôle (des _watch dogs_)
+    - éventuellement ajouter des noeuds de contrôle (des _watch dogs_)
       permettant de contrôler des propriétés au cours du temps.
     La suite #Scade permet tout cela en plus de visualiser graphiquement les
     noeuds et leur dépendances.
   ],
 
   parsers: [
-    Le langage n'est pas adapté à l'analyse syntaxique car celle-ci suppose que
+    Le langage n'est pas adapté à l'analyse syntaxique car celle-ci suppose
     un traitement dynamique avec une consommation mémoire arbitraire; ce qui
     va à l'encontre des limites imposées par le langage. On peut
     tout à fait écrire des parser à mémoire bornée en #Scade pour analyser des
@@ -201,7 +201,7 @@
     Les langages _data flow_ se prettent facilement aux tests puisque qu'il
     est facile de créer des noeuds qui testent d'autres noeuds ou de faire
     varier les entrées pour vérifier les sorties. Ce travail est tout aussi
-    facilement automatisable à l'aide des indications de type. Aussi, la
+    facilement automatisable à l'aide des indications de type. Aussi, la suite
     #Scade supporte la génération automatique de tests sur plusieurs
     aspects (unitaires, intégration, couverture) et propose également un cadre
     de gestion des tests et la génération de rapport à l'intention des processus
@@ -209,7 +209,7 @@
   ],
 
   packages: [
-    Aucun gestionnaire de paquet n'est indiquée pour #Scade.
+    Aucun gestionnaire de paquet n'est indiqué pour #Scade.
   ],
 
   communaute: [

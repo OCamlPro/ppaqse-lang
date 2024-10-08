@@ -273,7 +273,8 @@ avons déjà présenté dans la partie C, couvre différents types de tests
     [*#testwell_ctc*],       [UIC],     [++],           [✓],         [],
     [*#TPT*],                [UINC],   [+++],           [✓],         [],
     [*#vectorcast*],         [UC],      [++],           [✓],         [✓],
-  )
+  ),
+  caption: "Outils de tests pour le C++"
 )
   ],
 
@@ -415,7 +416,8 @@ outils de la @cpp-lexers.
     [*Nom*],      [*Code*], [*Plateforme*], [*License*],
     [*#astir*],   [Astir],  [Toutes],       [Libre, MIT],
     [*#reflex*],  [Flex],   [Lexer],        [Libre, BSD],
-  )
+  ),
+  caption: "Lexers pour le C++"
 ) <cpp-lexers>
 
 

@@ -40,7 +40,8 @@
   paradigme: [
     Rust est un langage multi-paradigme qui permet la programmation
     #paradigme[impérative],
-    #paradigme[fonctionnelle], et (de manère plus limitée) orientée objet.
+    #paradigme[fonctionnelle], et (de manère plus limitée) orientée
+    #paradigme[objet].
 
     Pour illuster l'aspect multi paradigmes, considérons l'exemple d'un code
     qui prend en entrée une liste de chaînes de caractères représentant des
@@ -90,8 +91,7 @@
     vérification sont encore des projets de recherche. En terme d'analyse
     statique, il existe #mirai qui fait de l'analyse statique sur le langage
     intermédiaire du compilateur #Rust. Il peut identifier certaines classes
-    d'erreurs, éventuellement à l'aide d'annotations, mais il n'est _a priori_
-    pas correct (au sens logique) pour les _runtime_ errors.
+    d'erreurs en s'aidant éventuellement d'annotations.
 
   ],
 
@@ -103,7 +103,7 @@
   ],
 
   pile: [
-    Il n'y a aps d'outil recensé faisant de l'analyse statique de pile sur
+    Il n'y a pas d'outil recensé faisant de l'analyse statique de pile sur
     un programme #Rust. Toutefois, les outils fonctionnant sur du code machine
     évoqués dans la partie C peuvent être utilisés.
   ],
@@ -125,8 +125,8 @@
 
   formel: [
     La vérification formelle de code #Rust suscite un certain intérêt puisque
-    malgré la jeunesse du langage, il y a déjà plusieurs initiaives sur le sujet.
-    Toutefois, il s'agit de projet académiques et aucun ne bénéficie d'un
+    malgré la jeunesse du langage, il y a déjà plusieurs initiatives sur le sujet.
+    Toutefois, il s'agit de projets académiques et aucun ne bénéficie d'un
     support commercial pour le moment.
 
     *Creusot*
@@ -176,7 +176,7 @@
     ```
 
 
-    *Aenas1*
+    *Aenas*
 
     #let hol = link("https://hol-theorem-prover.org/")[HOL]
 
@@ -291,7 +291,7 @@
 
     #Rust dispose d'un mécanisme innovant de gestion de la mémoire par régions
     qui permet de garantir la sûreté mémoire au moment de la compilation
-    sans avoir recours à rammasse-miettes au _runtime_.
+    sans avoir recours à un rammasse-miettes au _runtime_.
     Celui-ci, lié au système d'_ownership_ permet d'éviter les erreurs
     suivantes:
     - _use after free_
@@ -335,7 +335,7 @@
 
     Il ne semble pas exister d'outil permettant d'engendrer des rapports de
     tests standardisés ou conforme à une norme particulière. `cargo test`
-    permet toutefois d'engendrer un rapport JSON qui peuvent être traités par
+    permet toutefois d'engendrer un rapport JSON qui peut être traité par
     des outils tiers.
   ],
 
@@ -376,7 +376,7 @@
     let v: Vec<i32> = vec![1, 2, 3];
     ```
     où le symbole `!` indique l'appel à une macro (ici `vec`). Cette macro
-    pourrait être définit comme suit:
+    pourrait être définie comme suit:
     ```rust
     macro_rules! vec {
         ($($x:expr),*) => {{
@@ -388,8 +388,9 @@
     ```
     où, sans entrer dans les détails, on dit au compilateur que si la macro
     est appelée avec une liste d'expressions séparées par des virgules
-    (`$($x:expr),*`), alors il crée un nouveau vecteur (`let mut temp_vec =
-    Vec::new();`) et y ajoute les éléments de la liste (`$(temp_vec.push($x);)*`)
+    (`$($x:expr),*`), alors il crée un nouveau vecteur (
+    `let mut temp_vec = Vec::new();`), y ajoute les éléments de la liste
+    (`$(temp_vec.push($x);)*`)
     et retourne le vecteur.
 
     Ce système de macro est suffisamment riche pour permettre l'écriture de
@@ -409,11 +410,12 @@
 
     Au niveau des _lexers_, il n'y a que #re2c supporte #Rust. #lalrpop a
     également un générateur de _lexer_ intégré. Pour les _parsers_, il y en
-    a essentiellement trois: #lalrpop, #hime et #syntax.
+    a essentiellement trois: #lalrpop, #hime et #syntax. Notons que #lalrpop
+    embarque le _parsing_ dans #Rust via des macros procédurales.
 
     #figure(
       table(
-        columns: (auto, auto, auto, auto, auto, auto),
+        columns: (auto, auto, auto, auto, auto),
         [*Nom*],         [*Algorithme*],        [*Grammaire*], [*Code*],  [*Plateforme*],
         [*LALRPOP*],     [LR(1), LALR(1)],      [Rust],        [Rust],    [Toutes],
         [*Hime*],        [LR(1), GLR, LALR(1)], [EBNF],        [Séparé],  [.NET, JVM],
@@ -425,7 +427,7 @@
 
   derivation: [
     La métaprogrammation autorisée par les macros de #Rust permet également
-    de dérivier du code à partir des types. Le code suivant définit
+    de dériver du code à partir des types. Le code suivant définit
     ce qu'on appelle une macro procédurale qui va générer du code #Rust à
     partir de code #Rust.
     ```rust
@@ -481,7 +483,7 @@
     Le gestionnaire de paquet officiel de #Rust est `cargo`. C'est également
     l'outil de _build_ du langage. Il permer de télécharger, compiler,
     distribuer et de téléverser des paquets (nommés _crates_) dans des registres
-    partagés à partir de dépôts Git.
+    partagés ou de dépôts Git.
     Les registres peuvent être publics ou privés. Le registre public par défaut
     est #crates_io mais il y a également #lib_rs qui est également très utilisé.
 
@@ -517,8 +519,9 @@
     aujourd'hui si cela est un avantage ou un inconvénient d'un point de vue
     industriel. D'un côté, cela permet de réduire les erreurs de programmation
     et de limiter les failles de sécurité. D'un autre côté, cela peut
-    ralentir le développement et engendrer une dette technique similaire à
-    celle du C++ utilisé par des spécialistes.
+    ralentir le développement et engendrer des circonvonlutions
+    pour faire accepter le programme au compilateur, engendrant ainsi une dette
+    technique similaire à celle du C++ utilisé par des spécialistes.
 
     Toutefois, le langage jouit d'un réel engouement et il est même conseillé
     par l'ANSSI dans les développements

@@ -52,7 +52,29 @@ afin d'être compétitif. Ce coût provient :
 
 La dette technique est un point important car elle est souvent sous-estimée
 et engendre un coût caché de production qui augmente, parfois de manière
-dramatique, avec le temps. Un bilan général est disponible sur la @bilan.
+dramatique, avec le temps. La dette technique est évaluée par rapport à :
+1. la complexité et maintenabilité de la base de code au fil du temps. Par
+  exemple, les programmes C++ ont une tendance naturelle à devenir
+  difficile à suivre;
+2. la disponibilité des ressources : les ressources qui savent faire de
+  l'#Ada ou du #Scade sont plus rares que celles qui savent faire du C et
+  coûtent naturellement plus cher sur le marché du travail.
+
+Comme il n'existe pas à notre connaissance de métriques sur des développements
+comparables, il est difficile de donner une vue complètement objective d'une
+comparaison entre les langages selon les critères ci-dessus. A titre
+informatif, nous pouvons cependant donner le résultat d'une étude informelle
+réalisée
+dans le cadre du développements de systèmes embarqués (mais lourds) a haut
+niveau de confiance avec du temps réel avec des garanties de sécurité.
+Ces systèmes n'étaient pas soumis au normes de sûreté mais l'expérience est
+toutefois pertinente puisque le hasard a voulu que les langages étudiés dans
+ce rapport y soient utilisés (ou dans une forme équivalente). Ces
+développements ont été fait avec une équipe
+d'ingénieurs représentative de l'ingénieur moyen et le résultat est résumé dans
+la @bilan. Les coûts sont donnés en pire cas : par exemple,
+si l'équipe d'ingénieur est déjà versée dans l'art de faire du bon C++, son coût
+de formation sera moindre ou nul.
 
 #figure(
   table(
@@ -69,25 +91,6 @@ dramatique, avec le temps. Un bilan général est disponible sur la @bilan.
   ),
   caption: [Bilan comparatif des langages]
 ) <bilan>
-
-Comme il n'existe pas à notre connaissance de métriques sur des développements
-comparables, ce bilan est subjectif. Il est basé sur l'expérience des auteurs
-dans les développements industriels de système embarqué à haut
-niveau de confiance. Ces développements ont été fait avec une équipe
-d'ingénieurs représentative de l'ingénieur moyen et en utilisant les langages
-du rapport (ou des équivalents). Les coûts sont donnés en pire cas : par exemple,
-si l'équipe d'ingénieur est déjà versée dans l'art de faire du bon C++, son coût
-de formation sera moindre ou nul. La dette technique est évaluée par rapport à :
-- la complexité et maintenabilité de la base de code au fil du temps. Par
-  exemple, les programmes C++ ont une tendance naturelle à devenir
-  intrinsèquement complexe à suivre;
-- la disponibilité des ressources : les ressources qui savent faire de
-  l'#Ada ou du #Scade sont plus rares que celles qui savent faire du C et
-  coûtent naturellement plus cher sur le marché du travail. Cette évaluation
-  correspond à une dérivée car il faut prendre en compte la projection de ce
-  coût dans le temps. Par exemple, comme #Rust est à la mode, beaucoup de jeunes
-  ingénieurs savent en faire et le coût de la ressource va avoir tendance à
-  diminuer.
 
 Nous n'avons pas assez de recul pour évaluer la dette technique liée à #Scade
 ni le prix des licences sur l'éventuelle commercialisation des outils

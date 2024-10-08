@@ -44,7 +44,7 @@
     travers un système de typage très puissant et un ramasse-miettes à l'état
     de l'art.
 
-    Le langage n'expose à l'utilisateur d'une notion de _valeur_ qui
+    Le langage n'expose à l'utilisateur qu'une notion de _valeur_ qui
     n'autorise pas la manipulation manuelle des pointeurs. Ceux-ci sont gérés
     automatiquement à la compilation et par le ramasse miettes. Cela permet
     de se prémunir contre toutes les erreurs de gestion de la mémoire.
@@ -58,15 +58,28 @@
     possible.
 
     Il y a eu des initiatives pour ajouter plus d'analyse statique, notamment
-    sur les exceptions, mais aucune n'a donné d'outil indépendant ou intégré au
+    sur les exceptions, mais aucune n'a donné d'outil mature indépendant ou
+    intégré au
     compilateur.
   ],
+
   wcet: [
-    Il n'y a pas d'analyseur statique de WCET connu pour les programmes OCaml.
+    Il n'y a pas d'analyseur statique de WCET ciblant spécifiquement #OCaml.
+    Les outils utilisés pour le C peut probablement être utilisés
+    sur les programmes #OCaml compilé nativement mais il n'est pas garanti que
+    les résultats soient pertinents.
+
+    Il est aussi possible de ne pas utiliser le code natif et de faire
+    l'analyse sur le _byte code_ #OCaml#cite(<ocaml-wcet>) en simplifiant le
+    langage pour le ramener à du Lustre à la manière de #Scade.
   ],
+
   pile:[
-    Il n'y a pas d'analyseur statique de pile connu pour les programmes OCaml.
+    Il n'y a pas d'analyseur statique de pile ciblant spécifiquement #OCaml.
+    Les outils utilisés pour le C peuvent cependant être utilisés sur les
+    programmes #OCaml compilés nativement.
   ],
+
   numerique: [
     Il n'y a pas d'analyseur statique pour les calculs numériques des
     programmes OCaml. Toutefois, les bilbiothèques #mpfr et #gmp ont été
@@ -78,12 +91,6 @@
     est d'utiliser #coq. Ce dernier, implémenté en #ocaml, permet d'implémenter
     et prouver des programmes qui peuvent être ensuite extraits vers #ocaml.
     C'est la stratégie utilisée pour implémenter le compilateur #compcert.
-
-
-    OCaml est notamment le langage d'implémentation de #coq et ce dernier
-    utilise OCaml comme langage cible pour l'extraction de programmes. De fait,
-    lorsqu'il est nécessaire de prouver un programme, la stratégie générale
-    est d'utiliser #coq et d'extraire le programme OCaml qui correspond.
 
     Notons qu'il existe une initiative pour permettre de prouver des
     programmes #ocaml dans le texte en utilisant la même stratégie que
@@ -98,11 +105,11 @@
     contre un large éventail d'erreurs de programmation sans perdre en
     expressivité.
 
-    Son système de tyep permet notamment de définir des types algébriques
+    Son système de type permet notamment de définir des types algébriques
     (ou variants) qui permettent de définir un type par une somme de valeurs
-    possibles, elles même pouvant être valuées. Cela permet d'encoder
+    possibles, elles-mêmes pouvant être valuées. Cela permet d'encoder
     le _pattern_ des unions à discriminant du C de manière synthétique mais
-    également avec des vérification beaucoup plus poussées par le compilateur.
+    également avec des vérifications beaucoup plus poussées par le compilateur.
 
     Typiquement, l'exemple suivant:
     ```ocaml
@@ -154,7 +161,7 @@
 
     #figure(
       table(
-        columns: (auto, auto, auto),
+        columns: (auto, auto, auto, auto, auto),
         [*Outil*],     [*Tests*], [*Generation*], [*Gestion*], [_*mocking*_],
         [*#alcotest*], [U],       [+],            [],          [],
         [*#ounit*],    [U],       [+],            [+],         [],
@@ -174,7 +181,7 @@
 
     let#expect "addition" =
       Printf.printf "%d" (1 + 2);
-      [%expect {| 4 |}]
+      [%expect {| 3 |}]
     ```
 
     Dans le premier cas, le test se fait directement alors que dans le second,
@@ -202,7 +209,7 @@
     Le compilateur fourni par l'INRIA est le seul compilateur officiel du
     langage #ocaml.
 
-    Il existe des _forks_ maintenus en interne par certains indutriels mais ils
+    Il existe des _forks_ maintenus en interne par certains industriels mais ils
     ne font pas référence.
 
   ],
@@ -219,9 +226,9 @@
 
     Le typage #ocaml est également suffisamment expressif pour décrire des
     propriétés statiques sur le code permettant une forme limitée de
-    programmation par spécialisation. Par exemple, il est possible d'encoder
+    programmation par spécialisation. Ainsi, il est possible d'encoder
     les entiers naturels dans le système de type et donc de faire du code
-    spécificique pour des listes de longueur 4 par exemple.
+    spécificique pour des listes de longueur 4.
   ],
 
   parsers: [
@@ -232,7 +239,7 @@
     un peu limités et d'autres outils plus complets sont venu compléter l'offre.
 
     Au niveau des _lexers_, on citera #sedlex et #ulex qui permettent l'analyse
-    de l'unicode. Par ailleurs, #sedlex s'inttègre facilement avec les
+    de l'unicode. Par ailleurs, #sedlex s'intègre facilement avec les
     _parsers_ existant.
 
 
@@ -254,7 +261,7 @@
     )
     #let mparser = link("https://github.com/murmour/mparser", "mparser")
 
-    Au niveau des _parsers_ et en plus d'`ocamlyacc`, il y a des
+    Au niveau des _parsers_, en plus d'`ocamlyacc`, il y a des
     bibliothèques de combinateurs de _parser_ avec #angstrom et #mparser qui
     sont utiles dans le _parsing_ dynamique de petites grammaires. Pour les
     grammaires plus conséquentes, #dypgen ou #menhir sont des outils plus adaptés. #menhir est probablement le générateur de _parser_ le plus abouti
@@ -296,8 +303,9 @@
     `foo_of_yojson` pour traduire une valeur de type `foo` en une valeur JSON
     et reciproquement.
 
-    Le système des PPX permet de dériver arbtitrairement du code et certains
-    PPX peuvent offrir des fonctionnalités très utiles en production comme de outils d'inspection pour la plupart des types de données ou la possibilité
+    Le système des PPX permet de dériver du code arbitrairement et certains
+    PPX peuvent offrir des fonctionnalités très utiles en production comme de
+    outils d'inspection pour la plupart des types de données ou la possibilité
     d'écrire du SQL (typé) dans le code #ocaml.
   ],
 
@@ -343,16 +351,18 @@
     - les allocations bornées;
     - récursion bornée.
     Ces analyses, couplées avec un outil comme #cameleer permettraient de
-    circonvenir aux besoins de la sûreté critique.
+    circonvenir aux besoins d'une utilisation dans le domaine critique.
   ],
 
   adherence: [
-    #ocaml a besoin d'un système POSIX pour fonctionner.
+    #ocaml a besoin d'un système POSIX pour fonctionner en natif mais en
+    _bytecode_, il suffit de porter la machine virtuelle #ocaml (écrite en C)
+    pour qu'il fonctionne sur n'importe quelle plateforme.
   ],
 
   interfacage: [
     #ocaml a plusieurs moyens de s'interfacer avec le C (et donc avec tous les
-    compatibles avec le C):
+    langages compatibles avec le C):
     - la FFI pour le _link_ statique;
     - `Ctypes` pour le _link_ dynamique.
 

@@ -185,3 +185,16 @@ stackanalyzerscade:
   type: web
   title: aiT, StackAnalyzer integrated into SCADE Suite
   url: https://www.absint.com/releases/080922.htm
+
+lustrecoq:
+  type: web
+  title: Vérification formelle d'un compilateur Lustre
+  url: https://www.college-de-france.fr/fr/agenda/seminar/esterel-from-to-z/la-verification-formelle-un-compilateur-lustre
+
+ocaml-wcet:
+  type: article
+  title: |
+    WCET of OCaml Bytecode on Microcontrollers: An automated Method and Its Formalisation
+  author:
+    - Steven Varoumas
+    - Tristan Crolard

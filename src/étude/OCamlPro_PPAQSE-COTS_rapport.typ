@@ -5,7 +5,7 @@
 
 
 #show: report.with(
-  title: [COTS de qualité : \ logiciels critiques et temps réel],
+  title: [Ecosystèmes COTS de développement et de vérification des logiciels critiques et temps réel],
   version: sys.inputs.at("git_version", default: "<unknown>"),
   authors: (
     (
@@ -24,7 +24,7 @@
       email: "pierre.villemot@ocamlpro.com",
     )
   ),
-  reference: todo[à demander au CNES],
+  reference: [DLA-SF-0000000-194-QGP],
   abstract: [
     Ce rapport présente une étude des langages #C, #Cpp, #Ada, #Scade, #OCaml
     et #Rust du point de vue de la sûreté. Il suit les clauses techniques
@@ -66,11 +66,11 @@
 #include "OCaml.typ"
 #include "Rust.typ"
 
-= Conclusions
+#include "conclusion.typ"
 
-= Références
+// Conclusion + logo cnes + format
 
-#bibliography("bibliography.yml")
+#bibliography("bibliography.yml", title: "Références")
 
 #set heading(numbering: "A.1")
 #show heading.where(level: 1): set heading(

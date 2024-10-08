@@ -58,7 +58,7 @@ dans le #ref(<ex_C_length>) :
   }
   ```,
   caption: [Calcul de la longueur d'une liste chainée en C],
-  supplement: [Source],
+  supplement: none,
 ) <ex_C_length>
 
 En considérant que `nullptr` représente la liste vide, la fonction `length`

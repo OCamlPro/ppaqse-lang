@@ -396,7 +396,7 @@ Nous ne citerons donc que les principaux compilateurs modernes qui sont les
 plus utilisés ou qui ont une caractéristique particulière qui peut les
 distinguer dans le contexte de l'embarqué critique.
 
-#let sdcc = link("http://sdcc.sourceforge.net/")[`sdcc`]
+#let sdcc = link("http://sdcc.sourceforge.net/")[sdcc]
 
 #figure(
   table(
@@ -411,7 +411,7 @@ distinguer dans le contexte de l'embarqué critique.
     ]], [GPLv3+],
     [*#icx (#intel C/C++ Compiler)*], [IA32, x86-64], [Propriétaire, Gratuit],
     [*#msvc*], [IA-32, x86_64, ARM], [Propriétaire],
-    [*#sdcc*], [microrrocesseurs#footnote[Intel MCS51, Maxims, Freescale, ... La liste est disponible sur le site du compilateur : http://sdcc.sourceforge.net/]], [~GPLv2],
+    [*#sdcc*], [microprocesseurs#footnote[Intel MCS51, Maxims, Freescale, ... La liste est disponible sur le site du compilateur : http://sdcc.sourceforge.net/]], [~GPLv2],
   )
 )
 

@@ -12,6 +12,10 @@ REGISTRY := registry.ocamlpro.com/ocamlpro/ocpdoc-accueil/typst:latest
 
 VERSION := $(shell git describe --tags --always --dirty)
 
+TYPST_ARGS = --root=/document
+TYPST_ARGS += --input git_version="$(VERSION)"
+TYPST_ARGS += --font-path src/fonts/Marianne
+
 # Allow second expansion.
 .SECONDEXPANSION:
 
@@ -28,7 +32,7 @@ watch:
 	while inotifywait -e close_write "src/étude/OCamlPro_PPAQSE-COTS_rapport.typ" || true; do make; done
 
 $(BUILD_DIR)/%.pdf: src/%.typ $$(call deps,src/%.typ) $$(dir src/%)/bibliography.yml Makefile | $$(@D)/.
-	docker run --rm -v $(CURDIR):/document $(REGISTRY) typst c --input git_version="$(VERSION)" $<
+	docker run --rm -v $(CURDIR):/document $(REGISTRY) typst c $(TYPST_ARGS) $<
 # force moving file for typst seems to always try building locally oO
 	mv -f src/$*.pdf $@
 

@@ -1,4 +1,4 @@
-#import "@local/ocamlpro:0.1.0": *
+#import "../base.typ": *
 #import "defs.typ": *
 #import "links.typ": *
 
@@ -67,8 +67,6 @@
 #include "Rust.typ"
 
 #include "conclusion.typ"
-
-// Conclusion + logo cnes + format
 
 #bibliography("bibliography.yml", title: "Références")
 

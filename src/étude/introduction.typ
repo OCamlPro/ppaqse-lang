@@ -9,6 +9,7 @@
   center,
   table(
     columns: (auto, auto),
+    align: (center, left),
     [*Terme*], [*Définition*],
     [COTS <cots>], [_Commercial Off-The-Shelf_ ou produit sur étagère],
     [WCET <wcet>], [

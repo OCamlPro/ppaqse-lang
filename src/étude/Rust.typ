@@ -6,39 +6,41 @@
   name:"Rust",
 
   introduction: [
-    Rust est un langage de programmation créé par Graydon Hoare en 2006,
+    #Rust est un langage de programmation créé par Graydon Hoare en 2006,
     soutenu par la fondation Mozilla à partir de 2009, et dont la première
-    version stable fût publiée en 2015. Le projet est depuis indépendant de
-    Mozilla et soutenu par sa propre entité légale: la fondation Rust. Conçu
-    comme un successeur aux langages C et C++, Rust cherche à concillier
+    version stable fût publiée en 2015. Le projet est devenu indépendant de
+    Mozilla et est soutenu par sa propre entité légale: la fondation #Rust.
+    Conçu
+    comme un successeur aux langages C et C++, #Rust cherche à concillier
     sûreté, performance et correction du code concurent. Il est souvent utilisé
     pour des applications systèmes, des logiciels embarqués, des navigateurs et
     des applications web.
 
     Il n'existe pas à l'heure actuelle de standard du langage, mais deux
-    projets dans ce sens sont à citer:
+    projets dans ce sens existent :
     1. Les entreprises AdaCore et Ferrous Systems ont développé une version
-    qualifiée du compilateur standard Rust, nommée
-    #link("https://ferrocene.dev/en/")[Ferrocene], certifiée ISO26262 (ASIL D)
-    et IEC 61508 (SIL 4) pour les plateformes x86 et ARM. Celle-ci est mise à
-    jour tous les trois mois, soit toutes les deux à trois versions de Rust.
-    <ferrocene>
-    2. La fondation Rust a lancé un projet de rédaction d'une spécification, et
-    recruté en ce sens. Ce projet semble sérieux et devrait aboutir a une
-    spécification qui serait mise à jour à chaque parution d'une nouvelle
-    version du compilateur (toutes les six semaines). Contrairement à la
-    specification de Ferrocene, qui n'est pas un standard du langage mais se
-    borne à décrire le fonctionnement d'un compilateur donné, la specification
-    proposée par la fondation serait officielle et pourrait à terme aboutir à
-    un standard.
+      qualifiée du compilateur standard Rust, nommée
+      #link("https://ferrocene.dev/en/")[Ferrocene], certifiée ISO26262 (ASIL D)
+      et IEC 61508 (SIL 4) pour les plateformes x86 et ARM. Celle-ci est mise à
+      jour tous les trois mois, soit toutes les deux à trois versions de Rust.
+      <ferrocene>
+    2. La fondation #Rust a lancé un projet de rédaction d'une spécification.
+      Ce projet semble sérieux et devrait aboutir a une
+      spécification qui serait mise à jour à chaque parution d'une nouvelle
+      version du compilateur (toutes les six semaines). Contrairement à la
+      specification de Ferrocene, qui n'est pas un standard du langage mais se
+      borne à décrire le fonctionnement d'un compilateur donné, la specification
+      proposée par la fondation serait officielle et pourrait à terme aboutir à
+      un standard.
 
     Il existe de plus un guide #cite(<anssi-rust>) édité par l'ANSSI pour le
     développement d'applications sécurisées en Rust.
   ],
 
   paradigme: [
-    Rust est un langage multi-paradigme qui permet la programmation impérative,
-    fonctionnelle, et (de manère plus limitée) orientée objet.
+    Rust est un langage multi-paradigme qui permet la programmation
+    #paradigme[impérative],
+    #paradigme[fonctionnelle], et (de manère plus limitée) orientée objet.
 
     Pour illuster l'aspect multi paradigmes, considérons l'exemple d'un code
     qui prend en entrée une liste de chaînes de caractères représentant des
@@ -57,7 +59,7 @@
     ```
     )
 
-    Dans un style impératif
+    et l'équivalent dans un style impératif:
 
     #figure(
     ```rust
@@ -74,105 +76,145 @@
     }
     ```
     )
-
-    #todo[Exemple POO ?]
-
   ],
 
 
   model_intro: [
-    Eût égard à la relative jeunesse du langage, les outils de vérifications et
-    de modélisation autour de Rust sont exclusivement des projets de recherche,
-    en grande majorité académiques. Il est néanmoins remarquable qu'un langage
-    si jeune bénéficie d'autant d'initiatives autour de ces sujets, signe d'un
-    engoument certain et d'un intérêt potentiel pour des applications aux
-    fortes contraintes de sûreté.
+
   ],
 
   runtime: [
-    #link("https://github.com/endorlabs/MIRAI")[Mirai] est un interpréteur
-    abstrait pour la représentation de niveau intermédaire du compilateur Rust.
-    Il peut identifier certaines classes d'erreurs sans annotation, et
-    également vérifier des annotations de programmes. Enfin, il peut servir à
-    réaliser une _taint analysis_ ainsi que de la vérification d'éxécution en
-    temps constant.
+    #let mirai = link("https://github.com/endorlabs/MIRAI")[Mirai]
+
+    La jeunesse du langage fait que la plupart des outils d'analyse ou de
+    vérification sont encore des projets de recherche. En terme d'analyse
+    statique, il existe #mirai qui fait de l'analyse statique sur le langage
+    intermédiaire du compilateur #Rust. Il peut identifier certaines classes
+    d'erreurs, éventuellement à l'aide d'annotations, mais il n'est _a priori_
+    pas correct (au sens logique) pour les _runtime_ errors.
+
   ],
 
   wcet: [
     Il n'existe à ce jour pas d'outil sur étagère permettant de faire de
     l'analyse WCET de programmes spécifiquement Rust. Néanmoins, les outils
-    fonctionnant sur du code assembleur peuvent être utilisés.
+    fonctionnant sur du code machine évoqués dans la partie C peuvent être
+    utilisés.
   ],
 
   pile: [
-    Il n'existe à ce jour pas d'outil sur étagère permettant de faire de
-    l'analyse de taille de pile de programmes Rust.
+    Il n'y a aps d'outil recensé faisant de l'analyse statique de pile sur
+    un programme #Rust. Toutefois, les outils fonctionnant sur du code machine
+    évoqués dans la partie C peuvent être utilisés.
   ],
 
   numerique: [
-    Il n'existe à ce jour pas d'outil sur étagère permettant de faire de
-    l'analyse de qualité numérique statique en Rust.
+    Il n'y a pas d'outils recensé pour faire de l'analyse numérique statique
+    #Rust.
 
     Il existe néanmoins plusieurs bibliothèques permettant de travailler avec
     plus de précision qu'avec des flottants 32 ou 64 bits. Certaines permettent
-    du calcul à virgule fixe (#crate("bigdecimal"), #crate("rust_decimal")),
-    des entiers de taille arbitraire(#crate("num"), #crate("ruint"), #crate
-    ("rug")), des fractions (#crate("num"), #crate("rug")) ou des flottants de
-    précision arbitraire (#crate("rug"), basé sur #mpfr).
+    - du calcul à virgule fixe (#crate("bigdecimal"), #crate("rust_decimal"));
+    - des entiers de taille arbitraire(#crate("num"), #crate("ruint");
+      #crate("rug"));
+    - des fractions (#crate("num"), #crate("rug"));
+    - des flottants de précision arbitraire (#crate("rug") ou
+      #crate("gmp-mpfr-sys") basées sur #mpfr ou #gmp).
 
-    #todo[gmp-mpfr-sys ?]
   ],
 
   formel: [
-    Il existe certains outils de méta-formalisation pour Rust, il s'agit
-    d'outils académiques et aucun ne bénéficie d'un support commercial. À la
-    lecture de leurs documentations disponibles et sans les tester, il apparaît
-    difficile d'en recommander un en particulier.
+    La vérification formelle de code #Rust suscite un certain intérêt puisque
+    malgré la jeunesse du langage, il y a déjà plusieurs initiaives sur le sujet.
+    Toutefois, il s'agit de projet académiques et aucun ne bénéficie d'un
+    support commercial pour le moment.
 
-    ==== Creusot
+    *Creusot*
 
-    #link("https://github.com/creusot-rs/creusot")[Creusot] est un outil de
-    vérification déductive de code Rust. Il a son propre langage de
-    specification nommé pearlite. Il traduit le code Rust et sa specification
-    pearlite en code WhyML, utilisé ensuite par l'outil Why3. A ce jour, il a
+    #let creusot = link("https://github.com/creusot-rs/creusot")[Creusot]
+
+    #creusot#footnote[https://github.com/creusot-rs/creusot] est un outil de
+    vérification déductive de code #Rust. Il a son propre langage de
+    specification nommé _pearlite_. Il traduit le code #Rust et sa
+    specification
+    _pearlite_ en code WhyML, utilisé ensuite par l'outil Why3. A ce jour, il a
     été utilisé pour vérifier formellement un SAT solver, CreuSAT.
+    Voici un exemple d'utilisation de spécification #creusot:
+    ```rust
+    use creusot_contracts::*;
 
-    ==== Flux
+    #[requires(x < i32::MAX)]
+    #[ensures(result@ == x@ + 1)]
+    pub fn add_one(x: i32) -> i32 {
+        x + 1
+    }
+    ```
+    et la commande
 
-    #link("https://flux-rs.github.io/flux/")[Flux] augmente Rust en lui
+    *Flux*
+
+    #let flux = link("https://flux-rs.github.io/flux/")[Flux]
+
+    #flux#footnote["https://flux-rs.github.io/flux/] augmente #Rust en lui
     rajoutant des types par rafinement. Il a également son propre langage de
-    spécification, qui ne porte pas de nom. Il transforme ces types en Clauses
+    spécification qui ne porte pas de nom. Il transforme ces types en Clauses
     de Horn Contraintes (CHC) et utilise directement le solver #z3 pour les
-    résoudre.
+    résoudre. Par exemple :
+    ```rust
+    #[flux::sig(fn(x: i32) -> i32{v: x < v})]
+    pub fn inc(x: i32) -> i32 {
+      x - 1
+    }
+    ```
+    donnera une erreur lors de la compilation:
+    ```
+    error[FLUX]: postcondition might not hold
+    --> test0.rs:3:5
+      |
+    3 |     x - 1
+      |     ^^^^^
+    ```
 
-    ==== Aenas
+
+    *Aenas1*
+
+    #let hol = link("https://hol-theorem-prover.org/")[HOL]
 
     #link("https://github.com/AeneasVerif/aeneas")[Aenas] et
     #link("https://github.com/AeneasVerif/charon")[Charon] sont deux outils,
     développés dans
-    le cadre du même projet. Ils permettent de traduire du code Rust vers
+    le cadre du même projet. Ils permettent de traduire du code #Rust vers
     différents langages de spécification formelle afin de pouvoir écrire des
-    preuves dessus. Les langages de preuve supportés sont F\*, Coq, HOL4 et
-    LEAN.
+    preuves dessus. Les langages de preuve supportés sont F\*, #coq,
+    #hol et
+    #lean.
 
-    ==== Verus
+    *Verus*
 
     #link("https://github.com/verus-lang/verus")[Verus] permet également
-    d'ajouter des spécifications à du code Rust, et de vérifier qu'elles sont
+    d'ajouter des spécifications à du code #Rust, et de vérifier qu'elles sont
     satisfaites pour toute execution possible du programme. Il s'appuie
-    directement sur le solveur SMT #z3.
+    directement sur le solveur SMT #z3. Voici un exemple d'utilisation:
+    ```rust
+    fn octuple(x1: i8) -> i8
+        requires
+            -64 <= x1,
+            x1 < 64,
+    {
+        let x2 = x1 + x1;
+        let x4 = x2 + x2;
+        x4 + x4
+    }
+    ```
   ],
 
   intrinseque: [
-    Là où Rust prête le flanc à la critique par le manque de maturité des
-    outils de vérification existants, il se rattrape par le nombre de garanties
-    intrinsèquement proposées par le langage.
 
-    ==== Des erreurs explicites
+    *Erreurs*
 
     En Rust, les erreurs sont rendues explicites dans les types de retour, et
     le compilateur signale lorsque l'on a omis de vérifier une potentielle
-    valeur d'erreur. Par exemple pour cette fonction qui vérifie si un fichier
+    valeur d'erreur. Par exemple, pour cette fonction qui vérifie si un fichier
     fait moins de 100 kilo-octets, le type de retour
     `Result<bool, std::io::Error> ` indique qu'il s'agit d'un booléen dans le
     cas normal ou potentiellement d'une erreur d'IO.
@@ -215,7 +257,7 @@
     For more information about this error, try `rustc --explain E0308`.
     ```
 
-    De même si l'on oublie de vérifier qu'une fonction uniquement à effet de
+    Il en est de même si on oublie de vérifier qu'une fonction à effet de
     bord n'a pas retourné d'erreur:
 
     ```rust
@@ -228,7 +270,7 @@
     }
     ```
 
-    on obtient le warning:
+    on obtient alors le warning:
 
     ```
     warning: unused `Result` that must be used
@@ -245,14 +287,13 @@
       |     +++++++
     ```
 
-    ==== La sûreté mémoire sans Glanneur de Cellules
+    *Régions mémoire*
 
-    Rust dispose d'un mécanisme innovant de gestion de la mémoire par régions
-    qui permet de garantir la sûreté mémoire au moment de le compilations, et
-    sans avoir recours à un _runtime_ incluant un glanneur de cellules.
+    #Rust dispose d'un mécanisme innovant de gestion de la mémoire par régions
+    qui permet de garantir la sûreté mémoire au moment de la compilation
+    sans avoir recours à rammasse-miettes au _runtime_.
     Celui-ci, lié au système d'_ownership_ permet d'éviter les erreurs
     suivantes:
-
     - _use after free_
     - _data races_
     - _dangling pointers_
@@ -261,34 +302,65 @@
   ],
 
   tests: [
-    Il n'existe pas de générateur de tests pour des programmes Rust. Le langage
-    inclus par défault un cadre de test classique mais limité, qui ne permet
-    pas la génération de rapports de qualification. La librairie
-    #link("https://docs.rs/mockall/latest/mockall/")[mockall] permet de faire
-    du _mock_ pour les tests.
+    #Rust inclut un cadre de test standard qui permet de gérer les tests
+    unitaires via des annotations et des macros:
+    ```rust
+    #[cfg(test)]
+    mod tests {
+        #[test]
+        fn it_works() {
+            assert_eq!(2 + 2, 4);
+        }
+    }
+    ```
+    Avec ces annotations, le compilateur #Rust génère un exécutable de test
+    qui peut être lancé avec la commande `cargo test`.
+
+    #let rs_quickcheck = link(
+      "https://crates.io/crates/quickcheck",
+      `quickcheck`
+    )
+    #let rs_proptest = link(
+      "https://crates.io/crates/proptest",
+      `proptest`
+    )
+    #let rs_mockall = link(
+      "https://crates.io/crates/mockall/",
+      `mockall`
+    )
+
+    Toutefois, les fonctionnalités fournies par ce cadre sont minimalistes et
+    des paquets #Rust complètent le service en y ajoutant du _fuzzing_
+    (#rs_quickcheck, #rs_proptest) ou du _mocking_ (#rs_mockall).
+
+    Il ne semble pas exister d'outil permettant d'engendrer des rapports de
+    tests standardisés ou conforme à une norme particulière. `cargo test`
+    permet toutefois d'engendrer un rapport JSON qui peuvent être traités par
+    des outils tiers.
   ],
 
   compilation: [
-    Hormis le compilateur Ferrocene mentionné en début de section page
-    #pageref(<ferrocene>) qui n'est autre qu'une version qualifiée du
-    compilateur standard (nommé `rustc`), il n'existe aujourd'hui pas de
+    Hormis le compilateur Ferrocene mentionné précedemment qui n'est autre
+    qu'une version qualifiée du
+    compilateur standard `rustc`, il n'existe aujourd'hui pas de
     compilateur alternatif utilisable.
 
     On peut néanmoins mentionner les projets suivants:
-    1. #link("https://rust-gcc.github.io/")[*gccrs*] vise à développer un
-      _font-end_ Rust pour GCC. L'ensemble formé par ce front-end développé _de
-      novo_ et GCC serait alors un compilateur entièrement différent de `rustc`.
-    2. Deux projets visent à développer un backend alternatif à LLVM pour
-      `rustc`:
-      #set enum(numbering: "a.")
-      + #link("https://github.com/rust-lang/rustc_codegen_gcc")[*rust codegen
-      gcc*] branche le backend de GCC au frontend de rustc. Cela permettrait de
-      supporter les plateformes déjà supportées par GCC mais n'offre pas une
-      impélmentation entièrement indépendante.
-      + #link("https://github.com/rust-lang/rustc_codegen_cranelift")[*rust
-      codegen cranelift*] branche cranelift sur le frontend de rustc afin de
+    - #link("https://rust-gcc.github.io/")[*gccrs*] vise à développer un
+      _frontend_ #Rust pour #gcc. L'ensemble formerait un compilateur
+      entièrement différent de `rustc`.
+    - #link("https://github.com/rust-lang/rustc_codegen_gcc")[*rust codegen
+      gcc*] qui consiste à brancher le _backend_ de #gcc au _frontend_ de
+      `rustc`. Cela permettrait de
+      supporter les plateformes déjà supportées par #gcc mais ne constituerait
+      pas une implémentation différente de `rustc`.
+    - #link("https://github.com/rust-lang/rustc_codegen_cranelift")[*rust
+      codegen cranelift*] qui consiste à brancher _cranelift_ sur le
+      _frontend_ de `rustc`
+      afin de
       permettre des temps de compilation plus rapides en mode dit _debug_
-      (c'est à dire sans les optimisations). Idem quant à l'indépendence.
+      (c'est à dire sans les optimisations). Là encore, il s'agirait d'utiliser
+      une partie de `rustc`.
 
   ],
 
@@ -297,115 +369,207 @@
   ],
 
   metaprog: [
-    Rust dispose d'un riche système de macros, dit hygiénique car il évite les
-    collisions. Ce système est largement utilisé, notamment pour implémenter
-    automatiquement certaines méthodes sur des types (mécanisme de `derive`).
+    Le système de macro de #Rust est expressement fait pour permettre la
+    métaprogrammation de manière hygiénique. Par exemple, le code suivant
+    permet de créer un vecteur de trois entiers:
+    ```rust
+    let v: Vec<i32> = vec![1, 2, 3];
+    ```
+    où le symbole `!` indique l'appel à une macro (ici `vec`). Cette macro
+    pourrait être définit comme suit:
+    ```rust
+    macro_rules! vec {
+        ($($x:expr),*) => {{
+            let mut temp_vec = Vec::new();
+            $(temp_vec.push($x);)*
+            temp_vec
+        }};
+    }
+    ```
+    où, sans entrer dans les détails, on dit au compilateur que si la macro
+    est appelée avec une liste d'expressions séparées par des virgules
+    (`$($x:expr),*`), alors il crée un nouveau vecteur (`let mut temp_vec =
+    Vec::new();`) et y ajoute les éléments de la liste (`$(temp_vec.push($x);)*`)
+    et retourne le vecteur.
 
-    #todo[Exemple ?]
+    Ce système de macro est suffisamment riche pour permettre l'écriture de
+    mini-DSL, des générateurs de code ou des dérivations à partir des types.
   ],
 
   parsers: [
-    Rust dispose de plusieurs outil d'écriture de parseurs. Il existe des
-    librairies de combinateurs de parseurs, qui ne génèrent pas de code, mais
-    également des générateurs de pareurs à proprement parler. Cinq sont à
-    retenir.
+    La jeunesse du langage fait qu'il n'est pas encore très utilisé pour
+    l'écriture de compilateurs ou d'interpréteurs. De fait, il n'y a pas encore
+    beaucoup d'outils pour l'écriture de parseurs spécifiquement pour #Rust.
+    Quelques outils ciblant plusieurs langages ont simplement
+    développé un _backend_ supplémentaire pour #Rust.
 
-    / #crate("Pest"): est un générateur de parseur basé sur les _Parsing
-    Expression Grammars (PEG)_, apprécié pour sa simplicité. Il ne génère des
-    parseurs que pour Rust.
-    / #crate("LALRPOP"): est un générateur de parseur qui se donne pour but
-    premier d'être facilement utilisable. Il vise à permettre d'écrire des
-    grammaires succintes, compactes et lisibiles. Il permet de générer des
-    parseurs pour des langages LR(1) et LALR(1). Il ne génère des Parseurs que
-    pour Rust.
-    / #link("https://cenotelie.fr/projects/hime")[Hime]: prend en charge des
-    grammaires comme LR(1), GLR, et LALR(1), avec une capacité à gérer des
-    grammaires ambiguës. Il peut générer des parseurs pour C\#, Java et Rust.
-    / #link("https://tree-sitter.github.io/tree-sitter/")[Tree-sitter]: génère
-    des parseurs incrémentaux en temps réel, utilisés dans des environnements
-    interactifs comme des éditeurs de texte. Il peut générer des parseurs pour
-    C\#, Go, Haskell, Java (JDK 22), JavaScript (Node.js), JavaScript (Wasm),
-    Kotlin, Python, Rust, et d'autres langages de manière non supportée
-    officiellement.
-    / #link("https://github.com/DmitrySoshnikov/syntax")[Syntax]: génère des
-    parseurs pour des grammaires LR et LL. Il peut générer des parseurs pour
-    JavaScript, Python, PHP, Ruby, C++, C\#, Rust, Java, et Julia. Disponible
-    sur https://github.com/DmitrySoshnikov/syntax
+    #let lalrpop = link("https://github.com/lalrpop/lalrpop", "LALRPOP")
+    #let hime = link("https://cenotelie.fr/projects/hime", "Hime")
+    #let syntax = link("https://github.com/DmitrySoshnikov/syntax", "Syntax")
+
+    Au niveau des _lexers_, il n'y a que #re2c supporte #Rust. #lalrpop a
+    également un générateur de _lexer_ intégré. Pour les _parsers_, il y en
+    a essentiellement trois: #lalrpop, #hime et #syntax.
 
     #figure(
       table(
-        columns: (auto, auto, auto),
-        [],                       [*Grammaires supportées*],             [*Langages supportés*],
-        [*Pest*],                 [PEG],                                 [Rust],
-        [*LALRPOP*],              [LR(1), LALR(1)],                      [Rust],
-        [*Hime*],                 [LR(1), GLR, LALR(1)],                 [C\#, Java, Rust],
-        [*Tree-sitter*],          [GLR],                                 [C\#, Go, Haskell, Java, JS],
-        [*Syntax*],               [LR, LL],                              [JavaScript, Python, PHP, Ruby, C++, C\#, Rust, Java, Julia],
+        columns: (auto, auto, auto, auto, auto, auto),
+        [*Nom*],         [*Algorithme*],        [*Grammaire*], [*Code*],  [*Plateforme*],
+        [*LALRPOP*],     [LR(1), LALR(1)],      [Rust],        [Rust],    [Toutes],
+        [*Hime*],        [LR(1), GLR, LALR(1)], [EBNF],        [Séparé],  [.NET, JVM],
+        [*Syntax*],      [LR, LL],              [JSON, Yacc],  [Mixte],   [Toutes],
       )
     )
 
   ],
 
   derivation: [
-    #todo[exemple de dérivation]
+    La métaprogrammation autorisée par les macros de #Rust permet également
+    de dérivier du code à partir des types. Le code suivant définit
+    ce qu'on appelle une macro procédurale qui va générer du code #Rust à
+    partir de code #Rust.
+    ```rust
+    use proc_macro::TokenStream;
+    use quote::quote;
+
+    #[proc_macro_derive(HelloMacro)]
+    pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
+      // Construct a representation of Rust code as a syntax tree
+      // that we can manipulate
+      let ast = syn::parse(input).unwrap();
+
+      // Build the trait implementation
+      let name = &ast.ident;
+      let gen = quote! {
+          impl HelloMacro for #name {
+              fn hello_macro() {
+                  println!("Hello, Macro! My name is {}!", stringify!(#name));
+              }
+          }
+      };
+      gen.into()
+    }
+    ```
+    Dans cet exemple, on définit une bibliothèque de dérivation qui prend un
+    code #Rust (`input: TokenStream`), le parse
+    (`let ast = syn::parse(input).unwrap();`) en un bout d'AST puis contruit
+    un nouveau code
+    #Rust (`let gen = quote! { ... };`) avec les informations contenues dans
+    l'AST. En définissant le trait `HelloMacro` par ailleurs:
+    ```rust
+    pub trait HelloMacro {
+        fn hello_macro();
+    }
+    ```
+    on peut alors utiliser la macro `hello_macro` pour dériver le code
+    idoine:
+    ```rust
+    #[derive(HelloMacro)]
+    struct Foo;
+
+
+    fn main() {
+        Pancakes::hello_macro();
+    }
+    ```
+    qui affichera `Hello, Macro! My name is Foo!`.
+
   ],
 
   packages: [
-    Rust a un gestionnaire de paquet officiel, `cargo` qui est également son
-    moteur de production (_build system_). Il permer de télécharger, compiler,
-    distribuer et de téléverser des paquets (nommés _crates_) dans un registre
-    central (#link("https://crates.io")[crates.io]) des registres privés ou à
-    partir de dépôts git. Une interface alternative à crates.io est disponible
-    sur #link("https://lib.rs")[lib.rs]. Il sert également d'interface au
-    compilateur, au linter, au formatteur, au générateur de documentation, au
-    harnais de test et de benchmarking et plus grâce à son sytème de plugins.
-    Ce gestionnaire de paquets est l'un des points forts de Rust, permettant
-    une expérience de développement fluide, se résumant souvent à lancer `cargo
-    build` après avoir obtenu les sources.
+
+    Le gestionnaire de paquet officiel de #Rust est `cargo`. C'est également
+    l'outil de _build_ du langage. Il permer de télécharger, compiler,
+    distribuer et de téléverser des paquets (nommés _crates_) dans des registres
+    partagés à partir de dépôts Git.
+    Les registres peuvent être publics ou privés. Le registre public par défaut
+    est #crates_io mais il y a également #lib_rs qui est également très utilisé.
+
+    Ce gestionnaire de paquets est l'un des points forts de #Rust car il
+    facile l'installation d'un environnement de développement propre et
+    le _build_ d'un projet #Rust.
   ],
 
   communaute: [
-    La communauté est riche et forte de nombreux développeurs à travers le
-    monde. Ceux-ci se retrouvent en personne lors de conférences
-    internationales ou à plus petite échelle, mais également en ligne. Cette
-    communauté produit un écosystème riche de librairies. On peut estimer qu'il
-    existe aujourd'hui 100#{sym.space.nobreak.narrow}000 _crates_ "sérieuses"
-    sur les 128#{sym.space.nobreak.narrow}256 que compte `crates.io`.
+    La communauté #Rust comprend un tissu associatif (fondation #Rust,
+    #Rust France, ...) et des entreprises qui organisent régulièrement des
+    événements (meetups, conférences, ...) au travers le monde.
 
+    Le langage attire beaucoup de jeunes développeurs séduits par la fiabilité
+    et les performances mis en avant par le langage. Il suffit de voir le
+    nombre de paquets logiciels crées pour #Rust qui atteint plus de 130 0000
+    sur #crates_io en moins de 10 ans#footnote[https://lib.rs/stats].
   ],
 
   assurances: [
-    Le langage Rust, à l'inverse du C, intègre nativement des mécanismes de
-    sécurité et de fiabilité, notamment grâce à son système de gestion de la
-    mémoire et son modèle d'_ownership_. Rust a été pensé dès sa conception
-    pour éviter certaines classes de bugs courants en C, comme les dépassements
-    de tampon ou les erreurs liées à la gestion manuelle de la mémoire. Ces
-    garanties sont intrinsèques au langage, sans recours à des outils externes,
-    ce qui permet d'assurer un niveau de sûreté élevé dès l'écriture du code.
-    De plus, Rust privilégie la détection des erreurs à la compilation plutôt
-    qu'à l'exécution, minimisant ainsi les risques d'incidents en production.
-    Toutefois, cette rigueur impose une courbe d'apprentissage plus raide, et
-    si Rust réduit les besoins en outils de vérification supplémentaires, il
-    peut introduire une complexité accrue dans l'écriture de certains
-    programmes.
+    Le langage #Rust intègre nativement des mécanismes de
+    sécurité et de fiabilité :
+    - un typage statique et fort;
+    - un système de gestion de la mémoire et son modèle d'_ownership_.
+    Ces mécanismes, et tout une panoplie de contrôles à la compilation,
+    permettent de limiter le besoin d'outils externes pour
+    fiabiliser la production.
+
+    Cette rigueur peut amener le compilateur à rejeter
+    des programmes qui pourraient être valides et cela peut destabiliser les
+    nouveaux programmeurs habitués au C/C++. De fait, le langage est
+    reconnu pour avoir un ticket d'entrée plutôt élévé et il n'est pas clair
+    aujourd'hui si cela est un avantage ou un inconvénient d'un point de vue
+    industriel. D'un côté, cela permet de réduire les erreurs de programmation
+    et de limiter les failles de sécurité. D'un autre côté, cela peut
+    ralentir le développement et engendrer une dette technique similaire à
+    celle du C++ utilisé par des spécialistes.
+
+    Toutefois, le langage jouit d'un réel engouement et il est même conseillé
+    par l'ANSSI dans les développements
+    sécurisé au titre de la démarche de sécurité par conception.
 
   ],
 
   adherence: [
-    Rust a les même caractéristiques que C en termes d'utilisabilité sur un système nu.
+    Comme le C, #Rust peut être utilisé sur un système nu en spécifiant
+    `no_std` :
+
+    ```rust
+    #![no_main]
+    #![no_std]
+
+    use core::panic::PanicInfo;
+
+    #[panic_handler]
+    fn panic(_panic: &PanicInfo) -> ! {
+        loop {}
+    }
+    ```
   ],
 
 
   interfacage: [
-    Rust permet d'exposer le code écrit avec une interface compatible C et
-    d'appeler du code C.
+    #Rust a une FFI lui permettant d'interagir avec le C soit en important
+    du C :
+    ```rust
+    #[link(name = "my_c_library")]
+    extern "C" {
+        fn my_c_function(x: i32) -> bool;
+    }
+    ```
+    soit en exportant du #Rust vers du C:
+    ```rust
+    #[no_mangle]
+    pub extern "C" fn callable_from_c(x: i32) -> bool {
+        x % 3 == 0
+    }
+    ```
+    Par transitivité, #Rust est compatible avec tous les langages compatibles
+    avec le C.
   ],
 
   critique: [
     Il n'existe à ce jour pas de communication officielle sur un logiciel
-    embarqué critique qui serait en production en Rust. Néanmoins,
-    officieusement, de tels projets sont en développement dans les domaines de
-    l'automobile, de l'armement, et de l'aérospatiale.
+    embarqué critique qui serait en #Rust. Toutefois les demarches de
+    Ferocene et la fondation #Rust indiquent clairement une volonté de
+    pénétrer le marché du logiciel critique et certains constructeurs
+    automobiles ont déjà manifesté leur intérêt pour le langage.
   ]
 )
 

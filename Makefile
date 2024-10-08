@@ -8,11 +8,12 @@ BUILD_DIR := _build
 
 PDFS := $(patsubst src/%.typ,$(BUILD_DIR)/%.pdf,$(SRCS))
 
-REGISTRY := registry.ocamlpro.com/ocamlpro/ocpdoc-accueil/typst:latest
+# TODO: add a check for typst >= 0.11
+TYPST := typst
 
 VERSION := $(shell git describe --tags --always --dirty)
 
-TYPST_ARGS = --root=/document
+TYPST_ARGS = --root=.
 TYPST_ARGS += --input git_version="$(VERSION)"
 TYPST_ARGS += --font-path src/fonts/Marianne
 
@@ -32,7 +33,7 @@ watch:
 	while inotifywait -e close_write "src/étude/OCamlPro_PPAQSE-COTS_rapport.typ" || true; do make; done
 
 $(BUILD_DIR)/%.pdf: src/%.typ $$(call deps,src/%.typ) $$(dir src/%)/bibliography.yml Makefile | $$(@D)/.
-	docker run --rm -v $(CURDIR):/document $(REGISTRY) typst c $(TYPST_ARGS) $<
+	$(TYPST) c $(TYPST_ARGS) $<
 # force moving file for typst seems to always try building locally oO
 	mv -f src/$*.pdf $@
 

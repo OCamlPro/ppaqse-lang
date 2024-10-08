@@ -39,7 +39,7 @@ sont _a priori_ correctes.
 
 Ce rapport étant lui même destiné à être _open source_, nous invitons
 le lecteur à participer à son amélioration continue en signalant toute
-erreur ou en contribuant via le dépôt #todo[URL dépot].
+erreur ou en contribuant via le dépôt https://github.com/OCamlPro/ppaqse-lang.
 
 Pour des questions de lisibilité du document, certains points méthodologiques ou
 explications sont renvoyés en annexe.
